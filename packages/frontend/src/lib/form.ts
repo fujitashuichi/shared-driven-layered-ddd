@@ -12,6 +12,8 @@ export async function parseFormData<T extends z.ZodTypeAny>(
   const rawData = Object.fromEntries(formData);
   const parsed = schema.safeParse(rawData);
   if (!parsed.success) {
+    console.info("invalidFormData:", rawData);
+    console.info("parsed invalidFormData:", parsed);
     return {
       success: false,
       errorMessage: parsed.error.message

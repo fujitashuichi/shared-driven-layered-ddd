@@ -1,1 +1,2 @@
-export { RegisterRequestSchema, RegisterResponseSchema } from "./auth/types.dto.js";
+export * from "./auth/index.js";
+export * from "./api/index.js";

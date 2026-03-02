@@ -10,7 +10,7 @@ const formDataSchema = RegisterRequestSchema.extend({
 });
 
 
-function RegisterForm() {
+export function RegisterForm() {
   const register = async (e: React.SubmitEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     const formData:FormData = new FormData(e.currentTarget);
@@ -49,5 +49,3 @@ function RegisterForm() {
     </form>
   )
 }
-
-export default RegisterForm

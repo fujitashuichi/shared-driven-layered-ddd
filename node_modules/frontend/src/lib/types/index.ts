@@ -1,0 +1,1 @@
+export { type ApiResult } from "./types.api.ts"

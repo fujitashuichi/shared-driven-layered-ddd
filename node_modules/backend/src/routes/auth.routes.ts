@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { registerValidation } from "../middleware/index.js";
 import { Database } from "sqlite3";
-import { register } from "../controller/index.js";
+import { isLoggedIn, register } from "../controller/index.js";
 
 
 export const createAuthRouter = (db: Database) => {
@@ -10,6 +10,10 @@ export const createAuthRouter = (db: Database) => {
   router.post("/register",
       registerValidation,
       (req, res) => register(req, res, db)
+  );
+
+  router.get("/is-logged-in",
+      isLoggedIn
   );
 
   router.post("/login", (req, res) => {
