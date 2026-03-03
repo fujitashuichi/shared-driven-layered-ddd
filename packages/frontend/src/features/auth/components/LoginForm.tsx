@@ -14,10 +14,16 @@ type Props = {
 export function LoginForm({ setStatus }: Props) {
   const tryLogin = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    setStatus("loading");
+
     const formData = new FormData(e.currentTarget);
     const parsed = await parseFormData(formData, LoginRequestSchema);
 
     if (!parsed.success) {
+      // "loginSession"とすることで、余分な再読込を抑制する
+      // (Formの再入力の際に、失敗や再ロードを経由させない)
+      setStatus("loginSession");
       alert("入力値に不備があります");
       console.error(parsed.errorMessage);
       return;

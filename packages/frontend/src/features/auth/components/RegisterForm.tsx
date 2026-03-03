@@ -32,18 +32,21 @@ export function RegisterForm() {
     const formData:FormData = new FormData(e.currentTarget);
     const parsed = await parseFormData(formData, formDataSchema);
     if (!parsed.success) {
+      setStatus("default");
       alert("入力値が正しくありません");
       return;
     }
 
     const data = parsed.data;
     if (data.password !== data.passwordConfirm) {
+      setStatus("default");
       alert("パスワード確認が一致しません");
       return;
     }
 
     const result = await registerUser({ email: data.email, password: data.password  });
     if (!result.ok) {
+      setStatus("default");
       alert(errorMap[result.errorType]);
       return;
     }
@@ -70,7 +73,7 @@ export function RegisterForm() {
     }
     {
       status === "loading" && (
-        <AppLoadingBar />
+        <AppLoadingBar className="fixed top-0 left-1/2 -translate-x-1/2 z-10 w-20 h-1.5" />
       )
     }
   </>)

@@ -14,6 +14,7 @@ export function LogoutButton() {
     setStatus("loading");
     const isLoggedOut = await logout();
     if (!isLoggedOut) {
+      setStatus("default");
       alert("ログアウトできませんでした");
       return;
     }

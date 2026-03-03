@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { isLoggedIn } from "../api/isLoggedIn";
 import { LoginForm } from "./LoginForm";
 import { AppButton } from "../../../components";
+import { AppLoadingBar } from "../../../components/AppLoadingBar";
 
 export type Status = "loading" | "loginSession" | "success" | "failed";
 
@@ -12,7 +13,7 @@ export function LoginContainer() {
     const checkIsLoggedIn = async () => {
       const result = await isLoggedIn();
       if (!result) {
-        setStatus("loginSession")
+        setStatus("loginSession");
       };
     }
     checkIsLoggedIn();
@@ -32,6 +33,7 @@ export function LoginContainer() {
 const LoadingUI = () => (
   <div>
     <h1>Now Loading...</h1>
+    <AppLoadingBar className="fixed top-0 left-1/2 -translate-x-1/2 z-10 w-20 h-1.5" />
   </div>
 )
 
