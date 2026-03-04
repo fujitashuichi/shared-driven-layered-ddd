@@ -11,13 +11,9 @@ export const login = async (body: LoginRequest): Promise<LoginResult> => {
   });
 
   if (!response.ok) {
-    return {
-      ok: false,
-      error: response.error
-    }
+    console.error(response.error);
+    return false;
   }
 
-  return {
-    ok: true
-  }
+  return true;
 }

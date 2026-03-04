@@ -49,10 +49,17 @@ export const login = async (req: Request, res: Response, db: Database): Promise<
 
   const result = await service.tryLogin({ email: dto.email, password: dto.password });
 
+  console.info("Login succeed");
   return res
     .status(200)
     .cookie("token", result.token, tokenCookieOptions)
     .send({
       success: true
     });
+}
+
+export const logout = async (_: Request, res: Response) => {
+  res.clearCookie("token", tokenCookieOptions)
+    .status(200)
+    .send({ message: "successfully logged out" });
 }

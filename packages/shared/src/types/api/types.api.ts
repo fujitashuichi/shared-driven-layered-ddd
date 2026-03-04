@@ -6,4 +6,5 @@ export type AuthFetchPath =
   | "/api/me"
 
 export type ProjectFetchPath =
-  | ""
+  | "/api/projects"
+  | `/api/projects/${number}`

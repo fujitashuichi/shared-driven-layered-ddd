@@ -1,14 +1,14 @@
 import { Router } from "express";
-import { loginValidation, registerValidation } from "../middleware/index.js";
 import { Database } from "sqlite3";
 import { isLoggedIn, login, logout, register } from "../controller/index.js";
+import { requestValidator } from "../middleware/index.js";
 
 
 export const createAuthRouter = (db: Database) => {
   const router = Router();
 
   router.post("/register",
-      registerValidation,
+      (req, res, next) => requestValidator(req, res, next, "register"),
       (req, res) => register(req, res, db)
   );
 
@@ -17,7 +17,7 @@ export const createAuthRouter = (db: Database) => {
   );
 
   router.post("/login",
-    loginValidation,
+    (req, res, next) => requestValidator(req, res, next, "login"),
     (req, res) => login(req, res, db)
   );
 
