@@ -1,4 +1,5 @@
-import z from "zod";
+import { ProjectSchema } from "@pkg/shared";
+import { z } from "zod";
 
 export const UserSchema = z.object({
   id: z.number().int(),
@@ -10,3 +11,7 @@ export type User = z.infer<typeof UserSchema>;
 
 const UserWithoutIdSchema = UserSchema.omit({ id: true });
 export type UserWithoutId = z.infer<typeof UserWithoutIdSchema>
+
+
+export const ProjectWithoutIdSchema = ProjectSchema.omit({ id: true });
+export type ProjectWithoutId = z.infer<typeof ProjectWithoutIdSchema>;

@@ -1,8 +1,8 @@
-import { PostProjectRequest, RegisterRequest } from "@pkg/shared";
+import { PostProjectRequest } from "@pkg/shared";
 import { Request } from "express"
 import { mockReq } from "sinon-express-mock"
 
-export const productRequestMocks = {
+export const projectRequestMocks = {
   createRequest: (body: Request["body"]): Request => {
     return mockReq({ body: body });
   },
@@ -10,12 +10,14 @@ export const productRequestMocks = {
   postProject: {
     validReq_1: () => {
       const data: PostProjectRequest = {
+        userId: 1,
         title: "Title"
       };
       return mockReq({ body: data });
     },
     validReq_2: () => {
       const data: PostProjectRequest = {
+        userId: 1,
         title: "Title",
         description: "description"
       };

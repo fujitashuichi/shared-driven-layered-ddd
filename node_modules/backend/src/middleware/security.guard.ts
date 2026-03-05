@@ -13,6 +13,8 @@ export const securityGuard = (req: Request, res: Response): boolean => {
           message: "Invalid Characters Detected"
         });
 
+        console.error("Invalid Characters Detected");
+
         return false;
       }
     }

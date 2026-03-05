@@ -22,7 +22,8 @@ export const register = async (req: Request, res: Response, db: Database) => {
     .status(201)
     .cookie("token", registerResult.token, tokenCookieOptions)
     .send({
-      success: true
+      success: true,
+      user: registerResult.user
     });
 }
 

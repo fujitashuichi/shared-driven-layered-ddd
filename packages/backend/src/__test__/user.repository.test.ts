@@ -19,9 +19,9 @@ describe("user.repositoryの各メソッドを検査", () => {
 
   it("saveUserは正しく成功する", async () => {
     const { id, ...data } = userMocks.user();
-    const result = repository?.saveUser(data);
+    const promise = repository?.saveUser(data);
 
-    await expect(result).resolves.toEqual(
+    await expect(promise).resolves.toEqual(
       expect.objectContaining(data)
     );
   });

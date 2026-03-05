@@ -42,6 +42,7 @@ export const requestValidator = (
 | 不正 HTML/JS (XSS) | Security Guard | \<script\> などを拒否 | |
 | リクエスト必須項目欠如 | Zod Guard | body必須項目チェック	<br /> 必須フィールドの欠落を弾く | |
 | データ型・構造不正 | Zod Guard | Zod スキーマバリデーション	 | 型・構造の整合性を保証 |
+| Repositoryへのbypass | Db Security | repository.guardなどを置き、repository呼び出し直前の使用を義務化 | 都度認証があるかを検閲するため、保護範囲が明確 |
 
 ### 多層防御のフロー
 ```mermaid
@@ -72,7 +73,7 @@ graph TD
 ### DB防御
 repositoryへの不正バイパスを防ぐために、repository使用とセットでDbGuardを書くことを義務付けています
 ```ts
-UserDbGuard(data);
+dbSecurityGuard(data);
 await UsersRepository.saveUser(data);
 ```
 

@@ -1,4 +1,4 @@
 export { JWTPayloadSchema } from "./types.payload.js"
 export type { JWTPayload } from "./types.payload.js"
 export type { Result } from "./type.results.js"
-export { type User, UserSchema, type UserWithoutId } from "./type.db.js"
+export * from "./type.db.js"

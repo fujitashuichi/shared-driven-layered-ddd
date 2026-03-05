@@ -9,7 +9,7 @@ const userSQL = `
   );
 `;
 const productSQL = `
-  CREATE TABLE IF NOT EXISTS products (
+  CREATE TABLE IF NOT EXISTS projects (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
     title TEXT,
@@ -26,10 +26,7 @@ const productSQL = `
 export const createAppDb = (fileName: "app.db" | ":memory:"): Promise<Database> => {
   return new Promise((resolve, reject) => {
     const db = new sqlite3.Database(fileName, (err) => {
-      if (err) {
-        reject(err)
-        return;
-      };
+      if (err) return reject(err);
 
       db.exec(
           `PRAGMA foreign_keys = ON;
@@ -37,9 +34,8 @@ export const createAppDb = (fileName: "app.db" | ":memory:"): Promise<Database> 
           ${productSQL}
         `,
         (err: Error | null) => {
-          if (err) reject(err);
-          else resolve(db);
-          return;
+          if (err) return reject(err);
+          return resolve(db);
       })
     });
   });

@@ -19,6 +19,8 @@ export const zodGuard = (req: Request, res: Response, requestName: RequestName) 
       message: "Invalid RequestData: " + parsedDto.error.message
     });
 
+    console.error("Invalid RequestData");
+
     return false;
   }
 

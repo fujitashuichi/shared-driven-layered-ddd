@@ -1,6 +1,6 @@
 import { hashPassword, signToken } from "../lib/index.js";
 import { User } from "../types/type.db.js";
-import { userDbSecurityGuard, UsersRepository } from "../repository/index.js";
+import { dbSecurityGuard, UsersRepository } from "../repository/index.js";
 import { createAppDb } from "../db/app.db.js";
 import { Database } from "sqlite3";
 import { RegisterRequest } from "@pkg/shared";
@@ -16,7 +16,7 @@ export class RegisterService {
   }
 
   registerUser = async (dto: RegisterRequest): Promise<{ user: User, token: string }> => {
-    userDbSecurityGuard(dto);
+    dbSecurityGuard(dto);
     if (await this.usersRepository.findByEmail(dto.email) !== null) {
       throw new Error("Email already registered.");
     }
