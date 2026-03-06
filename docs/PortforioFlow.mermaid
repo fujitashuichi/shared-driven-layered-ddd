@@ -1,17 +1,18 @@
 flowchart LR
   subgraph FE["Frontend (React SPA)"]
     Pages[Pages / App]
-    Components[Components]
+    FeaturesApiClient[features/apiClient]
     FeaturesAuth[features/auth]
     FeaturesProj[features/projects]
-    TypesFE[lib/types]
+    Components[Components]
   end
 
-  subgraph Shared["Shared Types / Utils"]
-    TypesShared[shared/types]
+  subgraph Shared["Shared"]
+    SharedTypes["Types"]
   end
 
   subgraph BE["Backend (Node.js + Express)"]
+    Router[Router]
     Controller[Controller]
     Service[Service]
     Repository[Repository]
@@ -25,23 +26,26 @@ flowchart LR
     RepositoryTest["Repository Tests"]
   end
 
-  %% Frontend -> Shared
-  Pages --> TypesShared
-  Components --> TypesShared
-  FeaturesAuth --> TypesShared
-  FeaturesProj --> TypesShared
-  TypesFE --> TypesShared
+  %% UI
+  FeaturesApiClient --> FeaturesProj
+  FeaturesApiClient --> FeaturesAuth
+  FeaturesProj --> Components
+  FeaturesAuth --> Components
+  Components --> Pages
+
+  %% Frontend/Backend -> Shared
+  FE --- Shared
+  BE --- Shared
 
   %% Frontend -> Backend
-  Pages -->|API Requests| Controller
-  FeaturesAuth -->|API Requests| Controller
-  FeaturesProj -->|API Requests| Controller
+  FeaturesApiClient <--> |Requests / Responses| Router
 
   %% Backend Flow
+  Router --> Middleware
+  Middleware --> Controller
   Controller --> Service
   Service --> Repository
   Repository --> DB
-  Middleware --> Controller
 
   %% Tests
   GuardTest --> Middleware
