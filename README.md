@@ -1,7 +1,10 @@
 ### [要件定義書](./docs/features.md)
 ### [BEセキュリティ](./docs/BE_Security.md)
+### [全体図](./docs/PortforioFlow.mermaid)
 
 ---
+
+## このポートフォリオの肝
 
 ### BE Test
 ```sh
@@ -55,8 +58,8 @@ sequenceDiagram
   Repository -> DB: SQL
   Note over DB: SQLite
   DB -> Repository: result
-  Repository -> Service: entity
-  Service -> Controller: result
+  Repository -> Service: result
+  Service -> Controller: entity
   Controller -> client: response
   alt Error thrown
     Error -> client: response
