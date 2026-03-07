@@ -12,11 +12,14 @@ flowchart LR
   end
 
   subgraph BE["Backend (Node.js + Express)"]
-    Router[Router]
+    Router["Router (with ErrorHandler)"]
     Controller[Controller]
-    Service[Service]
+    subgraph SecureService[Secure Service]
+      ServiceSecurity[Validate Func]
+      Service[Service]
+    end
     Repository[Repository]
-    Middleware[Middleware / Guard / Zod]
+    Middleware["Middleware (security)"]
     DB[(SQLite)]
   end
 
@@ -24,6 +27,7 @@ flowchart LR
     GuardTest["Guard Tests"]
     ControllerTest["Controller Tests"]
     RepositoryTest["Repository Tests"]
+    ErrorHandlerTest["ErrorHandler Tests"]
   end
 
   %% UI
@@ -43,7 +47,8 @@ flowchart LR
   %% Backend Flow
   Router --> Middleware
   Middleware --> Controller
-  Controller --> Service
+  Controller --> ServiceSecurity
+  ServiceSecurity --> Service
   Service --> Repository
   Repository --> DB
 
@@ -51,3 +56,4 @@ flowchart LR
   GuardTest --> Middleware
   ControllerTest --> Controller
   RepositoryTest --> Repository
+  ErrorHandlerTest --> Router

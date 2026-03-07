@@ -4,7 +4,6 @@ import { ProjectsRepository, UsersRepository, dbSecurityGuard } from "../reposit
 import { ProjectWithoutId } from "../types/index.js";
 import { PostProjectRequest, Project } from "@pkg/shared";
 import { UserUndefinedError } from "../error/index.js";
-import { ProjectAlreadyCreatedError } from "../error/ProjectError.js";
 
 const appDb = await createAppDb("app.db");
 
