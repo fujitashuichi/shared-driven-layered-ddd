@@ -42,17 +42,52 @@ export const requestValidator = (
 | 不正 HTML/JS (XSS) | Security Guard | \<script\> などを拒否 | |
 | リクエスト必須項目欠如 | Zod Guard | body必須項目チェック	<br /> 必須フィールドの欠落を弾く | |
 | データ型・構造不正 | Zod Guard | Zod スキーマバリデーション	 | 型・構造の整合性を保証 |
-| Repositoryへのbypass | Db Security | repository.guardなどを置き、repository呼び出し直前の使用を義務化 | 都度認証があるかを検閲するため、保護範囲が明確 |
+| ※廃止 <s>特殊文字</s> | <s>Db Security</s> | <s>repository.guardなどを置き、repository呼び出し直前の使用を義務化</s> | repository.guard などを repository 呼び出し直前に置く設計を検討したが、本システムでは以下の理由により採用しない。 <br/> ・入力境界（API層）でドメインバリデーションを完結させる設計 <br/> ・Zod Guard により型・構造が保証される <br/> ・Security Guard により文字列安全性が保証される <br/> repository付近に追加の入力検証を置くと責務が分散しコードを汚染するため廃止 |
+| DBアクセス不整合（実装ミスを含む） | Db Security | injection回避やDB制約など、基本的な安全対策を実装 | DBはDB自信をできる限り保護するという考えに着地した |
 
-### 多層防御のフロー
+---
+
+## 多層防御のフロー
+
+### ・Request Validation
 ```mermaid
 graph TD
- A[request] --> B{securityGuard}
-  B -- false --> Error[400レスポンス, 停止]
-  B -- true --> D{zodGuard}
-  D -- false --> Error
-  D -- true --> F["next()"]
-  F --> G[Controller]
+Req[request] --> Router
+Router --> ReqSecurity{securityGuard}
+  ReqSecurity -- invalid --> Error[[status400, stop]]
+  ReqSecurity -- value --> ReqZod{zodGuard}
+  ReqZod -- invalid --> Error
+  ReqZod -- valid --> Next["next()"]
+  Next --> Controller([Controller])
+```
+### ・DBAccessSecurity
+```mermaid
+graph TD
+Controller([Controller])
+subgraph Exec[DB Executions]
+  Repository --SQL--> DB[(SQLite)]
+  DB --result--> Repository
+end
+Controller --execution--> Service
+Service --query--> Repository
+Repository --result--> Service
+Service --entity--> Controller
+
+Repository -->|Error| throw
+DB -->|Error| throw
+```
+### ・Response
+```mermaid
+graph TD
+Controller([Controller]) --data--> Router
+Error(throwError) --Error--> Router
+subgraph internal[" "]
+  Router
+  Router --Error--> ErrorHandler
+end
+Router --data--> Response[[Response]]
+ErrorHandler --Error/message--> Response
+
 ```
 
 ### 利点
@@ -84,5 +119,4 @@ await UsersRepository.saveUser(data);
 * レート制御
 * 秒間リクエスト制限やIP単位制御
 * ログサニタイズ
-
-制御文字を含むログ出力時の破壊防止
+* 制御文字を含むログ出力時の破壊防止

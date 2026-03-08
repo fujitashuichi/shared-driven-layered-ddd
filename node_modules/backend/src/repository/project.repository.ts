@@ -2,7 +2,6 @@
 
 import { Project, ProjectSchema } from "@pkg/shared";
 import { Database } from "sqlite3";
-import { DatabaseGetError } from "../error/DbError.js";
 import { ProjectWithoutId } from "../types/index.js";
 import { dbObjectToCamel } from "./dataTypeMapper.js";
 
@@ -69,13 +68,13 @@ export class ProjectsRepository {
     });
   }
 
-  findByUserId = (userId: number): Promise<Project[] | null> => {
+  findByUserId = (userId: number): Promise<Project[]> => {
     return new Promise((resolve, reject) => {
       this.db.all(
         `SELECT * FROM ${this.tableName} WHERE user_id = ?`,
         [userId],
         (err, rows) => {
-          if (!rows) return resolve(null);
+          if (!rows) return resolve([]);
           if (err) return reject(err);
 
           const data = dbObjectToCamel({
@@ -90,13 +89,13 @@ export class ProjectsRepository {
     });
   }
 
-  findByTitle = (title: string): Promise<Project[] | null> => {
+  findByTitle = (title: string): Promise<Project[]> => {
     return new Promise((resolve, reject) => {
       this.db.all(
         `SELECT * FROM ${this.tableName} WHERE title = ?`,
         [title],
         (err, rows) => {
-          if (!rows) return resolve(null);
+          if (!rows) return resolve([]);
           if (err) return reject(err);
 
           const data = dbObjectToCamel({

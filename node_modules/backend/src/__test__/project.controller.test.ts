@@ -5,7 +5,7 @@ import { authRequestMocks, createResponseMock, projectRequestMocks } from "../__
 import { Database } from "sqlite3";
 import { Response } from "express";
 import { createAppDb } from "../db/index.js";
-import { createProject, register } from "../controller/index.js";
+import { createProject, getProjects, register } from "../controller/index.js";
 import { PostProjectRequest } from "@pkg/shared";
 
 describe("project.controller", () => {
@@ -15,6 +15,8 @@ describe("project.controller", () => {
   beforeEach(async () => {
     res = createResponseMock();
     db = await createAppDb(":memory:");
+    await register(authRequestMocks.register.validReq(), res!, db!);
+    res = createResponseMock(); // resを設定し直さないとテストバグの原因になる（チェーンの呼び出し回数など）
   });
   afterEach(() => {
     res = null;
@@ -22,15 +24,28 @@ describe("project.controller", () => {
     vi.restoreAllMocks();
   });
 
-  // register
   it("createProject: 正常に作成が完了する", async () => {
-    await register(authRequestMocks.register.validReq(), res!, db!);
-    res = createResponseMock();
     // userId=1で返ることが明確なため、冗長な処理を避けてuserIdをそのまま書く
-    const reqBody: PostProjectRequest = { title: "Title", userId: 1 }
+    const reqBody: PostProjectRequest = { title: "Title", userId: 1 };
     await createProject(projectRequestMocks.createRequest(reqBody), res!, db!);
 
     expect(res!.status).toHaveBeenCalledWith(201);
     expect(res!.send).toHaveBeenCalledWith(expect.objectContaining({ success: true }));
+  });
+
+  it("getProjects: 正常に成功する", async () => {
+    const reqBody: PostProjectRequest = { title: "Title", userId: 1 };
+    await createProject(projectRequestMocks.createRequest(reqBody), res!, db!);
+
+    res = createResponseMock();
+    await getProjects(projectRequestMocks.createRequest({ userId: 1 }), res!, db!);
+
+    expect(res!.status).toHaveBeenCalledWith(200);
+    expect(res!.send).toHaveBeenCalledWith(expect.objectContaining({
+      success: true,
+      projects: expect.arrayContaining([
+        expect.objectContaining(reqBody)
+      ])
+    }));
   });
 });

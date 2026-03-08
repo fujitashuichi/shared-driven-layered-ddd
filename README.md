@@ -4,14 +4,14 @@
 
 ---
 
-## このポートフォリオの肝
+## ポートフォリオの肝
 
 ### BE Test
 ```sh
-current test result:
-Test Files  6 passed (6)
-     Tests  34 passed (34)
-  Duration  2.80s (transform 1.08s, setup 0ms, import 3.13s, tests 721ms, environment 1ms)
+Current Result:
+Test Files  7 passed (7)
+     Tests  43 passed (43)
+  Duration  2.58s (transform 894ms, setup 0ms, import 2.84s, tests 644ms, environment 1ms)
 ```
 ```mermaid
 flowchart LR
@@ -20,16 +20,28 @@ subgraph test entity
   GuardTest
   ControllerTest
   RepositoryTest
+  ErrorHandlerTest
 end
 
-GuardTest --> Guard
-ControllerTest --> Controller
-RepositoryTest --> Repository
+GuardTest -.-> Guard
+ControllerTest -.-> Controller
+RepositoryTest -.-> Repository
+ErrorHandlerTest -.-> ErrorHandler
 
-Guard --> Controller
-Controller --> Service
-Service --> Repository
-Repository --> DB[(SQLite)]
+subgraph Client Side
+  Router
+  Router --> Guard
+  ErrorHandler --> Router
+end
+
+Guard ==> Controller
+Controller ==> ErrorHandler
+Controller ==> Service
+
+subgraph DB execution
+  Service --> Repository
+  Repository --> DB[(SQLite)]
+end
 ```
 
 ### BE Request Flow
@@ -39,7 +51,8 @@ sequenceDiagram
   participant Guard as Guard(Middleware)
   participant Error as ErrorHandler
   participant Controller
-  participant Service as Service(using security)
+  participant Service
+  participant Security
   participant Repository
   participant DB
 
@@ -50,10 +63,11 @@ sequenceDiagram
     Guard -> Controller: next()
   end
   Controller -> Service: execute
+  Service -> Security: data
   alt invalid
-    Service -> Error: throw
+    Security -> Error: throw
   else valid
-    Service -> Repository: query
+    Security -> Repository: query
   end
   Repository -> DB: SQL
   Note over DB: SQLite

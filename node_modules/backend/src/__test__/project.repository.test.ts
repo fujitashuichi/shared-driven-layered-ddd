@@ -1,9 +1,9 @@
 import { Database } from "sqlite3";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { ProjectsRepository, UsersRepository } from "../repository/index.js";
-import { createAppDb } from "../db/app.db.js";
+import { createAppDb } from "../db/index.js";
 import { userMocks } from "../__mock__/index.js";
-import { ProjectWithoutId } from "../types/type.db.js";
+import { ProjectWithoutId } from "../types/index.js";
 
 describe("project.repositoryの各メソッドを検査", () => {
   let db: Database | null = null;

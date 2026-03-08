@@ -28,7 +28,7 @@ describe("user.repositoryの各メソッドを検査", () => {
 
   it("getUsersは正しく成功する", async () => {
     const { id, ...data } = userMocks.user();
-    repository?.saveUser(data);
+    await repository?.saveUser(data);
 
     const result = repository?.getUsers();
 

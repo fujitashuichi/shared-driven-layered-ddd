@@ -1,12 +1,14 @@
 import { LoginRequestSchema, PostProjectRequestSchema, RegisterRequestSchema } from "@pkg/shared";
 import { Request, Response } from "express";
+import { GetProjectsRequestSchema } from "../../../shared/dist/types/project/types.dto.js";
 
 export type RequestName = "register" | "login" | "postProject";
 
 const dtoSchemaMap = {
   register: RegisterRequestSchema,
   login: LoginRequestSchema,
-  postProject: PostProjectRequestSchema
+  postProject: PostProjectRequestSchema,
+  getProjects: GetProjectsRequestSchema
 } as const;
 
 
