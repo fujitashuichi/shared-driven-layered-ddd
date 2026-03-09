@@ -12,10 +12,6 @@ export const createProjectRouter = (db: Database) => {
     (req, res) => createProject(req, res, db)
   );
 
-  router.get("/", (_, res) => {
-    res.status(501).send();
-  });
-
   router.patch("/:id", (_, res) => {
     res.status(501).send();
   });

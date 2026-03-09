@@ -1,1 +1,1 @@
-export { type AuthFetchPath, type ProjectFetchPath } from "./types.api.js";
+export type { AuthFetchPath, SessionFetchPath, UserFetchPath, ProjectFetchPath } from "./types.api.js";

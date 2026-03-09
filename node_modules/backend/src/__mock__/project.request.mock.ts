@@ -4,10 +4,6 @@ import { mockReq } from "sinon-express-mock"
 import { GetProjectsRequest } from "../../../shared/dist/types/project/types.dto.js";
 
 export const projectRequestMocks = {
-  createRequest: (body: Request["body"]): Request => {
-    return mockReq({ body: body });
-  },
-
   postProject: {
     validReq_1: () => {
       const data: PostProjectRequest = {

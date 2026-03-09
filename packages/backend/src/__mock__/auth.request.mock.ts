@@ -54,10 +54,6 @@ const dosRequests = {
 }
 
 export const authRequestMocks = {
-  createRequest: (body: Request["body"]): Request => {
-    return mockReq({ body: body });
-  },
-
   register: {
     validReq: (): Request => {
       const data: RegisterRequest = {

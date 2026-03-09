@@ -1,10 +1,9 @@
-import { RegisterResponseSchema } from "@pkg/shared";
+import { RegisterResponseSchema, type RegisterRequest } from "@pkg/shared";
 import { apiClient } from "../../../lib/api-client";
-import type { UserRegisterBodyType } from "../types/types.data";
-import type { RegisterResult } from "../types/types.result";
 import type { ApiResult } from "../../../lib/types";
+import type { RegisterResult } from "../types";
 
-export const registerUser = async (body: UserRegisterBodyType): Promise<RegisterResult> => {
+export const registerUser = async (body: RegisterRequest): Promise<RegisterResult> => {
   const response: ApiResult = await apiClient({
     path: "/api/auth/register",
     method: "POST",

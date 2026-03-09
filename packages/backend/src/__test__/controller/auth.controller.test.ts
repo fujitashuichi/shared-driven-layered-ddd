@@ -2,10 +2,11 @@ vi.stubEnv("NODE_JWT_SECRET", "secret");
 
 import { Request, Response } from "express";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { authRequestMocks, createResponseMock } from "../__mock__/index.js";
-import { login, register } from "../controller/index.js";
+import { authRequestMocks, createResponseMock } from "../../__mock__/index.js";
+import { login, register } from "../../controller/index.js";
 import { Database } from "sqlite3";
-import { createAppDb } from "../db/app.db.js";
+import { createAppDb } from "../../db/app.db.js";
+import { createRequestMock } from "../../__mock__/createRequest.mock.js";
 
 describe("auth.controller", () => {
   let res: Response | null;
@@ -49,9 +50,9 @@ describe("auth.controller", () => {
   it("login: パスワードが一致する場合、okレスポンスを返してtokenを再発行する", async () => {
     const requestBody: Request["body"] = { email: "example@email.com", password: "TestPassword" };
 
-    await register(authRequestMocks.createRequest(requestBody), res!, db!);
+    await register(createRequestMock.withBody(requestBody), res!, db!);
     res = createResponseMock();
-    await login(authRequestMocks.createRequest(requestBody), res!, db!);
+    await login(createRequestMock.withBody(requestBody), res!, db!);
 
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.cookie).toHaveBeenCalledWith(
@@ -66,9 +67,9 @@ describe("auth.controller", () => {
     const registerRequestBody: Request["body"] = { email: email, password: "TestPassword" };
     const loginRequestBody: Request["body"] = { email: email, password: "ThIsISWroNGpASswORd" };
 
-    await register(authRequestMocks.createRequest(registerRequestBody), res!, db!);
+    await register(createRequestMock.withBody(registerRequestBody), res!, db!);
     res = createResponseMock();
-    await expect(login(authRequestMocks.createRequest(loginRequestBody), res!, db!))
+    await expect(login(createRequestMock.withBody(loginRequestBody), res!, db!))
       .rejects.toThrow();
 
     expect(res.status).not.toHaveBeenCalled();

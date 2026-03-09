@@ -1,7 +1,7 @@
 import { NextFunction, Response } from "express";
-import { createResponseMock, projectRequestMocks } from "../__mock__/index.js";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { requestValidator } from "../middleware/index.js";
+import { createResponseMock, projectRequestMocks } from "../../__mock__/index.js";
+import { requestValidator } from "../../middleware/index.js";
 
 describe("project: request.guard", () => {
   let res: Response | null;

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
-import { isLoggedIn } from "../api/isLoggedIn";
 import { LoginForm } from "./LoginForm";
 import { AppButton } from "../../../components";
 import { AppLoadingBar } from "../../../components/AppLoadingBar";
+import { isSessionActive } from "../api";
 
 export type Status = "loading" | "loginSession" | "success" | "failed";
 
@@ -11,7 +11,7 @@ export function LoginContainer() {
 
   useEffect(() => {
     const checkIsLoggedIn = async () => {
-      const result = await isLoggedIn();
+      const result = await isSessionActive();
       if (!result) {
         setStatus("loginSession");
       };

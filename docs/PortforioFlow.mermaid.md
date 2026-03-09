@@ -1,0 +1,62 @@
+```mermaid
+flowchart LR
+subgraph FE\["Frontend (React SPA)"]
+Pages\[app/pages]
+FeaturesApiClient\[features/apiClient]
+FeaturesAuth\[features/auth]
+FeaturesProj\[features/projects]
+Components\[Components]
+end
+
+subgraph Shared\["Shared"]
+SharedTypes\["Types"]
+end
+
+subgraph BE\["Backend (Node.js + Express)"]
+Router\["Router (with ErrorHandler)"]
+Controller\[Controller]
+subgraph SecureService\[Secure Service]
+ServiceSecurity\[Validate Func]
+Service\[Service]
+end
+Repository\[Repository]
+Middleware\["Middleware (security)"]
+DB\[(SQLite)]
+end
+
+subgraph Test\["Tests"]
+GuardTest\["Guard Tests"]
+ControllerTest\["Controller Tests"]
+RepositoryTest\["Repository Tests"]
+ErrorHandlerTest\["ErrorHandler Tests"]
+end
+
+%% UI
+FeaturesApiClient --> FeaturesProj
+FeaturesApiClient --> FeaturesAuth
+FeaturesProj --> Components
+FeaturesAuth --> Components
+Components --> Pages
+
+%% Frontend/Backend -> Shared
+FE --- Shared
+BE --- Shared
+
+%% Frontend -> Backend
+FeaturesApiClient <--> |Requests / Responses| Router
+
+%% Backend Flow
+Router --> Middleware
+Middleware --> Controller
+Controller --> ServiceSecurity
+ServiceSecurity --> Service
+Service --> Repository
+Repository --> DB
+
+%% Tests
+GuardTest --> Middleware
+ControllerTest --> Controller
+RepositoryTest --> Repository
+ErrorHandlerTest --> Router
+```
+
