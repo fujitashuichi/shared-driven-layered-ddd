@@ -2,6 +2,13 @@
 ### [BEセキュリティ](./docs/BE_Security.md)
 ### [全体図](./docs/PortforioFlow.mermaid)
 
+<details>
+  <summary>その他レポートなど</summary>
+
+  * <a href="./docs/test/analyzeTestPerformance.md">テスト時間遷移における実行時間スパイクに関して</a>
+  * <a href="./docs/test/testResults.md">testResults</a>
+</details>
+
 ---
 
 ## ポートフォリオの肝
