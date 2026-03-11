@@ -19,12 +19,12 @@ describe("auth: request.guard", () => {
 
   // register
   it("register: 正しいリクエストは通過する", () => {
-    requestValidator(authRequestMocks.register.validReq(), res!, next!, "register");
+    requestValidator("register")(authRequestMocks.register.validReq(), res!, next!);
     expect(next).toHaveBeenCalledTimes(1);
   });
 
   it("register: Dos攻撃Request_1 は即座にエラーレスポンスを返し、次の関数を呼ばない", () => {
-    requestValidator(authRequestMocks.register.invalidReq_1(), res!, next!, "register");
+    requestValidator("register")(authRequestMocks.register.invalidReq_1(), res!, next!);
     expect(next).not.toHaveBeenCalled();
     expect(res!.status).toHaveBeenCalledWith(400);
     expect(res!.send).toHaveBeenCalledWith(
@@ -32,7 +32,7 @@ describe("auth: request.guard", () => {
     );
   });
   it("register: Dos攻撃Request_2 は即座にエラーレスポンスを返し、次の関数を呼ばない", () => {
-    requestValidator(authRequestMocks.register.invalidReq_2(), res!, next!, "register");
+    requestValidator("register")(authRequestMocks.register.invalidReq_2(), res!, next!);
     expect(next).not.toHaveBeenCalled();
     expect(res!.status).toHaveBeenCalledWith(400);
     expect(res!.send).toHaveBeenCalledWith(
@@ -40,7 +40,7 @@ describe("auth: request.guard", () => {
     );
   });
   it ("login: Dos攻撃Request_3 は即座にエラーレスポンスを返し、次の関数を呼ばない", () => {
-    requestValidator(authRequestMocks.login.invalidReq_3(), res!, next!, "login");
+    requestValidator("login")(authRequestMocks.login.invalidReq_3(), res!, next!);
     expect(next).not.toHaveBeenCalled();
     expect(res!.status).toBeCalledWith(400);
     expect(res!.send).toHaveBeenCalledWith(
@@ -48,7 +48,7 @@ describe("auth: request.guard", () => {
     );
   });
   it ("login: Dos攻撃Request_4 は即座にエラーレスポンスを返し、次の関数を呼ばない", () => {
-    requestValidator(authRequestMocks.login.invalidReq_4(), res!, next!, "login");
+    requestValidator("login")(authRequestMocks.login.invalidReq_4(), res!, next!);
     expect(next).not.toHaveBeenCalled();
     expect(res!.status).toBeCalledWith(400);
     expect(res!.send).toHaveBeenCalledWith(
@@ -59,12 +59,12 @@ describe("auth: request.guard", () => {
 
   // login
   it ("login: 正しいリクエストは通過する", () => {
-    requestValidator(authRequestMocks.login.validReq(), res!, next!, "login");
+    requestValidator("login")(authRequestMocks.login.validReq(), res!, next!);
     expect(next).toBeCalledTimes(1);
   });
 
   it ("login: Dos攻撃Request_1 は即座にエラーレスポンスを返し、次の関数を呼ばない", () => {
-    requestValidator(authRequestMocks.login.invalidReq_1(), res!, next!, "login");
+    requestValidator("login")(authRequestMocks.login.invalidReq_1(), res!, next!);
     expect(next).not.toHaveBeenCalled();
     expect(res!.status).toHaveBeenCalledWith(400);
     expect(res!.send).toHaveBeenCalledWith(
@@ -72,7 +72,7 @@ describe("auth: request.guard", () => {
     )
   });
   it ("login: Dos攻撃Request_2 は即座にエラーレスポンスを返し、次の関数を呼ばない", () => {
-    requestValidator(authRequestMocks.login.invalidReq_2(), res!, next!, "login");
+    requestValidator("login")(authRequestMocks.login.invalidReq_2(), res!, next!);
     expect(next).not.toHaveBeenCalled();
     expect(res!.status).toBeCalledWith(400);
     expect(res!.send).toHaveBeenCalledWith(
@@ -80,7 +80,7 @@ describe("auth: request.guard", () => {
     );
   });
   it ("login: Dos攻撃Request_3 は即座にエラーレスポンスを返し、次の関数を呼ばない", () => {
-    requestValidator(authRequestMocks.login.invalidReq_3(), res!, next!, "login");
+    requestValidator("login")(authRequestMocks.login.invalidReq_3(), res!, next!);
     expect(next).not.toHaveBeenCalled();
     expect(res!.status).toBeCalledWith(400);
     expect(res!.send).toHaveBeenCalledWith(
@@ -88,7 +88,7 @@ describe("auth: request.guard", () => {
     );
   });
   it ("login: Dos攻撃Request_4 は即座にエラーレスポンスを返し、次の関数を呼ばない", () => {
-    requestValidator(authRequestMocks.login.invalidReq_4(), res!, next!, "login");
+    requestValidator("login")(authRequestMocks.login.invalidReq_4(), res!, next!);
     expect(next).not.toHaveBeenCalled();
     expect(res!.status).toBeCalledWith(400);
     expect(res!.send).toHaveBeenCalledWith(

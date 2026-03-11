@@ -4,10 +4,10 @@ flowchart LR
 
     subgraph BE["Backend (Node.js + Express)"]
       subgraph Test["Tests"]
+        ErrorHandlerTest{{ErrorHandler}}
         ControllerTest{{Controller}}
         GuardTest{{Guard}}
         RepositoryTest{{Repository}}
-        ErrorHandlerTest{{ErrorHandler}}
       end
 
       subgraph ClientSide
@@ -60,7 +60,8 @@ flowchart LR
     ApiClient ==> API
     Router ==> API
 
-    %% Frontend & Backend -> Shared
-    FE =========> Shared
-    BE =========> Shared
+    %% -> Shared
+    FE --> Shared
+    BE --> Shared
+    API --> Shared
   end

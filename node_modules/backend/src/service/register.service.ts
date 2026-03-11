@@ -4,6 +4,7 @@ import { UsersRepository } from "../repository/index.js";
 import { createAppDb } from "../db/app.db.js";
 import { Database } from "sqlite3";
 import { RegisterRequest } from "@pkg/shared";
+import { EmailAlreadyRegisteredError } from "../error/UserAuthError.js";
 
 
 const AppDb = await createAppDb("app.db");
@@ -17,7 +18,7 @@ export class RegisterService {
 
   registerUser = async (dto: RegisterRequest): Promise<{ user: User, token: string }> => {
     if (await this.usersRepository.findByEmail(dto.email) !== null) {
-      throw new Error("Email already registered.");
+      throw new EmailAlreadyRegisteredError(dto.email);
     }
 
     const password_hash = await hashPassword(dto.password);

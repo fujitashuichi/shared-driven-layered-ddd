@@ -4,10 +4,10 @@ import { verifyToken } from "../lib/jwt.js";
 import { UserService } from "../service/user.service.js";
 import { Database } from "sqlite3";
 
-export const authorize = (req: Request, res: Response, next: NextFunction, db: Database) => {
-  return async () => {
+export const authorize = (db: Database) => {
+  return async (req: Request, res: Response, next: NextFunction, ) => {
     const service = new UserService(db);
-    const token = req.cookies.token;
+    const token: string | undefined = req.cookies?.token;
 
     if (!token) throw new UnAuthorizedError();
 

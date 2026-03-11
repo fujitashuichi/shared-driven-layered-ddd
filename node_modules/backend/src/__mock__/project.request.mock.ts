@@ -7,14 +7,12 @@ export const projectRequestMocks = {
   postProject: {
     validReq_1: () => {
       const data: PostProjectRequest = {
-        userId: 1,
         title: "Title"
       };
       return mockReq({ body: data });
     },
     validReq_2: () => {
       const data: PostProjectRequest = {
-        userId: 1,
         title: "Title",
         description: "description"
       };

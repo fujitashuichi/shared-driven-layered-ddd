@@ -1,62 +1,69 @@
 ```mermaid
 flowchart LR
-subgraph FE\["Frontend (React SPA)"]
-Pages\[app/pages]
-FeaturesApiClient\[features/apiClient]
-FeaturesAuth\[features/auth]
-FeaturesProj\[features/projects]
-Components\[Components]
-end
+  subgraph packages
+    direction LR
 
-subgraph Shared\["Shared"]
-SharedTypes\["Types"]
-end
+    subgraph BE["Backend (Node.js + Express)"]
+      subgraph Test["Tests"]
+        ErrorHandlerTest{{ErrorHandler}}
+        ControllerTest{{Controller}}
+        GuardTest{{Guard}}
+        RepositoryTest{{Repository}}
+      end
 
-subgraph BE\["Backend (Node.js + Express)"]
-Router\["Router (with ErrorHandler)"]
-Controller\[Controller]
-subgraph SecureService\[Secure Service]
-ServiceSecurity\[Validate Func]
-Service\[Service]
-end
-Repository\[Repository]
-Middleware\["Middleware (security)"]
-DB\[(SQLite)]
-end
+      subgraph ClientSide
+        Router
+        ErrorHandler
+        Middleware["Middleware"]
+      end
+      Controller[Controller]
+      subgraph ServiceLayer
+        note_ServiceLayer[/ServiceはRepositoryを隠蔽\nSQL Injectionへの耐性/]
+        Service
+        Repository[Repository]
+      end
+      DB[(SQLite)]
 
-subgraph Test\["Tests"]
-GuardTest\["Guard Tests"]
-ControllerTest\["Controller Tests"]
-RepositoryTest\["Repository Tests"]
-ErrorHandlerTest\["ErrorHandler Tests"]
-end
+      %% Backend Flow
+      Router --> ErrorHandler
+      Router --> Middleware
+      Middleware --> Controller
+      Middleware -.->|authorize時のみ| Service
+      Controller --> Service
+      Service --> Repository
+      Repository --> DB
 
-%% UI
-FeaturesApiClient --> FeaturesProj
-FeaturesApiClient --> FeaturesAuth
-FeaturesProj --> Components
-FeaturesAuth --> Components
-Components --> Pages
+      %% Tests
+      GuardTest -.-> Middleware
+      ControllerTest -.-> Controller
+      RepositoryTest -.-> Repository
+      ErrorHandlerTest -.-> Router
+    end
 
-%% Frontend/Backend -> Shared
-FE --- Shared
-BE --- Shared
+    subgraph Shared["Shared"]
+      SharedTypes[/Types / Schemas/]
+    end
 
-%% Frontend -> Backend
-FeaturesApiClient <--> |Requests / Responses| Router
+    subgraph FE["Frontend (React SPA)"]
+      subgraph Logic["Logic Layer"]
+        ApiClient([apiClient])
+        Features([features/projects])
+      end
+      Components[[Components]]
+      UI
 
-%% Backend Flow
-Router --> Middleware
-Middleware --> Controller
-Controller --> ServiceSecurity
-ServiceSecurity --> Service
-Service --> Repository
-Repository --> DB
+      %% FE Flow
+      UI --> Components
+      Components --> Features --> ApiClient
+    end
 
-%% Tests
-GuardTest --> Middleware
-ControllerTest --> Controller
-RepositoryTest --> Repository
-ErrorHandlerTest --> Router
+    %% Frontend <-> Backend
+    ApiClient ==> API
+    Router ==> API
+
+    %% -> Shared
+    FE --> Shared
+    BE --> Shared
+    API --> Shared
+  end
 ```
-

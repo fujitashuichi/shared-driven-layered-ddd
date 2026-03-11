@@ -3,7 +3,7 @@ vi.stubEnv("NODE_JWT_SECRET", "secret");
 import { Request, Response } from "express";
 import { Database } from "sqlite3";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { authRequestMocks, createResponseMock, userMocks } from "../../__mock__/index.js";
+import { authRequestMocks, createResponseMock } from "../../__mock__/index.js";
 import { createAppDb } from "../../db/index.js";
 import { logout, register, session } from "../../controller/index.js";
 import { createRequestMock } from "../../__mock__/createRequest.mock.js";
@@ -45,7 +45,6 @@ describe("user.controller", () => {
     cookieData = vi.mocked(res!.cookie).mock.calls[0];
     cookies = cookieData ? { [cookieData[0]]: cookieData[1] } : {};
     res = createResponseMock();
-    console.log(cookies);
     await session(createRequestMock.withCookies(cookies), res!, db!);
 
     expect(res!.status).toHaveBeenCalledWith(401);

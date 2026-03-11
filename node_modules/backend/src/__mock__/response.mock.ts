@@ -9,5 +9,7 @@ export const createResponseMock = (): Response => {
   res.clearCookie = vi.fn().mockReturnValue(res);
   res.json = vi.fn().mockReturnValue(res);
 
+  res.locals = {};
+
   return res as Response;
 }

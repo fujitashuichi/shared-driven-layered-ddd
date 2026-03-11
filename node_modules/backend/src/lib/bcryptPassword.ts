@@ -1,6 +1,5 @@
 import bcrypt from "bcrypt"
-import { User } from "../types/type.db.js";
-import { InvalidPasswordError, UserAuthError } from "../error/index.js";
+import { InvalidPasswordError } from "../error/index.js";
 import { RegisterRequest } from "@pkg/shared";
 
 const SaltRounds = 10;

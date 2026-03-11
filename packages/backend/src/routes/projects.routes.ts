@@ -8,8 +8,8 @@ export const createProjectRouter = (db: Database) => {
   const router = Router();
 
   router.post("/",
-    (req, res, next) => requestValidator(req, res, next, "postProject"),
-    (req, res, next) => authorize(req, res, next, db),
+    requestValidator("postProject"),
+    authorize(db),
     (req, res) => createProject(req, res, db)
   );
 

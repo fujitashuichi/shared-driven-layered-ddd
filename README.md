@@ -9,10 +9,9 @@
 ### BE Test
 ```sh
 Current Result:
-Test Files  8 passed (8)
-     Tests  46 passed (46)
-  Start at  17:20:51
-  Duration  6.04s (transform 7.23s, setup 0ms, import 9.35s, tests 912ms, environment 1ms)
+Test Files  9 passed (9)
+     Tests  48 passed (48)
+  Duration  3.16s (transform 756ms, setup 0ms, import 3.11s, tests 954ms, environment 1ms)
 ```
 ```mermaid
 flowchart LR
