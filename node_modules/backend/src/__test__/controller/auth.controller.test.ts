@@ -30,8 +30,6 @@ describe("auth.controller", () => {
       expect.anything(),
       expect.anything()
     );
-
-    expect(res!.json).toHaveBeenCalledWith(expect.objectContaining({ success: true }));
   });
 
   it("register: 重複するEmailは登録が失敗する", async () => {

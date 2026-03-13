@@ -25,10 +25,7 @@ export const register = (db: Database) => {
     return res
       .status(201)
       .cookie("token", registerResult.token, tokenCookieOptions)
-      .json({
-        success: true,
-        user: registerResult.user
-      });
+      .json(registerResult.user);
   }
 }
 
@@ -45,9 +42,7 @@ export const login = (db: Database) => {
     return res
       .status(200)
       .cookie("token", result.token, tokenCookieOptions)
-      .json({
-        success: true
-      });
+      .json({ message: "successfully logged in" });
   }
 }
 

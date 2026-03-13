@@ -12,15 +12,9 @@ export type RegisterResponse = z.infer<typeof RegisterResponseSchema>;
 
 // session
 export const SessionResponseSchema = z.object({
-  success: z.literal(false),
-  user: z.null()
-}).or(z.object({
-  success: z.literal(true),
-  user: z.object({
-    id: z.number(),
-    email: z.email()
-  })
-}));
+  id: z.number(),
+  email: z.email()
+});
 export type SessionResponse = z.infer<typeof SessionResponseSchema>;
 
 // login
