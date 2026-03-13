@@ -4,7 +4,7 @@ import type { ApiResult } from "./types";
 type Props = {
   path: AuthFetchPath | ProjectFetchPath | SessionFetchPath | UserFetchPath,
   method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
-  body: object
+  body: object | undefined
 };
 
 export const apiClient = async ({ path, method, body }: Props): Promise<ApiResult> => {

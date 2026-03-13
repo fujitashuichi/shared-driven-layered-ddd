@@ -11,16 +11,16 @@ export function LoginContainer() {
 
   useEffect(() => {
     const checkIsLoggedIn = async () => {
+      setStatus("loading");
       const result = await isSessionActive();
       if (!result) {
         setStatus("loginSession");
       };
+      setStatus("success");
     }
 
     checkIsLoggedIn();
-
-    const interval = setInterval(() => checkIsLoggedIn(), 5 * 60 * 1000);
-    return clearInterval(interval);
+    setInterval(() => checkIsLoggedIn(), 5 * 60 * 1000);
   }, []);
 
   return (

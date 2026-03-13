@@ -1,5 +1,4 @@
 import z from "zod";
-// UserはFEとBEで扱いが変わりやすいため、ここでは定義しない
 export const ProjectSchema = z.object({
     id: z.number().int(),
     userId: z.number().int(),
