@@ -3,10 +3,14 @@ import { RequestName, zodGuard } from "./zod.guard.js";
 import { securityGuard } from "./security.guard.js";
 
 export const requestValidator = (requestName: RequestName) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    if (!securityGuard(req, res)) return;
-    if (!zodGuard(req, res, requestName)) return;
+  return (req: Request, _res: Response, next: NextFunction) => {
+    try {
+      securityGuard(req);
+      zodGuard(requestName, req);
 
-    next();
+      next();
+    } catch(err: unknown) {
+      next(err);
+    }
   }
 }

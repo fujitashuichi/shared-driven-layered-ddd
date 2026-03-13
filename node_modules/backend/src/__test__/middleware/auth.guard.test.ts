@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import { createResponseMock, authRequestMocks } from "../../__mock__/index.js"
 import { NextFunction, Response } from "express"
 import { requestValidator } from "../../middleware/index.js";
+import { any } from "zod";
 
 describe("auth: request.guard", () => {
   let res: Response | null;
@@ -20,79 +21,47 @@ describe("auth: request.guard", () => {
   // register
   it("register: 正しいリクエストは通過する", () => {
     requestValidator("register")(authRequestMocks.register.validReq(), res!, next!);
-    expect(next).toHaveBeenCalledTimes(1);
+    expect(next).toHaveBeenCalledWith();
   });
 
-  it("register: Dos攻撃Request_1 は即座にエラーレスポンスを返し、次の関数を呼ばない", () => {
+  it("register: Dos攻撃Request_1 はerrorHandlerを呼ぶ", () => {
     requestValidator("register")(authRequestMocks.register.invalidReq_1(), res!, next!);
-    expect(next).not.toHaveBeenCalled();
-    expect(res!.status).toHaveBeenCalledWith(400);
-    expect(res!.send).toHaveBeenCalledWith(
-      expect.objectContaining({ success: false })
-    );
+    expect(next).toHaveBeenCalledWith(expect.any(Error));
   });
-  it("register: Dos攻撃Request_2 は即座にエラーレスポンスを返し、次の関数を呼ばない", () => {
+  it("register: Dos攻撃Request_2 はerrorHandlerを呼ぶ", () => {
     requestValidator("register")(authRequestMocks.register.invalidReq_2(), res!, next!);
-    expect(next).not.toHaveBeenCalled();
-    expect(res!.status).toHaveBeenCalledWith(400);
-    expect(res!.send).toHaveBeenCalledWith(
-      expect.objectContaining({ success: false })
-    );
+    expect(next).toHaveBeenCalledWith(expect.any(Error));
   });
-  it ("login: Dos攻撃Request_3 は即座にエラーレスポンスを返し、次の関数を呼ばない", () => {
+  it ("login: Dos攻撃Request_3 はerrorHandlerを呼ぶ", () => {
     requestValidator("login")(authRequestMocks.login.invalidReq_3(), res!, next!);
-    expect(next).not.toHaveBeenCalled();
-    expect(res!.status).toBeCalledWith(400);
-    expect(res!.send).toHaveBeenCalledWith(
-      expect.objectContaining({ success: false })
-    );
+    expect(next).toHaveBeenCalledWith(expect.any(Error));
   });
-  it ("login: Dos攻撃Request_4 は即座にエラーレスポンスを返し、次の関数を呼ばない", () => {
+  it ("login: Dos攻撃Request_4 はerrorHandlerを呼ぶ", () => {
     requestValidator("login")(authRequestMocks.login.invalidReq_4(), res!, next!);
-    expect(next).not.toHaveBeenCalled();
-    expect(res!.status).toBeCalledWith(400);
-    expect(res!.send).toHaveBeenCalledWith(
-      expect.objectContaining({ success: false })
-    );
+    expect(next).toHaveBeenCalledWith(expect.any(Error));
   });
 
 
   // login
   it ("login: 正しいリクエストは通過する", () => {
     requestValidator("login")(authRequestMocks.login.validReq(), res!, next!);
-    expect(next).toBeCalledTimes(1);
+    expect(next).toBeCalledWith();
   });
 
-  it ("login: Dos攻撃Request_1 は即座にエラーレスポンスを返し、次の関数を呼ばない", () => {
+  it ("login: Dos攻撃Request_1 はerrorHandlerを呼ぶ", () => {
     requestValidator("login")(authRequestMocks.login.invalidReq_1(), res!, next!);
-    expect(next).not.toHaveBeenCalled();
-    expect(res!.status).toHaveBeenCalledWith(400);
-    expect(res!.send).toHaveBeenCalledWith(
-      expect.objectContaining({ success: false })
-    )
+    expect(next).toHaveBeenCalledWith(expect.any(Error));
   });
-  it ("login: Dos攻撃Request_2 は即座にエラーレスポンスを返し、次の関数を呼ばない", () => {
+  it ("login: Dos攻撃Request_2 はerrorHandlerを呼ぶ", () => {
     requestValidator("login")(authRequestMocks.login.invalidReq_2(), res!, next!);
-    expect(next).not.toHaveBeenCalled();
-    expect(res!.status).toBeCalledWith(400);
-    expect(res!.send).toHaveBeenCalledWith(
-      expect.objectContaining({ success: false })
-    );
+    expect(next).toHaveBeenCalledWith(expect.any(Error));
   });
-  it ("login: Dos攻撃Request_3 は即座にエラーレスポンスを返し、次の関数を呼ばない", () => {
+  it ("login: Dos攻撃Request_3 はerrorHandlerを呼ぶ", () => {
     requestValidator("login")(authRequestMocks.login.invalidReq_3(), res!, next!);
-    expect(next).not.toHaveBeenCalled();
-    expect(res!.status).toBeCalledWith(400);
-    expect(res!.send).toHaveBeenCalledWith(
-      expect.objectContaining({ success: false })
-    );
+    expect(next).toHaveBeenCalledWith(expect.any(Error));
   });
-  it ("login: Dos攻撃Request_4 は即座にエラーレスポンスを返し、次の関数を呼ばない", () => {
+  it ("login: Dos攻撃Request_4 はerrorHandlerを呼ぶ", () => {
     requestValidator("login")(authRequestMocks.login.invalidReq_4(), res!, next!);
-    expect(next).not.toHaveBeenCalled();
-    expect(res!.status).toBeCalledWith(400);
-    expect(res!.send).toHaveBeenCalledWith(
-      expect.objectContaining({ success: false })
-    );
+    expect(next).toHaveBeenCalledWith(expect.any(Error));
   });
 })

@@ -15,10 +15,10 @@
 
 ### BE Test
 ```sh
-Current Result:
 Test Files  9 passed (9)
      Tests  48 passed (48)
-  Duration  3.16s (transform 756ms, setup 0ms, import 3.11s, tests 954ms, environment 1ms)
+  Start at  12:29:50
+  Duration  3.85s (transform 1.28s, setup 0ms, import 4.27s, tests 987ms, environment 1ms)
 ```
 ```mermaid
 flowchart LR
@@ -32,7 +32,7 @@ end
 
 subgraph Client Side
   Router([Router]) --> ErrorHandler
-  Router --> Middleware
+  Router --> Guard
 end
 
 subgraph DB execution
@@ -40,11 +40,11 @@ subgraph DB execution
   Repository --> DB[(SQLite)]
 end
 
-Middleware -.->|authorize時だけ情報を貰う| Service
-Middleware --> Controller
+Guard -.->|authorize時だけ情報を貰う| Service
+Guard --> Controller
 Controller --> Service
 
-GuardTest -..-> Middleware
+GuardTest -..-> Guard
 ControllerTest -..-> Controller
 RepositoryTest -..-> Repository
 ErrorHandlerTest -..-> ErrorHandler
@@ -56,7 +56,7 @@ sequenceDiagram
   participant client
   box rgb(240, 255, 240) Middleware
     participant Error as ErrorHandler
-    participant Guard as Guard / authorize
+    participant Guard as RequestGuard
   end
   participant Controller
   participant Service
@@ -64,11 +64,7 @@ sequenceDiagram
   participant DB
 
   client ->> Guard: request
-  alt invalid
-    Guard -->> client: response
-  else valid
-    Guard ->> Controller: next()
-  end
+  Guard ->> Controller: next()
   Controller ->> Service: execute
   Service ->> Repository: query
   Repository ->> DB: SQL
@@ -83,6 +79,7 @@ sequenceDiagram
 
   rect rgb(200, 255, 200)
     Note over Controller, DB: 例外はthrow
+    Guard --x Error: Error
     Controller --x Error: Error
     Service --x Error: Error
     Repository --x Error: Error

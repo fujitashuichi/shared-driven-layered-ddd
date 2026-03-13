@@ -2,8 +2,9 @@ import { Response } from "express";
 import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from "vitest";
 import { createResponseMock } from "../__mock__/index.js";
 import { globalErrorHandler } from "../middleware/index.js";
-import { ConfirmPasswordError, EmailAlreadyRegisteredError, InvalidPasswordError, UserAuthError, UserUndefinedError } from "../error/UserAuthError.js";
+import { ConfirmPasswordError, EmailAlreadyRegisteredError, InvalidPasswordError, UserAuthError,  } from "../error/index.js";
 import { DuplicateProjectError, ProjectError } from "../error/ProjectError.js";
+import { UserUndefinedError } from "../error/UserError.js";
 
 describe("globalErrorHandlerが正しく機能する", () => {
   const _req = vi.fn();

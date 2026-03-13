@@ -12,13 +12,6 @@ export class UnAuthorizedError extends UserAuthError {
   }
 }
 
-export class UserUndefinedError extends UserAuthError {
-  constructor() {
-    super("UserData undefined: searching User is not registered");
-    this.name = "UserUndefinedError";
-  }
-}
-
 // register
 export class EmailAlreadyRegisteredError extends UserAuthError {
   constructor(email: string) {

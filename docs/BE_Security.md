@@ -54,7 +54,7 @@ export const requestValidator = (
 graph TD
 Req[request] --> Router
 Router --> ReqSecurity{securityGuard}
-  ReqSecurity -- invalid --> Error[[status400, stop]]
+  ReqSecurity -- invalid --> Error[[throw]]
   ReqSecurity -- value --> ReqZod{zodGuard}
   ReqZod -- invalid --> Error
   ReqZod -- valid --> Next["next()"]
@@ -73,8 +73,8 @@ Service --query--> Repository
 Repository --result--> Service
 Service --entity--> Controller
 
-Repository -->|Error| throw
-DB -->|Error| throw
+Repository -->|Error| Error[[throw]]
+DB -->|Error| Error
 ```
 ### ・Response
 ```mermaid

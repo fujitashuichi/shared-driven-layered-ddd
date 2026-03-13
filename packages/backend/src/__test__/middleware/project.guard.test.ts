@@ -20,43 +20,27 @@ describe("project: request.guard", () => {
   // post
   it("postProject: 正しいリクエスト_1は通過する", () => {
     requestValidator("postProject")(projectRequestMocks.postProject.validReq_1(), res!, next!);
-    expect(next).toHaveBeenCalledTimes(1);
+    expect(next).toHaveBeenCalledWith();
   });
   it("postProject: 正しいリクエスト_2は通過する", () => {
     requestValidator("postProject")(projectRequestMocks.postProject.validReq_2(), res!, next!);
-    expect(next).toHaveBeenCalledTimes(1);
+    expect(next).toHaveBeenCalledWith();
   });
 
-  it("postProject: Dos攻撃Request_1 は即座にエラーレスポンスを返し、次の関数を呼ばない", () => {
+  it("postProject: Dos攻撃Request_1 はerrorHandlerを呼ぶ", () => {
     requestValidator("postProject")(projectRequestMocks.postProject.invalidReq_1(), res!, next!);
-    expect(next).not.toHaveBeenCalled();
-    expect(res!.status).toHaveBeenCalledWith(400);
-    expect(res!.send).toHaveBeenCalledWith(
-      expect.objectContaining({ success: false })
-    );
+    expect(next).toHaveBeenCalledWith(expect.any(Error));
   });
-  it("postProject: Dos攻撃Request_2 は即座にエラーレスポンスを返し、次の関数を呼ばない", () => {
+  it("postProject: Dos攻撃Request_2 はerrorHandlerを呼ぶ", () => {
     requestValidator("postProject")(projectRequestMocks.postProject.invalidReq_2(), res!, next!);
-    expect(next).not.toHaveBeenCalled();
-    expect(res!.status).toHaveBeenCalledWith(400);
-    expect(res!.send).toHaveBeenCalledWith(
-      expect.objectContaining({ success: false })
-    );
+    expect(next).toHaveBeenCalledWith(expect.any(Error));
   });
-  it("postProject: Dos攻撃Request_3 は即座にエラーレスポンスを返し、次の関数を呼ばない", () => {
+  it("postProject: Dos攻撃Request_3 はerrorHandlerを呼ぶ", () => {
     requestValidator("postProject")(projectRequestMocks.postProject.invalidReq_3(), res!, next!);
-    expect(next).not.toHaveBeenCalled();
-    expect(res!.status).toHaveBeenCalledWith(400);
-    expect(res!.send).toHaveBeenCalledWith(
-      expect.objectContaining({ success: false })
-    );
+    expect(next).toHaveBeenCalledWith(expect.any(Error));
   });
-  it("postProject: Dos攻撃Request_4 は即座にエラーレスポンスを返し、次の関数を呼ばない", () => {
+  it("postProject: Dos攻撃Request_4 はerrorHandlerを呼ぶ", () => {
     requestValidator("postProject")(projectRequestMocks.postProject.invalidReq_4(), res!, next!);
-    expect(next).not.toHaveBeenCalled();
-    expect(res!.status).toHaveBeenCalledWith(400);
-    expect(res!.send).toHaveBeenCalledWith(
-      expect.objectContaining({ success: false })
-    );
+    expect(next).toHaveBeenCalledWith(expect.any(Error));
   });
 })

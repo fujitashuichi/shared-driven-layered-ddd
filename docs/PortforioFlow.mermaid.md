@@ -14,7 +14,7 @@ flowchart LR
       subgraph ClientSide
         Router
         ErrorHandler
-        Middleware["Middleware"]
+        Middleware["Guard"]
       end
       Controller[Controller]
       subgraph ServiceLayer

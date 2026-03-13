@@ -1,6 +1,7 @@
 import { LoginRequestSchema, PostProjectRequestSchema, RegisterRequestSchema } from "@pkg/shared";
-import { Request, Response } from "express";
+import { Request } from "express";
 import { GetProjectsRequestSchema } from "../../../../shared/dist/types/project/types.dto.js";
+import { InvalidRequestDataError } from "../../error/SecurityError.js";
 
 export type RequestName = "register" | "login" | "postProject" | "getProjects";
 
@@ -12,21 +13,12 @@ const dtoSchemaMap = {
 } as const;
 
 
-export const zodGuard = (req: Request, res: Response, requestName: RequestName) => {
+export const zodGuard = (requestName: RequestName, req: Request) => {
   const parsedDto = dtoSchemaMap[requestName].safeParse(req.body);
 
   if (!parsedDto.success) {
-    res.status(400).send({
-      success: false,
-      message: "Invalid RequestData: " + parsedDto.error.message
-    });
-
-    console.error("Invalid RequestData");
-
-    return false;
+    throw new InvalidRequestDataError();
   }
 
   req.body = parsedDto.data;
-
-  return true;
 }
