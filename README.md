@@ -1,5 +1,6 @@
 ### [要件定義書](./docs/features.md)
 ### [BEセキュリティ](./docs/BE_Security.md)
+### [DB図](./docs/db.mermaid.md)
 ### [全体図](./docs/PortforioFlow.mermaid)
 
 <details>
@@ -27,10 +28,9 @@
 
 ### BE Test
 ```sh
-Test Files  9 passed (9)
-     Tests  48 passed (48)
-  Start at  12:29:50
-  Duration  3.85s (transform 1.28s, setup 0ms, import 4.27s, tests 987ms, environment 1ms)
+Test Files  10 passed (10)
+     Tests  51 passed (51)
+  Duration  3.35s (transform 813ms, setup 0ms, import 3.35s, tests 1.11s, environment 2ms)
 ```
 ```mermaid
 flowchart LR
@@ -52,7 +52,7 @@ subgraph DB execution
   Repository --> DB[(SQLite)]
 end
 
-Guard -.->|authorize時だけ情報を貰う| Service
+Guard -.->|authorize / project認証時だけ情報を貰う| Service
 Guard --> Controller
 Controller --> Service
 

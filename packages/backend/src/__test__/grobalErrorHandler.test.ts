@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from "v
 import { createResponseMock } from "../__mock__/index.js";
 import { globalErrorHandler } from "../middleware/index.js";
 import { ConfirmPasswordError, EmailAlreadyRegisteredError, InvalidPasswordError, UserAuthError,  } from "../error/index.js";
-import { DuplicateProjectError, ProjectError } from "../error/ProjectError.js";
+import { DuplicateProjectError, ProjectError, ProjectUndefinedError } from "../error/ProjectError.js";
 import { UserUndefinedError } from "../error/UserError.js";
 
 describe("globalErrorHandlerが正しく機能する", () => {
@@ -54,11 +54,18 @@ describe("globalErrorHandlerが正しく機能する", () => {
     expect(res!.status).toBeCalledWith(400);
   });
 
-  // postProduct
+  // postProject
   it("DuplicateProjectError", () => {
     err = new DuplicateProjectError();
     globalErrorHandler(err as any, _req as any, res!, _next);
     expect(res!.status).toBeCalledWith(400);
+  });
+
+  // patchProject
+  it("ProjectUndefinedError", () => {
+    err = new ProjectUndefinedError();
+    globalErrorHandler(err as any, _req as any, res!, _next);
+    expect(res!.status).toBeCalledWith(404);
   });
 
   // other

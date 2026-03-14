@@ -6,6 +6,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { authRequestMocks, createRequestMock, createResponseMock } from "../../__mock__/index.js";
 import { createAppDb } from "../../db/index.js";
 import { logout, register, session } from "../../controller/index.js";
+import { UnAuthorizedError } from "../../error/UserAuthError.js";
 
 describe("user.controller", () => {
   let res: Response | null;
@@ -36,16 +37,16 @@ describe("user.controller", () => {
   it("session: 非session中の状態を正常に取得する", async () => {
     await register(db!)(authRequestMocks.register.validReq(), res!);
 
-    let cookieData: [name: string, val: any] | undefined = vi.mocked(res!.cookie).mock.calls[0]!;
-    let cookies: Request["cookies"] | undefined = { [cookieData[0]]: cookieData[1] };
+    let [name, value] = vi.mocked(res!.cookie).mock.calls[0]!;
+    let cookies: Request["cookies"] | undefined = { [name]: value };
     res = createResponseMock();
-    await logout(createRequestMock.withCookies(cookies), res!);
+    logout(createRequestMock.withCookies(cookies), res!);
 
-    cookieData = vi.mocked(res!.cookie).mock.calls[0];
-    cookies = cookieData ? { [cookieData[0]]: cookieData[1] } : {};
+    expect(vi.mocked(res!.cookie).mock.calls[0]).toBeFalsy();
+
     res = createResponseMock();
-    await session(db!)(createRequestMock.withCookies(cookies), res!);
-
-    expect(res!.status).toHaveBeenCalledWith(401);
+    await expect(
+      session(db!)(createRequestMock.withCookies({}), res!)
+    ).rejects.toThrow(expect.any(UnAuthorizedError));
   });
 });

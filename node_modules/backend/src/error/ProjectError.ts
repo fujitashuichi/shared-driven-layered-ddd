@@ -11,3 +11,10 @@ export class DuplicateProjectError extends ProjectError {
     this.name = "ProjectAlreadyCreatedError";
   }
 }
+
+export class ProjectUndefinedError extends ProjectError {
+  constructor() {
+    super("Project undefined");
+    this.name = "ProjectUndefinedError";
+  }
+}

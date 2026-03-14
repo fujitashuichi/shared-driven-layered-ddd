@@ -1,0 +1,31 @@
+import { Project } from "@pkg/shared";
+import { NextFunction, Request, Response } from "express";
+import { ProjectService } from "../service/index.js";
+import { Database } from "sqlite3";
+import { ProjectUndefinedError } from "../error/index.js";
+
+export const isUsersProject = (db: Database) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const service = new ProjectService(db)
+
+      const userId = res.locals.userId;
+      if (!userId) next(new Error("先にauthMiddlewareを設定する必要があります"));
+
+      const projectId = Number(req.params.id);
+      if (!projectId) next(new Error("isUsersProjectは req.param.id を要します"));
+
+      const usersProjects: Project[] = await service.finByUserId(userId);
+      const requiredProject: Project | null = await service.findById(projectId);
+
+      if (requiredProject === null) next(new ProjectUndefinedError());
+
+      const isUsersProject = usersProjects.some(p => p.id === projectId);
+      if (!isUsersProject) next(new ProjectUndefinedError());
+
+      next();
+    } catch(err) {
+      next(err);
+    }
+  }
+}

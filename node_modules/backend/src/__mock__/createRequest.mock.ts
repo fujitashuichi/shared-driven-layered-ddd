@@ -16,5 +16,9 @@ export const createRequestMock = {
       const cookies = { [name]: value };
     */
     return mockReq({ cookies: cookies });
+  },
+
+  withParams: (params: Request["params"]) => {
+    return mockReq({ params: params });
   }
 }

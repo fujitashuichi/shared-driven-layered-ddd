@@ -1,6 +1,6 @@
 import type { ErrorRequestHandler, NextFunction, Request, Response } from "express";
 import { authErrorHandler } from "./domain/authErrorHandler.js";
-import { productErrorHandler } from "./domain/productErrorHandler.js";
+import { productErrorHandler } from "./domain/projectErrorHandler.js";
 import { userErrorHandler } from "./domain/userErrorHandler.js";
 import { SecurityErrorHandler } from "./domain/SecurityErrorHandler.js";
 
