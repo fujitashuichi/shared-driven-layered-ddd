@@ -1,6 +1,6 @@
 import { Database } from "sqlite3";
 import { ProjectService } from "../service/index.js";
-import { PostProjectRequest, Project } from "@pkg/shared";
+import { PatchProjectRequest, PostProjectRequest, Project } from "@pkg/shared";
 import { Request, Response } from "express";
 
 
@@ -23,5 +23,18 @@ export const getProjects = (db: Database) => {
     const result: Project[] = await service.findByUserId(userId);
 
     return res.status(200).json(result);
+  }
+}
+
+export const updateProject = (db: Database) => {
+  return async (req: Request, res: Response) => {
+    const service = new ProjectService(db);
+
+    const dto: PatchProjectRequest = req.body;
+    const id = Number(req.params.id);
+
+    const result: Project = await service.updateProject(dto, id);
+
+    return res.status(201).json(result);
   }
 }

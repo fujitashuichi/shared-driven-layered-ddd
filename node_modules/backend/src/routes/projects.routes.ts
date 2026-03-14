@@ -3,6 +3,7 @@ import { authorize, requestValidator } from "../middleware/index.js";
 import { createProject, getProjects } from "../controller/index.js";
 import { Database } from "sqlite3";
 import { isUsersProject } from "../middleware/isUsersProject.js";
+import { updateProject } from "../controller/project.controller.js";
 
 
 export const createProjectRouter = (db: Database) => {
@@ -21,7 +22,8 @@ export const createProjectRouter = (db: Database) => {
 
   router.patch("/:id",
     authorize(db),
-    isUsersProject(db)
+    isUsersProject(db),
+    updateProject(db)
   );
 
   router.delete("/:id", (_, res) => {

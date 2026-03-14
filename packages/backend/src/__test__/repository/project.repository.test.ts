@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { ProjectsRepository, UsersRepository } from "../../repository/index.js";
 import { createAppDb } from "../../db/index.js";
 import { userMocks } from "../../__mock__/index.js";
-import { ProjectWithoutId } from "../../types/index.js";
+import { ProjectWithoutId, UpdateProjectPayload } from "../../types/index.js";
 
 describe("project.repositoryの各メソッドを検査", () => {
   let db: Database | null = null;
@@ -60,6 +60,21 @@ describe("project.repositoryの各メソッドを検査", () => {
         expect.objectContaining(data_1),
         expect.objectContaining(data_2)
       ])
+    );
+  });
+
+  it ("updateProjectは正しく成功する", async () => {
+    const { id, ...reqBody } = userMocks.user();
+    const user = await usersRepository!.saveUser(reqBody);
+
+    const data_1: ProjectWithoutId = { userId: user.id, title: "Title_1", createdAt: 1, updatedAt: 1 };
+    await projectsRepository!.saveProject(data_1);
+
+    const data_update: UpdateProjectPayload = { title: "newTitle", status: "newStatus", updatedAt: Date.now() };
+    const result = await projectsRepository!.updateProject(data_update, 1);
+
+    expect(result).toEqual(
+      expect.objectContaining(data_update)
     );
   });
 

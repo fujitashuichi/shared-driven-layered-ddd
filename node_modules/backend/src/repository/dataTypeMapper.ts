@@ -42,3 +42,48 @@ export const dbObjectToCamel = <T extends z.ZodTypeAny>({
   // Zod でバリデーション・型確定
   return schema.parse(camelCaseData);
 };
+
+//====================================================================//
+
+type ToDbProps = {
+  data: any;
+  removeUndefined?: boolean;
+};
+
+// camelCase から snake_case への変換ヘルパー
+const toSnake = (s: string) => {
+  return s.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+};
+
+export const camelToDbObject = ({
+  data,
+  removeUndefined = true
+}: ToDbProps): Record<string, any> => {
+
+  function mapToDb(item: any): any {
+    // 配列の再帰処理
+    if (Array.isArray(item)) {
+      return item.map(mapToDb);
+    }
+
+    // オブジェクトの処理
+    if (item !== null && typeof item === 'object' && !(item instanceof Date)) {
+      const n: Record<string, any> = {};
+      Object.keys(item).forEach((key) => {
+        const value = item[key];
+
+        // PATCH処理の要件：undefined を除外するかどうかの判定
+        if (removeUndefined && value === undefined) {
+          return;
+        }
+
+        n[toSnake(key)] = mapToDb(value);
+      });
+      return n;
+    }
+
+    return item;
+  }
+
+  return mapToDb(data);
+};

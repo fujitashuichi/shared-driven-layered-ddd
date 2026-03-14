@@ -1,9 +1,9 @@
 import { Database } from "sqlite3";
 import { createAppDb } from "../db/index.js";
 import { ProjectsRepository, UsersRepository } from "../repository/index.js";
-import { ProjectWithoutId, User } from "../types/index.js";
-import { PostProjectRequest, Project } from "@pkg/shared";
-import { UserUndefinedError } from "../error/index.js";
+import { ProjectWithoutId, UpdateProjectPayload, User } from "../types/index.js";
+import { PatchProjectRequest, PostProjectRequest, Project } from "@pkg/shared";
+import { ProjectUndefinedError, UserUndefinedError } from "../error/index.js";
 
 const appDb = await createAppDb("app.db");
 
@@ -31,6 +31,22 @@ export class ProjectService {
     }
     const savedProject = await this.projectsRepository.saveProject(newProject);
     return savedProject;
+  }
+
+  updateProject = async (dto: PatchProjectRequest, id: Project["id"]): Promise<Project> => {
+    const currentProject = await this.projectsRepository.findById(id)
+    if (currentProject === null) {
+      console.error("Cannot update Project because Project undefined");
+      throw new ProjectUndefinedError();
+    }
+
+    const newProject: UpdateProjectPayload = {
+      ...dto,
+      updatedAt: Date.now()
+    }
+
+    const updatedProject: Project = await this.projectsRepository.updateProject(newProject, id);
+    return updatedProject;
   }
 
   finByUserId = async (userId: Project["userId"]): Promise<Project[]> => {

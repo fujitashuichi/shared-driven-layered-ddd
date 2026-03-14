@@ -1,4 +1,4 @@
-import { ProjectSchema } from "@pkg/shared";
+import { PatchProjectRequestSchema, ProjectSchema } from "@pkg/shared";
 import { z } from "zod";
 
 export const UserSchema = z.object({

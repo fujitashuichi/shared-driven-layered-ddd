@@ -9,6 +9,8 @@ import { createProject, getProjects, register } from "../../controller/index.js"
 import { PostProjectRequest } from "@pkg/shared";
 import { authorize } from "../../middleware/index.js";
 import { mockReq } from "sinon-express-mock";
+import { isUsersProject } from "../../middleware/isUsersProject.js";
+import { updateProject } from "../../controller/project.controller.js";
 
 describe("project.controller", () => {
   let res: Response | null;
@@ -19,7 +21,7 @@ describe("project.controller", () => {
     res = createResponseMock();
     next = vi.fn();
     db = await createAppDb(":memory:");
-    res = createResponseMock(); // resを設定し直さないとテストバグの原因になる（チェーンの呼び出し回数など）
+    res = createResponseMock();
   });
   afterEach(() => {
     res = null;
@@ -64,6 +66,31 @@ describe("project.controller", () => {
       expect.arrayContaining([
         expect.objectContaining(body)
       ])
+    );
+  });
+
+  it("updateProjects: 正常に成功する", async () => {
+    await register(db!)(authRequestMocks.register.validReq(), res!);
+
+    const body: PostProjectRequest = { title: "Title" };
+
+    // 保存されたcookieを取得
+    const [name, value] = vi.mocked(res!.cookie).mock.calls[0]!;
+    const cookies: Request["cookies"] = { [name]: value };
+
+    // authorizeして、Project作成
+    await authorize(db!)(createRequestMock.withCookies(cookies), res!, next!);
+    await createProject(db!)(mockReq({ body: body, cookies: cookies }), res!);
+
+    // authorizeして、isUsersProjectを通した後に、updateProjectを実行
+    res = createResponseMock();
+    await authorize(db!)(createRequestMock.withCookies(cookies), res!, next!);
+    await isUsersProject(db!)(createRequestMock.withParams({ id: "1" }), res!, next!);
+    await updateProject(db!)(createRequestMock.withParams({ id: "1" }), res!);
+
+    expect(res!.status).toHaveBeenCalledWith(201);
+    expect(res!.json).toHaveBeenCalledWith(
+      expect.objectContaining(body)
     );
   });
 });
