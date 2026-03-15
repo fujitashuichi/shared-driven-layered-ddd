@@ -1,4 +1,4 @@
-import type { AuthFetchPath, ProjectFetchPath, ResponseJson, SessionFetchPath, UserFetchPath } from "@pkg/shared";
+import type { AuthFetchPath, ProjectFetchPath, ResponseErrorName, ResponseJson, SessionFetchPath, UserFetchPath } from "@pkg/shared";
 import type { ApiResult } from "./types";
 
 type Props = {
@@ -6,6 +6,25 @@ type Props = {
   method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
   body: object | undefined
 };
+
+class FetchError extends Error {
+  status: number;
+  data: unknown;
+  errorName: ResponseErrorName | "UnknownError";
+
+  constructor(
+    message: string,
+    status: number = 500,
+    data: unknown = undefined,
+    errorName: ResponseErrorName | "UnknownError"
+  ) {
+    super(message);
+    this.name = "FetchError";
+    this.status = status;
+    this.data = data;
+    this.errorName = errorName;
+  }
+}
 
 export const apiClient = async ({ path, method, body }: Props): Promise<ApiResult> => {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -31,12 +50,21 @@ export const apiClient = async ({ path, method, body }: Props): Promise<ApiResul
     const json: ResponseJson<unknown> = await response.json();
 
     if (!response.ok) {
-      return {
-        ok: false,
-        status: response.status,
-        body: json,
-        error: new Error(json.success ? json.message ?? "no results" : json.errorName)
-      }
+      throw new FetchError(
+        `fetch responses "not ok" with status ${response.status}`,
+        response.status,
+        json,
+        json.success ? "UnknownError" : json.errorName
+      );
+    }
+
+    if (!json.success) {
+      throw new FetchError(
+        json.message ?? response.statusText,
+        response.status,
+        json,
+        json.errorName
+      );
     }
 
     return {
@@ -45,11 +73,23 @@ export const apiClient = async ({ path, method, body }: Props): Promise<ApiResul
       body: json
     }
   } catch (e: unknown) {
+
+    if (e instanceof FetchError) {
+      return {
+        ok: false,
+        status: e.status,
+        body: e.data,
+        errorName: e.errorName,
+        error: e
+      }
+    }
+
     if (e instanceof Error) {
       return {
         ok: false,
         status: 500,
         body: { message: e.message },
+        errorName: "UnknownError",
         error: e
       }
     }
@@ -58,6 +98,7 @@ export const apiClient = async ({ path, method, body }: Props): Promise<ApiResul
       ok: false,
       status: 500,
       body: { message: "unknown error: fetch failed" },
+      errorName: "UnknownError",
       error: new Error("unknown error: fetch failed")
     }
   }

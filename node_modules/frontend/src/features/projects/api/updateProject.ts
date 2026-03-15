@@ -1,4 +1,4 @@
-import type { PostProjectRequest } from "@pkg/shared";
+import { ProjectSchema, type PostProjectRequest } from "@pkg/shared";
 import { apiClient } from "../../../lib"
 import type { Project } from "@pkg/shared";
 import type { UpdateProjectResult } from "../types";
@@ -11,9 +11,42 @@ export const updateProject = async (project: PostProjectRequest, id: Project["id
   });
 
   if (!response.ok) {
+    if (response.errorName === "UnAuthorizedError") {
+      return {
+        success: false,
+        errorType: "UnAuthorized"
+      }
+    }
+    if (response.errorName === "UserUndefinedError") {
+      return {
+        success: false,
+        errorType: "UserUndefined"
+      }
+    }
+    if (response.errorName === "ProjectUndefinedError") {
+      return {
+        success: false,
+        errorType: "ProjectUndefined"
+      }
+    }
+
     return {
       success: false,
-      errorType: ""
+      errorType: "UnknownError"
     }
+  }
+
+
+  const parsed = ProjectSchema.safeParse(response.body);
+  if (!parsed.success) {
+    return {
+      success: false,
+      errorType: "InvalidData"
+    }
+  }
+
+  return {
+    success: true,
+    value: parsed.data
   }
 }

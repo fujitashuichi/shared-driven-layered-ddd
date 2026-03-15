@@ -10,10 +10,10 @@ export const getProjects = async (): Promise<GetProjectsResult> => {
   });
 
   if (!response.ok) {
-    if (response.error.name === "UserUndefinedError") {
+    if (response.status === 401 || response.errorName === "UnAuthorizedError") {
       return {
         success: false,
-        errorType: "UserNotRegisteredError"
+        errorType: "UnAuthorized"
       }
     }
 
@@ -25,7 +25,7 @@ export const getProjects = async (): Promise<GetProjectsResult> => {
 
   const parsed = ProjectSchema.array().safeParse(response.body);
   if (!parsed.success) {
-    console.error("Invalid response type:", parsed.error);
+    console.error(parsed.error);
     return {
       success: false,
       errorType: "InvalidDataError"
