@@ -16,12 +16,12 @@ export class LoginStateManagementService {
   }
 
   tryLogin = async (dto: LoginRequest): Promise<{ token: string }> => {
-    const user = await this.usersRepository.findByEmail(dto.email);
+    const user = await this.usersRepository.findByEmailForAuthOnly(dto.email);
     if (!user) {
       throw new UserUndefinedError();
     }
 
-    await comparePassword(dto.password, user.password_hash);
+    await comparePassword(dto.password, user.passwordHash);
 
     const newToken = signToken({ email: dto.email });
 

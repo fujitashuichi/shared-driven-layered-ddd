@@ -32,9 +32,9 @@
 ### 直近のBEテスト実行結果
 ```sh
 current result>
-Test Files  10 passed (10)
-     Tests  53 passed (53)
-  Duration  3.44s (transform 747ms, setup 0ms, import 3.44s, tests 1.19s, environment 1ms)
+ Test Files  10 passed (10)
+      Tests  53 passed (53)
+   Duration  4.33s (transform 1.79s, setup 0ms, import 4.81s, tests 1.30s, environment 2ms)
 ```
 
 ### テスト箇所と依存フロー

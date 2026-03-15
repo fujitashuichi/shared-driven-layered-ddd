@@ -1,9 +1,13 @@
 import { User, UserSchema } from "@pkg/shared";
 import { Database } from "sqlite3";
 import { dbObjectToCamel } from "./dataTypeMapper.js";
-import { SaveUserPayload } from "../types/type.db.js";
+import { DbUser, DbUserSchema, SaveUserPayload } from "../types/type.db.js";
+import z from "zod";
 
-//// ここは型安全を保障する層ではないため、使用前に必ずバリデーションを済ませる
+const UserWithPasswordHashSchema = UserSchema.extend({
+  passwordHash: z.string()
+});
+type UserWithPasswordHash = z.infer<typeof UserWithPasswordHashSchema>;
 
 export class UsersRepository {
   private readonly tableName = "users";
@@ -98,6 +102,32 @@ export class UsersRepository {
             data: row,
             nullToUndefined: true,
             schema: UserSchema
+          })
+          resolve(user);
+        }
+      )
+    });
+  }
+
+
+
+  findByEmailForAuthOnly = (email: string): Promise<UserWithPasswordHash | null> => {
+    return new Promise((resolve, reject) => {
+      this.db.get(
+        `SELECT * FROM ${this.tableName} WHERE email = ?`,
+        [email],
+        (err, row) => {
+          if (!row) {
+            return resolve(null);
+          };
+          if (err) {
+            console.error("findByEmail failed by getError");
+            return reject(err);
+          };
+          const user = dbObjectToCamel({
+            data: row,
+            nullToUndefined: true,
+            schema: UserWithPasswordHashSchema
           })
           resolve(user);
         }

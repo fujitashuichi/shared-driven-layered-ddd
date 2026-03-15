@@ -26,21 +26,15 @@ export class RegisterService {
 
     const newUser = {
       email: dto.email,
-      password_hash: hashed,
-      created_at: Date.now()
+      passwordHash: hashed,
+      createdAt: Date.now()
     }
 
-    const savedUser: DbUser = await this.usersRepository.saveUser(newUser);
-
-    const { password_hash, ...requiredUserData } = savedUser;
+    const savedUser: User = await this.usersRepository.saveUser(newUser);
     const token: string = signToken({ email: dto.email });
 
     return {
-      user: dbObjectToCamel({
-        data: requiredUserData,
-        nullToUndefined: true,
-        schema: UserSchema
-      }),
+      user: savedUser,
       token: token
     };
   }

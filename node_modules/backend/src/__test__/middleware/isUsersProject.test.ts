@@ -19,7 +19,7 @@ describe("isUsersProject", () => {
     res = createResponseMock();
     next = vi.fn();
     db = await createAppDb(":memory:");
-    res = createResponseMock(); // resを設定し直さないとテストバグの原因になる（チェーンの呼び出し回数など）
+    res = createResponseMock();
   });
   afterEach(() => {
     res = null;

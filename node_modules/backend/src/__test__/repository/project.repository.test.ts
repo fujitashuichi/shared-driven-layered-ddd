@@ -14,18 +14,18 @@ describe("project.repositoryの各メソッドを検査", () => {
     db = await createAppDb(":memory:");
     usersRepository = new UsersRepository(db);
     projectsRepository = new ProjectsRepository(db);
-    console.info("beforeEach run");
+    // console.info("beforeEach run");
   });
   afterEach(async () => {
     db = null;
     usersRepository = null;
     projectsRepository = null;
-    console.info("afterEach run");
-  })
+    // console.info("afterEach run");
+  });
 
   it("正常にプロジェクトを保存できる", async () => {
-    const { id, ...reqBody } = userMocks.user();
-    const user = await usersRepository!.saveUser(reqBody);
+    const payload = userMocks.saveUserPayload();
+    const user = await usersRepository!.saveUser(payload);
 
     const data: ProjectWithoutId = { userId: user.id, title: "Title", createdAt: 1, updatedAt: 1 }
     const promise = projectsRepository!.saveProject(data);
@@ -36,8 +36,8 @@ describe("project.repositoryの各メソッドを検査", () => {
   });
 
   it ("ユーザーに紐づかないプロジェクトは保存できない(SQL_CONSTRAINT)", async () => {
-    const { id, ...reqBody } = userMocks.user();
-    const user = await usersRepository!.saveUser(reqBody);
+    const payload = userMocks.saveUserPayload();
+    const user = await usersRepository!.saveUser(payload);
 
     const data: ProjectWithoutId = { userId: user.id + 1, title: "Title", createdAt: 1, updatedAt: 1 };
     const promise = projectsRepository!.saveProject(data);
@@ -46,8 +46,8 @@ describe("project.repositoryの各メソッドを検査", () => {
   });
 
   it ("getProjectsは正しく成功する", async () => {
-    const { id, ...reqBody } = userMocks.user();
-    const user = await usersRepository!.saveUser(reqBody);
+    const payload = userMocks.saveUserPayload();
+    const user = await usersRepository!.saveUser(payload);
 
     const data_1: ProjectWithoutId = { userId: user.id, title: "Title_1", createdAt: 1, updatedAt: 1 };
     const data_2: ProjectWithoutId = { userId: user.id, title: "Title_2", createdAt: 2, updatedAt: 2 };
@@ -64,8 +64,8 @@ describe("project.repositoryの各メソッドを検査", () => {
   });
 
   it ("updateProjectは正しく成功する", async () => {
-    const { id, ...reqBody } = userMocks.user();
-    const user = await usersRepository!.saveUser(reqBody);
+    const payload = userMocks.saveUserPayload();
+    const user = await usersRepository!.saveUser(payload);
 
     const data_1: ProjectWithoutId = { userId: user.id, title: "Title_1", createdAt: 1, updatedAt: 1 };
     await projectsRepository!.saveProject(data_1);
@@ -79,8 +79,8 @@ describe("project.repositoryの各メソッドを検査", () => {
   });
 
   it ("findByIdは正しく成功する", async () => {
-    const { id, ...reqBody } = userMocks.user();
-    const user = await usersRepository!.saveUser(reqBody);
+    const payload = userMocks.saveUserPayload();
+    const user = await usersRepository!.saveUser(payload);
 
     const data: ProjectWithoutId = { userId: user.id, title: "Title_1", createdAt: 1, updatedAt: 1 };
     const saved = await projectsRepository!.saveProject(data);
@@ -92,8 +92,8 @@ describe("project.repositoryの各メソッドを検査", () => {
   });
 
   it ("findByUserIdは正しく成功する", async () => {
-    const { id, ...reqBody } = userMocks.user();
-    const user = await usersRepository!.saveUser(reqBody);
+    const payload = userMocks.saveUserPayload();
+    const user = await usersRepository!.saveUser(payload);
 
     const data: ProjectWithoutId = { userId: user.id, title: "Title_1", createdAt: 1, updatedAt: 1 };
     const saved = await projectsRepository!.saveProject(data);
@@ -107,8 +107,8 @@ describe("project.repositoryの各メソッドを検査", () => {
   });
 
   it ("findByTitleは正しく成功する", async () => {
-    const { id, ...reqBody } = userMocks.user();
-    const user = await usersRepository!.saveUser(reqBody);
+    const payload = userMocks.saveUserPayload();
+    const user = await usersRepository!.saveUser(payload);
 
     const data: ProjectWithoutId = { userId: user.id, title: "Title_1", createdAt: 1, updatedAt: 1 };
     const saved = await projectsRepository!.saveProject(data);

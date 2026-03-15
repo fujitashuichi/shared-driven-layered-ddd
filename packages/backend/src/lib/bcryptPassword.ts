@@ -9,8 +9,8 @@ export const hashPassword = async (password: RegisterRequest["password"]) => {
 }
 
 
-export const comparePassword = async (password: string, hashed_password: string): Promise<true> => {
-  const isValid = await bcrypt.compare(password, hashed_password);
+export const comparePassword = async (password: string, hashedPassword: string): Promise<true> => {
+  const isValid = await bcrypt.compare(password, hashedPassword);
 
   if (isValid) {
     return true

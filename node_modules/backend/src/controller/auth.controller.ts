@@ -1,7 +1,7 @@
 import { CookieOptions, Request, Response } from "express";
 import { RegisterService } from "../service/index.js";
 import { Database } from "sqlite3";
-import { LoginRequest, LoginResponse, LogoutResponse, RegisterRequest, RegisterResponse, ResponseJson, User } from "@pkg/shared";
+import { LoginRequest, LoginResponse, LogoutResponse, RegisterRequest, RegisterResponse, ResponseJson } from "@pkg/shared";
 import { LoginStateManagementService } from "../service/index.js";
 import { ENV } from "../config/env.js";
 

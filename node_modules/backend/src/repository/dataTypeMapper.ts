@@ -1,6 +1,10 @@
 import { z } from 'zod';
 
 
+// このMapperは、Zodのparse機能により、スキーマに存在しないプロパッティを暗黙的に削る
+// そのため、明示的にプロパッティを消さなくても動作するが仕様である
+
+
 type Props<T> = {
   data: unknown,
   nullToUndefined: boolean,
