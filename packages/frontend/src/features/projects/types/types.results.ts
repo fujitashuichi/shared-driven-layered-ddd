@@ -7,3 +7,7 @@ export type CreateProjectResult =
 export type GetProjectsResult =
   | { success: false, errorType: "UserNotRegisteredError" | "InvalidDataError" | "UnknownError" }
   | { success: true, value: Project[] }
+
+export type UpdateProjectResult =
+  | { success: false, errorType: "" }
+  | { success: true, value: Project }

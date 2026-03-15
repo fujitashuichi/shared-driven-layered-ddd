@@ -4,7 +4,7 @@ import { UsersRepository } from "../repository/index.js";
 import { createAppDb } from "../db/app.db.js";
 import { Database } from "sqlite3";
 import { RegisterRequest } from "@pkg/shared";
-import { EmailAlreadyRegisteredError } from "../error/UserAuthError.js";
+import { EmailAlreadyRegisteredError } from "../error/index.js";
 
 
 const AppDb = await createAppDb("app.db");

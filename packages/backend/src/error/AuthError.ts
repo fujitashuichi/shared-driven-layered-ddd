@@ -1,11 +1,11 @@
-export class UserAuthError extends Error {
+export class AuthError extends Error {
   constructor(message: string) {
     super(message);
     this.name = "UserAuthError";
   }
 }
 
-export class UnAuthorizedError extends UserAuthError {
+export class UnAuthorizedError extends AuthError {
   constructor() {
     super("User UnAuthorized: token was undefined or invalid");
     this.name = "UnAuthorizedError";
@@ -13,14 +13,14 @@ export class UnAuthorizedError extends UserAuthError {
 }
 
 // register
-export class EmailAlreadyRegisteredError extends UserAuthError {
+export class EmailAlreadyRegisteredError extends AuthError {
   constructor(email: string) {
     super(`Email already registered: ${email}`);
     this.name = "EmailAlreadyRegisteredError";
   }
 }
 
-export class InvalidPasswordError extends UserAuthError {
+export class InvalidPasswordError extends AuthError {
   constructor() {
     super("Invalid password");
     this.name = "InvalidPasswordError";
@@ -28,7 +28,7 @@ export class InvalidPasswordError extends UserAuthError {
 }
 
 // login
-export class ConfirmPasswordError extends UserAuthError {
+export class ConfirmPasswordError extends AuthError {
   constructor() {
     super("Login failed: password is wrong");
     this.name = "ConfirmPasswordError";

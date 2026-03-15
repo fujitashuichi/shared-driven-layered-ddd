@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { ConfirmPasswordError, EmailAlreadyRegisteredError, InvalidPasswordError, UnAuthorizedError, UserAuthError } from "../../../error/UserAuthError.js";
+import { AuthError, ConfirmPasswordError, EmailAlreadyRegisteredError, InvalidPasswordError, UnAuthorizedError } from "../../../error/index.js";
 import { errorResponse } from "../errorResponse.js";
 
 export const authErrorHandler = (err: Error, res: Response): boolean => {
@@ -26,7 +26,7 @@ export const authErrorHandler = (err: Error, res: Response): boolean => {
   }
 
 
-  if (err instanceof UserAuthError) {
+  if (err instanceof AuthError) {
     errorResponse(res, 400, err);
     return true;
   }

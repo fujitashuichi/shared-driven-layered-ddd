@@ -4,8 +4,7 @@ import { SessionResponse } from "@pkg/shared";
 import { verifyToken } from "../lib/index.js";
 import { User } from "../types/index.js";
 import { Database } from "sqlite3";
-import { UserUndefinedError } from "../error/UserError.js";
-import { UnAuthorizedError } from "../error/UserAuthError.js";
+import { UnAuthorizedError, UserUndefinedError } from "../error/index.js";
 
 export const session = (db: Database) => {
   return async (req: Request, res: Response): Promise<Response<SessionResponse>> => {

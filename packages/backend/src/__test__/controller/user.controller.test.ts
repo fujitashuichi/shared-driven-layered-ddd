@@ -6,7 +6,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { authRequestMocks, createRequestMock, createResponseMock } from "../../__mock__/index.js";
 import { createAppDb } from "../../db/index.js";
 import { logout, register, session } from "../../controller/index.js";
-import { UnAuthorizedError } from "../../error/UserAuthError.js";
+import { UnAuthorizedError } from "../../error/index.js";
 
 describe("user.controller", () => {
   let res: Response | null;
