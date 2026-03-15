@@ -1,13 +1,20 @@
 import type { Project } from "@pkg/shared";
 
-export type CreateProjectResult =
-  | { success: false, errorType: "ProjectAlreadyExists" | "UserNotRegisteredError" | "UnknownError" }
-  | { success: true, value: Project }
+type ServiceResult<T, P> =
+  | { success: false, errorType: T }
+  | { success: true, value: P }
 
-export type GetProjectsResult =
-  | { success: false, errorType: "UserNotRegisteredError" | "InvalidDataError" | "UnknownError" }
-  | { success: true, value: Project[] }
+export type CreateProjectResult = ServiceResult<
+  "ProjectAlreadyExists" | "UnAuthorized" | "InvalidData" | "UnknownError",
+  Project
+>
 
-export type UpdateProjectResult =
-  | { success: false, errorType: "" }
-  | { success: true, value: Project }
+export type GetProjectsResult = ServiceResult<
+  "InvalidDataError" | "UnAuthorized" | "UnknownError",
+  Project[]
+>
+
+export type UpdateProjectResult = ServiceResult<
+  "UnAuthorized" | "UserUndefined" | "ProjectUndefined" | "InvalidData" | "UnknownError",
+  Project
+>

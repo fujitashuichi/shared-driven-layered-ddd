@@ -1,4 +1,4 @@
-import type { PostProjectRequest } from "@pkg/shared";
+import { ProjectSchema, type PostProjectRequest } from "@pkg/shared";
 import { apiClient } from "../../../lib";
 import type { CreateProjectResult } from "../types";
 
@@ -10,16 +10,16 @@ export const createProject = async (project: PostProjectRequest): Promise<Create
   });
 
   if (!response.ok) {
-    if (response.error.name === "DuplicateProjectError") {
+    if (response.status === 409 || response.errorName === "DuplicateProjectError") {
       return {
         success: false,
         errorType: "ProjectAlreadyExists"
       }
     }
-    if (response.status === 401) {
+    if (response.status === 401 || response.errorName === "UnAuthorizedError") {
       return {
         success: false,
-        errorType: "UserNotRegisteredError"
+        errorType: "UnAuthorized"
       }
     }
 
@@ -29,8 +29,16 @@ export const createProject = async (project: PostProjectRequest): Promise<Create
     }
   }
 
+  const parsed = ProjectSchema.safeParse(response.body);
+  if (!parsed.success) {
+    return {
+      success: false,
+      errorType: "InvalidData"
+    }
+  }
+
   return {
     success: true,
-    value: response.body
+    value: parsed.data
   }
 }

@@ -9,7 +9,7 @@ export const logout = async (): Promise<LogoutResult> => {
     body: {}
   });
 
-  if (!response.ok) {
+  if (!response.ok && response.status !== 200) {
     console.error(response.error);
     return false;
   }
