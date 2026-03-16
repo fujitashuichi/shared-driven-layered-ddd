@@ -5,10 +5,12 @@
 
 ### [規約・実装資料]
 #### FE/BE
-* [Projectドメイン: エラーレスポンスの形式](./docs/BE/BE_domainFlow/error/project.md)
+* メモ: [Projectドメイン: エラーレスポンスの形式](./docs/BE/BE_domainFlow/error/project.md)
 #### BE
-* [BEセキュリティ](./docs/BE_Security.md)
-* [DB図](./docs/db.mermaid.md)
+* 要件: [BEセキュリティ](./docs/BE/BE_Security.md)
+* 資料: [DB図](./docs/BE/db.mermaid.md)
+#### FE
+* 要設計: [featuresのContext図](./docs/FE/contextFlow.md)
 
 <details>
   <summary>その他レポートなど</summary>
@@ -18,12 +20,9 @@
   * <a href="./docs/test/testResults.md">testResults(改修後などに更新)</a>
 </details>
 
-## 設計上の意思決定 (Architecture Decision Log)
+### 意思決定の記録
+意思決定をする際に **[Issue](/../../issues/)** を利用することがあります
 
-個人的に気になった設計判断について、以下の Issue に記録しました
-
-- **[非同期ロジックの管理方針について](/../../issues/2)**
-  - なぜ Custom Hook 化をあえて見送ったのか、デバッグ効率と認知負荷の観点から論理的な境界線を定義しています。
 
 ---
 
