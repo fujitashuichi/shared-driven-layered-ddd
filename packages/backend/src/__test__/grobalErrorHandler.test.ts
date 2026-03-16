@@ -2,7 +2,7 @@ import { Response } from "express";
 import { afterEach, beforeEach, describe, expect, it, MockInstance, vi } from "vitest";
 import { createResponseMock } from "../__mock__/index.js";
 import { globalErrorHandler } from "../middleware/index.js";
-import { ConfirmPasswordError, EmailAlreadyRegisteredError, InvalidPasswordError, AuthError } from "../error/index.js";
+import { ConfirmPasswordError, EmailAlreadyRegisteredError, InvalidPasswordError, AuthError, DatabaseGetError } from "../error/index.js";
 import { DuplicateProjectError, ProjectError, ProjectUndefinedError } from "../error/ProjectError.js";
 import { UserUndefinedError } from "../error/UserError.js";
 
@@ -24,65 +24,91 @@ describe("globalErrorHandlerが正しく機能する", () => {
 
   it("UserUndefinedError", () => {
     err = new UserUndefinedError();
-    globalErrorHandler(err as any, _req as any, res!, _next);
+    globalErrorHandler(err, _req as any, res!, _next);
     expect(res!.status).toBeCalledWith(404);
   });
 
   // register
   it("EmailAlreadyRegisteredError", () => {
     err = new EmailAlreadyRegisteredError("example@email.com");
-    globalErrorHandler(err as any, _req as any, res!, _next);
+    globalErrorHandler(err, _req as any, res!, _next);
     expect(res!.status).toBeCalledWith(409);
   });
   it("InvalidPasswordError", () => {
     err = new InvalidPasswordError();
-    globalErrorHandler(err as any, _req as any, res!, _next);
+    globalErrorHandler(err, _req as any, res!, _next);
     expect(res!.status).toBeCalledWith(400);
   });
 
   // login
   it("ConfirmPasswordError", () => {
     err = new ConfirmPasswordError();
-    globalErrorHandler(err as any, _req as any, res!, _next);
+    globalErrorHandler(err, _req as any, res!, _next);
     expect(res!.status).toBeCalledWith(401);
   });
 
   // other
   it("UserAuthError", () => {
     err = new AuthError("Any Error Massage", "AuthError");
-    globalErrorHandler(err as any, _req as any, res!, _next);
+    globalErrorHandler(err, _req as any, res!, _next);
     expect(res!.status).toBeCalledWith(400);
   });
 
   // postProject
   it("DuplicateProjectError", () => {
     err = new DuplicateProjectError();
-    globalErrorHandler(err as any, _req as any, res!, _next);
+    globalErrorHandler(err, _req as any, res!, _next);
     expect(res!.status).toBeCalledWith(400);
   });
 
   // patchProject
   it("ProjectUndefinedError", () => {
     err = new ProjectUndefinedError();
-    globalErrorHandler(err as any, _req as any, res!, _next);
+    globalErrorHandler(err, _req as any, res!, _next);
     expect(res!.status).toBeCalledWith(404);
   });
 
   // other
   it("OtherUserAuthError", () => {
     err = new AuthError("Any Message", "AuthError");
-    globalErrorHandler(err as any, _req as any, res!, _next);
+    globalErrorHandler(err, _req as any, res!, _next);
     expect(res!.status).toBeCalledWith(400);
   });
   it("OtherProjectError", () => {
     err = new ProjectError("Any Message", "ProjectError");
-    globalErrorHandler(err as any, _req as any, res!, _next);
+    globalErrorHandler(err, _req as any, res!, _next);
     expect(res!.status).toBeCalledWith(400);
+  });
+
+  describe("DbErrorをInternalServerErrorとして扱う", () => {
+    it("DatabaseGetError", () => {
+      const getError = new DatabaseGetError(":memory:", "table");
+      globalErrorHandler(getError, _req as any, res!, _next);
+
+      expect(res!.status).toBeCalledWith(500);
+      expect(res!.json).toBeCalledWith(
+        expect.objectContaining({
+          errorName: expect.stringMatching("InternalServerError")
+        })
+      );
+    });
+
+    it("DatabaseDeleteError", () => {
+      const deleteError = new DatabaseGetError(":memory:", "table");
+      globalErrorHandler(deleteError, _req as any, res!, _next);
+
+      expect(res!.status).toBeCalledWith(500);
+      expect(res!.json).toBeCalledWith(
+        expect.objectContaining({
+          errorName: expect.stringMatching("InternalServerError")
+        })
+      );
+    })
   });
 
   it("Other Uncaught Error", () => {
     err = new Error("Normal Error");
-    globalErrorHandler(err as any, _req as any, res!, _next);
+    globalErrorHandler(err, _req as any, res!, _next);
     expect(res!.status).toBeCalledWith(500);
   });
 })

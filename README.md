@@ -1,9 +1,10 @@
-### [要件定義書](./docs/features.md)
-### [全体図](./docs/PortforioFlow.mermaid.md)
+### 大まかな概要
+#### [要件定義書](./docs/features.md)
+#### [全体図](./docs/PortforioFlow.mermaid.md)
 
 ---
 
-### [規約・実装資料]
+### 規約・実装資料
 #### FE/BE
 * メモ: [Projectドメイン: エラーレスポンスの形式](./docs/BE/BE_domainFlow/error/project.md)
 #### BE
@@ -23,9 +24,8 @@
 ### 意思決定の記録
 意思決定をする際に **[Issue](/../../issues/)** を利用することがあります
 
-
 ---
 
-## ポートフォリオの根幹
-### [BE概要](./packages/backend/README.md)
-### [FE概要](./packages/frontend/README.md)
+### ポートフォリオの根幹
+#### [BE概要](./packages/backend/README.md)
+#### [FE概要](./packages/frontend/README.md)

@@ -10,7 +10,7 @@ import { PostProjectRequest } from "@pkg/shared";
 import { authorize } from "../../middleware/index.js";
 import { mockReq } from "sinon-express-mock";
 import { isUsersProject } from "../../middleware/isUsersProject.js";
-import { updateProject } from "../../controller/project.controller.js";
+import { deleteProject, updateProject } from "../../controller/project.controller.js";
 
 describe("project.controller", () => {
   let res: Response | null;
@@ -94,6 +94,34 @@ describe("project.controller", () => {
       expect.objectContaining({
         success: true,
         data: expect.objectContaining(body)
+      })
+    );
+  });
+
+  it("deleteProjects: 正常に完了する", async () => {
+    await register(db!)(authRequestMocks.register.validReq(), res!);
+
+    const body: PostProjectRequest = { title: "Title" };
+
+    // 保存されたcookieを取得
+    const [name, value] = vi.mocked(res!.cookie).mock.calls[0]!;
+    const cookies: Request["cookies"] = { [name]: value };
+
+    // authorizeして、Project作成
+    await authorize(db!)(createRequestMock.withCookies(cookies), res!, next!);
+    await createProject(db!)(mockReq({ body: body, cookies: cookies }), res!);
+
+    // authorizeして、isUsersProjectを通した後に、deleteProjectを実行
+    res = createResponseMock();
+    await authorize(db!)(createRequestMock.withCookies(cookies), res!, next!);
+    await isUsersProject(db!)(createRequestMock.withParams({ id: "1" }), res!, next!);
+    await deleteProject(db!)(createRequestMock.withParams({ id: "1" }), res!);
+
+    expect(res!.status).toHaveBeenCalledWith(201);
+    expect(res!.json).toHaveBeenCalledWith(
+      expect.objectContaining({
+        success: true,
+        data: null
       })
     );
   });

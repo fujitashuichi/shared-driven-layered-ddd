@@ -14,13 +14,11 @@ describe("project.repositoryの各メソッドを検査", () => {
     db = await createAppDb(":memory:");
     usersRepository = new UsersRepository(db);
     projectsRepository = new ProjectsRepository(db);
-    // console.info("beforeEach run");
   });
   afterEach(async () => {
     db = null;
     usersRepository = null;
     projectsRepository = null;
-    // console.info("afterEach run");
   });
 
   it("正常にプロジェクトを保存できる", async () => {
@@ -76,6 +74,14 @@ describe("project.repositoryの各メソッドを検査", () => {
     expect(result).toEqual(
       expect.objectContaining(data_update)
     );
+  });
+
+  it("deleteProjectは正しく成功する", async () => {
+    const payload = userMocks.saveUserPayload();
+    const user = await usersRepository!.saveUser(payload);
+
+    const promise = projectsRepository!.deleteProject(user.id);
+    await expect(promise).resolves.toBe(true);
   });
 
   it ("findByIdは正しく成功する", async () => {

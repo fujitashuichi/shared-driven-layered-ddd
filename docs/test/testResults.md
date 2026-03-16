@@ -38,4 +38,9 @@ Test Files  10 passed (10)
      Tests  53 passed (53)
   Start at  18:43:21
   Duration  4.33s (transform 1.79s, setup 0ms, import 4.81s, tests 1.30s, environment 2ms)
+
+Test Files  10 passed (10)
+     Tests  57 passed (57)
+  start at  00:02:44
+  Duration  3.53s (transform 909ms, setup 0ms, import 3.71s, tests 1.25s, environment 2ms)
 ```
