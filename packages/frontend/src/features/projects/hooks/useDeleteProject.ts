@@ -30,5 +30,5 @@ export const useDeleteProject = (id: Project["id"]) => {
   }
 
 
-  return { status, delete: tryDelete, errorMessage };
+  return { tryDelete, status, errorMessage };
 }
