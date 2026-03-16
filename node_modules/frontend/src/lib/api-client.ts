@@ -70,7 +70,7 @@ export const apiClient = async ({ path, method, body }: Props): Promise<ApiResul
     return {
       ok: true,
       status: response.status,
-      body: json
+      body: json.data
     }
   } catch (e: unknown) {
 

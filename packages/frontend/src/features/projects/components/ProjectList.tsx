@@ -1,38 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { AppLoadingBar } from "../../../components/AppLoadingBar";
-import type { Project } from "@pkg/shared";
-import { getProjects } from "../api/index";
-
-type Status = "loading" | "success" | "error";
-
-const ErrorMap = {
-  UserNotRegisteredError: "ログインが必要です",
-  InvalidDataError: "正しいデータが取得できませんでした",
-  UnknownError: "エラーが発生しました"
-}
+import { AppButton } from "../../../components";
+import { useGetProjects } from "../hooks/useGetProjects";
 
 
 export function ProjectList() {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [status, setStatus] = useState<Status>("loading");
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  const fetchProjects = async () => {
-    setStatus("loading");
-    const result = await getProjects();
-
-    if (!result.success) {
-      setStatus("error");
-      setErrorMessage(ErrorMap[result.errorType]);
-      return;
-    }
-
-    setStatus("success");
-    setProjects(result.value);
-  };
-
+  const { get, status, errorMessage, projects } = useGetProjects();
   useEffect(() => {
-    const get = async () => await fetchProjects();
     get();
   }, []);
 
@@ -48,7 +22,7 @@ export function ProjectList() {
       {status === "error" && (
         <div className="text-red-500 p-4 border border-red-200 rounded">
           {errorMessage}
-          <button onClick={fetchProjects} className="ml-4 underline">再試行</button>
+          <button onClick={get} className="ml-4 underline">再試行</button>
         </div>
       )}
 
@@ -63,8 +37,10 @@ export function ProjectList() {
               <h3 className="font-bold text-lg">{project.title}</h3>
               <p className="text-gray-600 text-sm">{project.description}</p>
               <div className="mt-2 text-xs text-gray-400">
-                Created: {new Date(project.created_at).toLocaleDateString()}
+                Created: {new Date(project.createdAt).toLocaleDateString()}
               </div>
+
+              <AppButton variant="primary">編集</AppButton>
             </li>
           ))}
         </ul>

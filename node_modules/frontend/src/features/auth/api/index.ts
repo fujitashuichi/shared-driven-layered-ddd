@@ -1,4 +1,4 @@
-export { registerUser } from "./register.ts"
+export { register } from "./register.ts"
 export { login } from "./login.ts"
 export { logout } from "./logout.ts"
 export { isSessionActive } from "./isSessionActive.ts"

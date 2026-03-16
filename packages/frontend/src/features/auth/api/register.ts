@@ -3,7 +3,7 @@ import { apiClient } from "../../../lib/api-client";
 import type { ApiResult } from "../../../lib/types";
 import type { RegisterResult } from "../types";
 
-export const registerUser = async (body: RegisterRequest): Promise<RegisterResult> => {
+export const register = async (body: RegisterRequest): Promise<RegisterResult> => {
   const response: ApiResult = await apiClient({
     path: "/api/auth/register",
     method: "POST",

@@ -10,7 +10,7 @@ export const login = async (body: LoginRequest): Promise<LoginResult> => {
     body: body
   });
 
-  if (!response.ok && response.status !== 200) {
+  if (!response.ok) {
     console.error(response.error);
     return false;
   }

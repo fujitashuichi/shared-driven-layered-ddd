@@ -1,64 +1,16 @@
-import z from "zod";
-import { registerUser } from "../api/register";
-import { parseFormData } from "../../../lib";
-import type React from "react";
-import { RegisterRequestSchema } from "@pkg/shared";
 import { AppButton } from "../../../components";
-import { useState } from "react";
 import { AppLoadingBar } from "../../../components/AppLoadingBar";
+import { useAuthCtx } from "../../../Context";
 
-// Containerでラップする際は、登録再試行でストレスがないことを前提とする
-
-const formDataSchema = RegisterRequestSchema.extend({
-  passwordConfirm: z.string().min(8).max(20)
-});
-
-type Status = "loading" | "default";
 
 export function RegisterForm() {
-  const [status, setStatus] = useState<Status>("default")
-
-  const errorMap = {
-    AlreadyRegistered: "登録済のアカウントです",
-    GetTokenFailed: "申し訳ありません。認証トークンの取得に失敗しました",
-    UnknownError: "申し訳ありません。エラーが発生しました"
-  } as const;
-
-  const register = async (e: React.SubmitEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
-
-    setStatus("loading");
-
-    const formData:FormData = new FormData(e.currentTarget);
-    const parsed = await parseFormData(formData, formDataSchema);
-    if (!parsed.success) {
-      setStatus("default");
-      alert("入力値が正しくありません");
-      return;
-    }
-
-    const data = parsed.data;
-    if (data.password !== data.passwordConfirm) {
-      setStatus("default");
-      alert("パスワード確認が一致しません");
-      return;
-    }
-
-    const result = await registerUser({ email: data.email, password: data.password  });
-    if (!result.ok) {
-      setStatus("default");
-      alert(errorMap[result.errorType]);
-      return;
-    }
-
-    setStatus("default");
-    alert("登録完了");
-  }
+  const { register } = useAuthCtx();
+  const { register: tryRegister, status } = register;
 
   return (<>
     {
-      status === "default" &&
-      <form onSubmit={register}>
+      status === "idle" &&
+      <form onSubmit={tryRegister}>
         <label htmlFor="email">email</label>
         <input name="email" type="email" required autoComplete="address-level3" placeholder="example@email.com" />
 

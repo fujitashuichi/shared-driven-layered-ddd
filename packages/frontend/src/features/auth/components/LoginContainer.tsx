@@ -1,39 +1,23 @@
-import { useEffect, useState } from "react"
 import { LoginForm } from "./LoginForm";
 import { AppButton } from "../../../components";
 import { AppLoadingBar } from "../../../components/AppLoadingBar";
-import { isSessionActive } from "../api";
-
-export type Status = "loading" | "loginSession" | "success" | "failed";
+import { useAuthCtx } from "../../../Context";
 
 export function LoginContainer() {
-  const [status, setStatus] = useState<Status>("loading");
-
-  useEffect(() => {
-    const checkIsLoggedIn = async () => {
-      setStatus("loading");
-      const result = await isSessionActive();
-      if (!result) {
-        setStatus("loginSession");
-      };
-      setStatus("success");
-    }
-
-    checkIsLoggedIn();
-    setInterval(() => checkIsLoggedIn(), 5 * 60 * 1000);
-  }, []);
+  const { login, session } = useAuthCtx();
+  const { status } = login;
 
   return (
     <div>
-      {status === "loading" && <LoadingUI />}
-      {status === "loginSession" &&
+      {session.status === "idle" &&
         <>
           <h2>ログインしていません。</h2>
-          <LoginForm setStatus={setStatus} />
+          <LoginForm />
         </>
       }
+      {session.status === "active" && <SuccessUI /> }
+      {status === "loading" && <LoadingUI />}
       {status === "failed" && <FailedUI /> }
-      {status === "success" && <SuccessUI /> }
     </div>
   )
 }

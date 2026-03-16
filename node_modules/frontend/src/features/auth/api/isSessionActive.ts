@@ -8,8 +8,8 @@ export const isSessionActive = async (): Promise<boolean> => {
     body: undefined
   });
 
-  if (!response.ok && response.status !== 200) {
-    console.info("Now you are not logged in.");
+  if (response.status === 401) {
+    console.info("You are not logged in.");
     return false;
   }
 
@@ -19,5 +19,6 @@ export const isSessionActive = async (): Promise<boolean> => {
     return false;
   }
 
+  console.info("Now logged in.");
   return true;
 }
