@@ -84,14 +84,13 @@ export class ProjectsRepository {
 
   deleteProject = (id: Project["id"]): Promise<true> => {
     return new Promise((resolve, reject) => {
-      this.db.run(`DELETE * FROM ${this.tableName} WHERE id = ?`,
+      this.db.run(`DELETE FROM ${this.tableName} WHERE id = ?`,
         [id],
         (err) => {
           if (err) return reject(new DatabaseDeleteError("AppDb", this.tableName));
+          resolve(true);
         }
       );
-
-      resolve(true);
     });
   }
 
