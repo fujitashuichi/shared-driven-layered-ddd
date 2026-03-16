@@ -50,3 +50,21 @@ export const updateProject = (db: Database) => {
     return res.status(201).json(json);
   }
 }
+
+export const deleteProject = (db: Database) => {
+  return async (req: Request, res: Response) => {
+    const service = new ProjectService(db);
+
+    const dto: PatchProjectRequest = req.body;
+    const id = Number(req.params.id);
+
+    await service.deleteProject(id);
+    const json: ResponseJson<null> = {
+      success: true,
+      data: null,
+      message: "Project successfully deleted"
+    }
+
+    res.status(201).json(json);
+  }
+}

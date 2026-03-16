@@ -1,11 +1,9 @@
-//// ここは型安全を保障する層ではないため、使用前に必ずバリデーションを済ませる
-
 import { Project, ProjectSchema } from "@pkg/shared";
 import { Database } from "sqlite3";
 import { ProjectWithoutId, UpdateProjectPayload } from "../types/index.js";
 import { camelToDbObject, dbObjectToCamel } from "./dataTypeMapper.js";
-import { DatabaseGetError } from "../error/DbError.js";
-import { object } from "zod";
+import { DatabaseDeleteError } from "../error/DbError.js";
+
 
 export class ProjectsRepository {
   private readonly tableName = "projects";
@@ -84,7 +82,20 @@ export class ProjectsRepository {
     });
   }
 
-  findById = (id: number): Promise<Project | null> => {
+  deleteProject = (id: Project["id"]): Promise<true> => {
+    return new Promise((resolve, reject) => {
+      this.db.run(`DELETE * FROM ${this.tableName} WHERE id = ?`,
+        [id],
+        (err) => {
+          if (err) return reject(new DatabaseDeleteError("AppDb", this.tableName));
+        }
+      );
+
+      resolve(true);
+    });
+  }
+
+  findById = (id: Project["id"]): Promise<Project | null> => {
     return new Promise((resolve, reject) => {
       this.db.get(
         `SELECT * FROM ${this.tableName} WHERE id = ?`,
@@ -105,7 +116,7 @@ export class ProjectsRepository {
     });
   }
 
-  findByUserId = (userId: number): Promise<Project[]> => {
+  findByUserId = (userId: Project["id"]): Promise<Project[]> => {
     return new Promise((resolve, reject) => {
       this.db.all(
         `SELECT * FROM ${this.tableName} WHERE user_id = ?`,
@@ -126,7 +137,7 @@ export class ProjectsRepository {
     });
   }
 
-  findByTitle = (title: string): Promise<Project[]> => {
+  findByTitle = (title: Project["title"]): Promise<Project[]> => {
     return new Promise((resolve, reject) => {
       this.db.all(
         `SELECT * FROM ${this.tableName} WHERE title = ?`,

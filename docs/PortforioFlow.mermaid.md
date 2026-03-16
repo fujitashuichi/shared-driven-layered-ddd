@@ -12,7 +12,7 @@ flowchart LR
       end
 
       subgraph ClientSide
-        Router
+        Router([Router])
         ErrorHandler
         Middleware["Guard"]
       end
@@ -28,7 +28,7 @@ flowchart LR
       Router --> ErrorHandler
       Router --> Middleware
       Middleware --> Controller
-      Middleware -.->|authorize時のみ| Service
+      Middleware -.->|認証時の情報時のみ（user/project）| Service
       Controller --> Service
       Service --> Repository
       Repository --> DB
@@ -45,20 +45,26 @@ flowchart LR
     end
 
     subgraph FE["Frontend (React SPA)"]
-      subgraph Logic["Logic Layer"]
-        ApiClient([apiClient])
-        Features([features/projects])
+      direction LR
+
+      subgraph Features[features]
+        components
+        --> hooks
+        --> api
       end
-      Components[[Components]]
-      UI
+      apiClient([apiClient])
 
       %% FE Flow
-      UI --> Components
-      Components --> Features --> ApiClient
+      UI
+      --> components
+
+      UI & components --> AppComponents
+
+      api --> apiClient
     end
 
     %% Frontend <-> Backend
-    ApiClient ==> API
+    apiClient ==> API
     Router ==> API
 
     %% -> Shared

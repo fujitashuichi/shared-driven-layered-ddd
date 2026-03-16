@@ -1,8 +1,8 @@
 import { Database } from "sqlite3";
 import { createAppDb } from "../db/index.js";
 import { ProjectsRepository, UsersRepository } from "../repository/index.js";
-import { ProjectWithoutId, UpdateProjectPayload, User } from "../types/index.js";
-import { PatchProjectRequest, PostProjectRequest, Project } from "@pkg/shared";
+import { ProjectWithoutId, UpdateProjectPayload } from "../types/index.js";
+import { PatchProjectRequest, PostProjectRequest, Project, User } from "@pkg/shared";
 import { ProjectUndefinedError, UserUndefinedError } from "../error/index.js";
 
 const appDb = await createAppDb("app.db");
@@ -47,6 +47,10 @@ export class ProjectService {
 
     const updatedProject: Project = await this.projectsRepository.updateProject(newProject, id);
     return updatedProject;
+  }
+
+  deleteProject = async (id: Project["id"]): Promise<true> => {
+    return await this.projectsRepository.deleteProject(id);
   }
 
   finByUserId = async (userId: Project["userId"]): Promise<Project[]> => {
