@@ -55,7 +55,6 @@ export const deleteProject = (db: Database) => {
   return async (req: Request, res: Response) => {
     const service = new ProjectService(db);
 
-    const dto: PatchProjectRequest = req.body;
     const id = Number(req.params.id);
 
     await service.deleteProject(id);
