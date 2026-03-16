@@ -16,7 +16,6 @@ export const useLogout = (useSession: AuthCtxType["session"]): Result => {
       alert("ログアウトできませんでした");
       return;
     }
-    }
 
     useSession.setStatus("idle");
     setStatus("loggedOut");

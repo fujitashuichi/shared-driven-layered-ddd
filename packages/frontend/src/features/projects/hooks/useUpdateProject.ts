@@ -31,7 +31,6 @@ export const useUpdateProjects = (id: Project["id"]) => {
       alert("入力内容に不備があります");
       return;
     }
-    }
 
     const result = await updateProject(parsed.data, id);
     if (!result.success) {

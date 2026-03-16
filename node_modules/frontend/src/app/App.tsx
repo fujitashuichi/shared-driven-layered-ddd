@@ -1,5 +1,4 @@
-import { LoginContainer, RegisterForm } from '../features/auth/components'
-import { LogoutButton } from '../features/auth/components/LogoutButton'
+import { LoginContainer, LogoutButton, RegisterForm } from '../features/auth/components'
 import { CreateProjectForm } from '../features/projects/components/CreateProjectForm'
 import { ProjectList } from '../features/projects/components/ProjectList'
 import './App.css'

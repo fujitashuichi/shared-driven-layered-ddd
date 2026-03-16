@@ -27,7 +27,9 @@ export const useUpdateProjects = (id: Project["id"]) => {
     const parsed = await parseFormData(formData, PostProjectRequestSchema);
 
     if (!parsed.success) {
-      return alert("入力内容に不備があります");
+      setStatus("default");
+      alert("入力内容に不備があります");
+      return;
     }
 
     const result = await updateProject(parsed.data, id);

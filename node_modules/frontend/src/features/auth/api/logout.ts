@@ -14,5 +14,6 @@ export const logout = async (): Promise<LogoutResult> => {
     return false;
   }
 
+  console.log("Now logged out.");
   return true;
 }

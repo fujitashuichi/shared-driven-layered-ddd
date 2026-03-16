@@ -1,10 +1,10 @@
 import { LoginForm } from "./LoginForm";
 import { AppButton } from "../../../components";
 import { AppLoadingBar } from "../../../components/AppLoadingBar";
-import { useAuthCtx } from "../../../Context";
+import { useAuth } from "../../../Context";
 
 export function LoginContainer() {
-  const { login, session } = useAuthCtx();
+  const { login, session } = useAuth();
   const { status } = login;
 
   return (

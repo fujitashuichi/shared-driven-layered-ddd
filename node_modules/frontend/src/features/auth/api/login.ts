@@ -15,5 +15,6 @@ export const login = async (body: LoginRequest): Promise<LoginResult> => {
     return false;
   }
 
+  console.info("Now logged in.");
   return true;
 }

@@ -24,7 +24,7 @@ export type AuthCtxType = {
 
 export const AuthCtx = createContext<AuthCtxType | null>(null);
 
-export const useAuthCtx = () => {
+export const useAuth = () => {
   const ctx = useContext(AuthCtx);
   if (ctx === null) throw new Error("AuthCtx must be used within Provider");
   return ctx;
