@@ -25,11 +25,11 @@ export const createProjectRouter = (db: Database) => {
     updateProject(db)
   );
 
-  router.delete("/:id", (_, res) => {
+  router.delete("/:id",
     authorize(db),
     isUsersProject(db),
-    deleteProject(db);
-  });
+    deleteProject(db)
+  );
 
   return router;
 }
