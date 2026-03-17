@@ -8,7 +8,7 @@ export function PostProjectForm(id: Project["id"]) {
   const { update, status, errorMessage } = useUpdateProjects(id);
 
   return (<>
-    {status === "default" &&
+    {status === "idle" &&
       <form onSubmit={update}>
         <label htmlFor="title">Title</label>
         <input name="title" type="text" minLength={1} maxLength={30} />
@@ -21,7 +21,7 @@ export function PostProjectForm(id: Project["id"]) {
     {status === "loading" &&
       <AppLoadingBar className="fixed top-0 left-1/2 -translate-x-1/2 z-10 w-20 h-1.5" />
     }
-    {status === "failed" &&
+    {status === "error" &&
       <div>
         <h2>{errorMessage}</h2>
         <AppButton
