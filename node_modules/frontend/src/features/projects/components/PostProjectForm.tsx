@@ -2,14 +2,16 @@ import { type Project } from "@pkg/shared";
 import { AppButton } from "../../../components";
 import { AppLoadingBar } from "../../../components/AppLoadingBar";
 import { useUpdateProjects } from "../hooks/useUpdateProject";
+import type React from "react";
 
 
 export function PostProjectForm(id: Project["id"]) {
-  const { update, status, errorMessage } = useUpdateProjects(id);
+  const { update, status, errorMessage } = useUpdateProjects();
+  const tryUpdate = (e: React.SubmitEvent<HTMLFormElement>) => update(e, id);
 
   return (<>
     {status === "idle" &&
-      <form onSubmit={update}>
+      <form onSubmit={(e) => tryUpdate(e)}>
         <label htmlFor="title">Title</label>
         <input name="title" type="text" minLength={1} maxLength={30} />
         <label htmlFor="description">Description</label>
