@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { getProjects } from "../api";
 import type { ProjectCtxType } from "../../../Context";
+import { useProjectsData } from "./useProjectsData";
 
 
 const ErrorMap = {
@@ -15,6 +16,8 @@ export const useGetProjects = (): Result => {
   const [status, setStatus] = useState<Result["status"]>("idle");
   const [errorMessage, setErrorMessage] = useState<Result["errorMessage"]>(null);
 
+  const { setProjects } = useProjectsData();
+
   const get: Result["get"] = async () => {
     setStatus("loading");
     const result = await getProjects();
@@ -25,6 +28,7 @@ export const useGetProjects = (): Result => {
       return;
     };
 
+    setProjects(result.value);
     setStatus("success");
   }
 
