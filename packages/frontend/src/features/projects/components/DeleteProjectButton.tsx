@@ -4,7 +4,8 @@ import { AppButton } from '../../../components';
 import { AppLoadingBar } from '../../../components/AppLoadingBar';
 
 export function DeleteProjectButton(id: Project["id"]) {
-  const { tryDelete, status, errorMessage } = useDeleteProject(id);
+  const { delete: deleteProject, status, errorMessage } = useDeleteProject();
+  const tryDelete = () => deleteProject(id);
 
   return (<>
     {status === "idle" &&

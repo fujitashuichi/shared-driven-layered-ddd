@@ -1,14 +1,13 @@
-import { useEffect } from "react";
 import { AppLoadingBar } from "../../../components/AppLoadingBar";
 import { AppButton } from "../../../components";
-import { useGetProjects } from "../hooks/useGetProjects";
+import { useProject } from "../../../Context";
 
 
 export function ProjectList() {
-  const { get, status, errorMessage, projects } = useGetProjects();
-  useEffect(() => {
-    get();
-  }, []);
+  const { projectsData, getProjects } = useProject();
+
+  const { projects } = projectsData;
+  const { get, status, errorMessage } = getProjects;
 
 
   return (

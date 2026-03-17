@@ -1,6 +1,7 @@
-import { useState } from "react";
+import React, { useState, type SetStateAction } from "react";
 import { getProjects } from "../api";
 import type { ProjectCtxType } from "../../../Context";
+import type { Project } from "@pkg/shared";
 
 
 const ErrorMap = {
@@ -11,8 +12,7 @@ const ErrorMap = {
 
 type Result = ProjectCtxType["getProjects"];
 
-export const useGetProjects = (): Result => {
-  const [projects, setProjects] = useState<Result["projects"]>([]);
+export const useGetProjects = (setProjects: React.Dispatch<SetStateAction<Project[]>>): Result => {
   const [status, setStatus] = useState<Result["status"]>("idle");
   const [errorMessage, setErrorMessage] = useState<Result["errorMessage"]>(null);
 
@@ -26,10 +26,10 @@ export const useGetProjects = (): Result => {
       return;
     };
 
-    setStatus("success");
     setProjects(result.value);
+    setStatus("success");
   }
 
 
-  return { get, status, errorMessage, projects };
+  return { get, status, errorMessage };
 };

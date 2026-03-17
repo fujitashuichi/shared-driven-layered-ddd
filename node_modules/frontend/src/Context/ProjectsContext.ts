@@ -1,10 +1,13 @@
 import type { Project } from "@pkg/shared";
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, type SetStateAction } from "react";
 
+type ProjectsData = {
+  projects: Project[],
+  setProjects: React.Dispatch<SetStateAction<Project[]>>
+}
 type GetProjects = {
   status: "idle" | "loading" | "error" | "success",
   errorMessage: string | null,
-  projects: Project[],
   get: () => Promise<void>
 }
 type Create = {
@@ -24,7 +27,7 @@ type Delete = {
 };
 
 export type ProjectCtxType = {
-  getProjects: GetProjects, create: Create, update: Update, delete: Delete
+  projectsData: ProjectsData, getProjects: GetProjects, create: Create, update: Update, delete: Delete
 };
 
 
