@@ -12,7 +12,6 @@ const ErrorMap = {
 type Result = ProjectCtxType["getProjects"];
 
 export const useGetProjects = (): Result => {
-  const [projects, setProjects] = useState<Result["projects"]>([]);
   const [status, setStatus] = useState<Result["status"]>("idle");
   const [errorMessage, setErrorMessage] = useState<Result["errorMessage"]>(null);
 
@@ -27,9 +26,8 @@ export const useGetProjects = (): Result => {
     };
 
     setStatus("success");
-    setProjects(result.value);
   }
 
 
-  return { get, status, errorMessage, projects };
+  return { get, status, errorMessage };
 };
