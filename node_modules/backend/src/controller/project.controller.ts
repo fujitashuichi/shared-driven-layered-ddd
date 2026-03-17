@@ -1,6 +1,6 @@
 import { Database } from "sqlite3";
 import { ProjectService } from "../service/index.js";
-import { GetProjectsResponse, PatchProjectRequest, PatchProjectResponse, PostProjectRequest, PostProjectResponse, Project, ResponseJson } from "@pkg/shared";
+import { DeleteProjectResponse, GetProjectsResponse, PatchProjectRequest, PatchProjectResponse, PostProjectRequest, PostProjectResponse, Project, ResponseJson } from "@pkg/shared";
 import { Request, Response } from "express";
 
 
@@ -58,9 +58,9 @@ export const deleteProject = (db: Database) => {
     const id = Number(req.params.id);
 
     await service.deleteProject(id);
-    const json: ResponseJson<null> = {
+    const json: ResponseJson<DeleteProjectResponse> = {
       success: true,
-      data: null,
+      data: {},
       message: "Project successfully deleted"
     }
 

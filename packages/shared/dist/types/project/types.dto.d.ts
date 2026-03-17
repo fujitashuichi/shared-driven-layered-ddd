@@ -40,3 +40,7 @@ export declare const PatchProjectResponseSchema: z.ZodObject<{
     updatedAt: z.ZodNumber;
 }, z.z.core.$strip>;
 export type PatchProjectResponse = z.infer<typeof PatchProjectResponseSchema>;
+export declare const DeleteProjectRequestSchema: z.ZodUndefined;
+export type DeleteProjectResult = z.infer<typeof DeleteProjectRequestSchema>;
+export declare const DeleteProjectResponseSchema: z.ZodUnion<[z.ZodObject<{}, z.z.core.$strip>, z.ZodVoid]>;
+export type DeleteProjectResponse = z.infer<typeof DeleteProjectResponseSchema>;

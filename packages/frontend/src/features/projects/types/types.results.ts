@@ -18,3 +18,8 @@ export type UpdateProjectResult = ServiceResult<
   "UnAuthorized" | "UserUndefined" | "ProjectUndefined" | "InvalidData" | "UnknownError",
   Project
 >
+
+export type DeleteProjectResult = ServiceResult<
+  "UnAuthorized" | "UserUndefined" | "ProjectUndefined" | "InvalidData" | "UnknownError",
+  undefined
+>

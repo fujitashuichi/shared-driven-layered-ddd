@@ -23,3 +23,9 @@ export type PatchProjectRequest = z.infer<typeof PatchProjectRequestSchema>;
 
 export const PatchProjectResponseSchema = ProjectSchema;
 export type PatchProjectResponse = z.infer<typeof PatchProjectResponseSchema>;
+
+export const DeleteProjectRequestSchema = z.undefined();
+export type DeleteProjectResult = z.infer<typeof DeleteProjectRequestSchema>;
+
+export const DeleteProjectResponseSchema = z.object({}).or(z.void());
+export type DeleteProjectResponse = z.infer<typeof DeleteProjectResponseSchema>;

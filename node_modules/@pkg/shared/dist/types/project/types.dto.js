@@ -1,3 +1,4 @@
+import z from "zod";
 import { ProjectSchema } from "./types.data.js";
 export const PostProjectRequestSchema = ProjectSchema.pick({
     title: true,
@@ -12,3 +13,5 @@ export const PatchProjectRequestSchema = ProjectSchema.pick({
     status: true
 }).partial();
 export const PatchProjectResponseSchema = ProjectSchema;
+export const DeleteProjectRequestSchema = z.undefined();
+export const DeleteProjectResponseSchema = z.object({}).or(z.void());
