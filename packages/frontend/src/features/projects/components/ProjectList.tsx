@@ -1,5 +1,4 @@
 import { AppLoadingBar } from "../../../components/AppLoadingBar";
-import { AppButton } from "../../../components";
 import { useProject } from "../../../Context";
 
 
@@ -38,8 +37,6 @@ export function ProjectList() {
               <div className="mt-2 text-xs text-gray-400">
                 Created: {new Date(project.createdAt).toLocaleDateString()}
               </div>
-
-              <AppButton variant="primary">編集</AppButton>
             </li>
           ))}
         </ul>
