@@ -7,7 +7,7 @@ export function CreateProjectForm() {
   const { create, status, errorMessage } = useCreateProject();
 
   return (<>
-    {status === "default" &&
+    {status === "idle" &&
       <form onSubmit={create}>
         <label htmlFor="title">Title</label>
         <input

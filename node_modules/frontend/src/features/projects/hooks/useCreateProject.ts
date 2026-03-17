@@ -2,8 +2,8 @@ import { useState } from "react";
 import { parseFormData } from "../../../lib";
 import { PostProjectRequestSchema } from "@pkg/shared";
 import { createProject } from "../api";
+import type { ProjectCtxType } from "../../../Context";
 
-type Status = "default" | "loading" | "error" | "success";
 
 const errorMap = {
   UnAuthorized: "ユーザー認証に失敗しました",
@@ -12,12 +12,13 @@ const errorMap = {
   UnknownError: "エラーが発生しました",
 } as const;
 
+type Result = ProjectCtxType["create"];
 
-export const useCreateProject = () => {
-  const [status, setStatus] = useState<Status>("default");
+export const useCreateProject = (): Result => {
+  const [status, setStatus] = useState<Result["status"]>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const create = async (e: React.SubmitEvent<HTMLFormElement>) => {
+  const create: Result["create"] = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setStatus("loading");
@@ -26,7 +27,7 @@ export const useCreateProject = () => {
     const parsed = await parseFormData(formData, PostProjectRequestSchema);
 
     if (!parsed.success) {
-      setStatus("default");
+      setStatus("idle");
       alert("入力内容に不備があります");
       return;
     }
@@ -40,7 +41,7 @@ export const useCreateProject = () => {
     }
 
     setStatus("success");
-    setTimeout(() => setStatus("default"), 3000);
+    setTimeout(() => setStatus("idle"), 3000);
   };
 
 

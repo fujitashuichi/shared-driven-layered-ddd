@@ -3,8 +3,8 @@ import { parseFormData } from "../../../lib";
 import { PostProjectRequestSchema } from "@pkg/shared";
 import { updateProject } from "../api";
 import type { Project } from "@pkg/shared";
+import type { ProjectCtxType } from "../../../Context";
 
-type Status = "default" | "loading" | "failed" | "success";
 
 const errorMap = {
   UnAuthorized: "ユーザー認証に失敗しました",
@@ -14,11 +14,13 @@ const errorMap = {
   UnknownError: "エラーが発生しました"
 } as const;
 
-export const useUpdateProjects = (id: Project["id"]) => {
-  const [status, setStatus] = useState<Status>("default");
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+type Result = ProjectCtxType["update"];
 
-  const update = async (e: React.SubmitEvent<HTMLFormElement>) => {
+export const useUpdateProjects = (): Result => {
+  const [status, setStatus] = useState<Result["status"]>("idle");
+  const [errorMessage, setErrorMessage] = useState<Result["errorMessage"]>(null);
+
+  const update = async (e: React.SubmitEvent<HTMLFormElement>, id: Project["id"]) => {
     e.preventDefault();
 
     setStatus("loading");
@@ -27,7 +29,7 @@ export const useUpdateProjects = (id: Project["id"]) => {
     const parsed = await parseFormData(formData, PostProjectRequestSchema);
 
     if (!parsed.success) {
-      setStatus("default");
+      setStatus("idle");
       alert("入力内容に不備があります");
       return;
     }
@@ -35,11 +37,11 @@ export const useUpdateProjects = (id: Project["id"]) => {
     const result = await updateProject(parsed.data, id);
     if (!result.success) {
       setErrorMessage(errorMap[result.errorType]);
-      return setStatus("failed");
+      return setStatus("error");
     }
 
     setStatus("success");
-    setTimeout(() => setStatus("default"), 3000);
+    setTimeout(() => setStatus("idle"), 3000);
   }
 
 

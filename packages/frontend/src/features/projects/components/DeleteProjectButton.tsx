@@ -13,7 +13,7 @@ export function DeleteProjectButton(id: Project["id"]) {
     {status === "loading" &&
       <AppLoadingBar className="fixed top-0 left-1/2 -translate-x-1/2 z-10 w-20 h-1.5" />
     }
-    {status === "failed" &&
+    {status === "error" &&
       <div>
         <h2>{errorMessage}</h2>
         <AppButton
