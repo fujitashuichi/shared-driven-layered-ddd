@@ -18,7 +18,7 @@ export const useCreateProject = () => {
   const [status, setStatus] = useState<Result["status"]>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const create = async (e: React.SubmitEvent<HTMLFormElement>) => {
+  const create: Result["create"] = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setStatus("loading");

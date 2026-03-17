@@ -1,4 +1,4 @@
-import type { PostProjectRequest, Project } from "@pkg/shared";
+import type { PostProjectRequest } from "@pkg/shared";
 import { createContext, useContext } from "react";
 
 type GetProjects = {
@@ -9,17 +9,17 @@ type GetProjects = {
 type Create = {
   status: "idle" | "loading" | "error" | "success",
   errorMessage: "ProjectAlreadyExists" | "UnAuthorized" | "InvalidData" | "UnknownError",
-  create: (e: React.SubmitEvent<HTMLFormElement>) => Promise<Project>
+  create: (e: React.SubmitEvent<HTMLFormElement>) => Promise<void>
 };
 type Update = {
   status: "idle" | "loading" | "error" | "success",
   errorMessage: "UnAuthorized" | "UserUndefined" | "ProjectUndefined" | "InvalidData" | "UnknownError",
-  update: (project: PostProjectRequest) => Promise<Project>
+  update: (project: PostProjectRequest) => Promise<void>
 };
 type Delete = {
   status: "idle" | "loading" | "error" | "success",
   errorMessage: "UnAuthorized" | "UserUndefined" | "ProjectUndefined" | "InvalidData" | "UnknownError",
-  delete: () => Promise<undefined>
+  delete: () => Promise<void>
 };
 
 export type ProjectCtxType = {

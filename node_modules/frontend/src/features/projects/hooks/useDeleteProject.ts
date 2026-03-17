@@ -1,8 +1,8 @@
 import type { Project } from "@pkg/shared";
 import { useState } from "react";
 import { deleteProject } from "../api";
+import type { ProjectCtxType } from "../../../Context";
 
-type Status = "idle" | "loading" | "failed" | "success";
 
 const errorMap = {
   UnAuthorized: "ユーザー認証に失敗しました。再ログインをお試しください",
@@ -12,8 +12,10 @@ const errorMap = {
   UnknownError: "エラーが発生しました"
 }
 
+type Result = ProjectCtxType["delete"];
+
 export const useDeleteProject = (id: Project["id"]) => {
-  const [status, setStatus] = useState<Status>("idle");
+  const [status, setStatus] = useState<Result["status"]>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const tryDelete = async () => {
@@ -23,7 +25,7 @@ export const useDeleteProject = (id: Project["id"]) => {
 
     if (!result.success) {
       setErrorMessage(errorMap[result.errorType]);
-      setStatus("failed");
+      setStatus("error");
     }
 
     setStatus("success");
