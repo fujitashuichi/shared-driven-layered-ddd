@@ -1,10 +1,9 @@
 import type { Project } from "@pkg/shared";
-import type { PostProjectRequest } from "@pkg/shared";
-import { createContext, useContext } from "react";
+import React, { createContext, useContext } from "react";
 
 type GetProjects = {
   status: "idle" | "loading" | "error" | "success",
-  errorMassage: string | null,
+  errorMessage: string | null,
   projects: Project[],
   get: () => Promise<void>
 }
@@ -16,7 +15,7 @@ type Create = {
 type Update = {
   status: "idle" | "loading" | "error" | "success",
   errorMessage: string | null,
-  update: (project: PostProjectRequest) => Promise<void>
+  update: (e: React.SubmitEvent<HTMLFormElement>) => Promise<void>
 };
 type Delete = {
   status: "idle" | "loading" | "error" | "success",

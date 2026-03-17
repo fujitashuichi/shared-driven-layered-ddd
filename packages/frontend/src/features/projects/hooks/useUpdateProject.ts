@@ -16,7 +16,7 @@ const errorMap = {
 
 type Result = ProjectCtxType["update"];
 
-export const useUpdateProjects = (id: Project["id"]) => {
+export const useUpdateProjects = (id: Project["id"]): Result => {
   const [status, setStatus] = useState<Result["status"]>("idle");
   const [errorMessage, setErrorMessage] = useState<Result["errorMessage"]>(null);
 

@@ -11,10 +11,10 @@ const ErrorMap = {
 
 type Result = ProjectCtxType["getProjects"];
 
-export const useGetProjects = () => {
+export const useGetProjects = (): Result => {
   const [projects, setProjects] = useState<Result["projects"]>([]);
   const [status, setStatus] = useState<Result["status"]>("idle");
-  const [errorMessage, setErrorMessage] = useState<Result["errorMassage"]>(null);
+  const [errorMessage, setErrorMessage] = useState<Result["errorMessage"]>(null);
 
   const get: Result["get"] = async () => {
     setStatus("loading");

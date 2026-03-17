@@ -14,7 +14,7 @@ const errorMap = {
 
 type Result = ProjectCtxType["delete"];
 
-export const useDeleteProject = (id: Project["id"]) => {
+export const useDeleteProject = (id: Project["id"]): Result => {
   const [status, setStatus] = useState<Result["status"]>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -32,5 +32,5 @@ export const useDeleteProject = (id: Project["id"]) => {
   }
 
 
-  return { tryDelete, status, errorMessage };
+  return { delete: tryDelete, status, errorMessage };
 }
