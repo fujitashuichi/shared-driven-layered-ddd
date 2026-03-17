@@ -1,18 +1,18 @@
 import type React from 'react'
 import { ProjectCtx, type ProjectCtxType } from './ProjectsContext'
-import { useCreateProject, useDeleteProject, useGetProjects, useUpdateProjects } from '../features/projects/hooks'
+import { useCreateProject, useDeleteProject, useGetProjects, useProjectsData, useUpdateProjects } from '../features/projects/hooks'
 import { useEffect } from 'react'
-import { useProjectsData } from '../features/projects/hooks/useProjectsData';
 
 export function ProjectProvider({ children }: { children: React.ReactNode }) {
-  const getProjectsHook = useGetProjects();
+  const useProjects = useProjectsData();
+  const getProjectsHook = useGetProjects(useProjects.setProjects);
 
   useEffect(() => {
     getProjectsHook.get();
   }, [])
 
   const ctxData: ProjectCtxType = {
-    projectsData: useProjectsData(),
+    projectsData: useProjects,
     getProjects: getProjectsHook,
     create: useCreateProject(),
     update: useUpdateProjects(),

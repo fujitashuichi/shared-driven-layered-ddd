@@ -1,7 +1,7 @@
-import { useState } from "react";
+import React, { useState, type SetStateAction } from "react";
 import { getProjects } from "../api";
 import type { ProjectCtxType } from "../../../Context";
-import { useProjectsData } from "./useProjectsData";
+import type { Project } from "@pkg/shared";
 
 
 const ErrorMap = {
@@ -12,11 +12,9 @@ const ErrorMap = {
 
 type Result = ProjectCtxType["getProjects"];
 
-export const useGetProjects = (): Result => {
+export const useGetProjects = (setProjects: React.Dispatch<SetStateAction<Project[]>>): Result => {
   const [status, setStatus] = useState<Result["status"]>("idle");
   const [errorMessage, setErrorMessage] = useState<Result["errorMessage"]>(null);
-
-  const { setProjects } = useProjectsData();
 
   const get: Result["get"] = async () => {
     setStatus("loading");
