@@ -1,47 +1,53 @@
 ## ・features flow
-※ProjectsもContext化が可能ですが優先度が低いため保留中です
 
 ```mermaid
 graph BT
   ApiClient([apiClient])
 
   AuthApi
-  ProjectsApi
+  ProjectApi
 
   subgraph AuthContext
     direction BT
 
-    Context[(Context)]
-
+    AuthCtx[(Context)]
     AuthHooks
 
-    subgraph Provider
+    subgraph ProjectContext
       direction BT
 
-      subgraph Components
-        AuthComponents
-        ProjectsComponents
+      ProjectCtx[(Context)]
+      ProjectHooks
+
+      subgraph Provider
+        direction BT
+
+        subgraph Components
+          AuthComponents
+          ProjectComponents
+        end
       end
     end
   end
 
   subgraph api
     AuthApi
-    ProjectsApi
+    ProjectApi
   end
 
 
   AuthHooks
   ---> AuthApi
 
-  ProjectsComponents
-  ---> ProjectsHooks
-  ---> ProjectsApi
+  ProjectHooks
+  ---> ProjectApi
 
-  AuthApi & ProjectsApi --> ApiClient
+  AuthApi & ProjectApi --> ApiClient
 
 
-  Context -.-> AuthHooks
-  AuthComponents & ProjectsComponents -.-> Context
+  AuthCtx -.-> AuthHooks
+  ProjectCtx -.-> ProjectHooks
+  AuthComponents & ProjectComponents -.-> AuthCtx
+  ProjectComponents -.-> ProjectCtx
 
 ```

@@ -26,6 +26,7 @@ export const useDeleteProject = (): Result => {
     if (!result.success) {
       setErrorMessage(errorMap[result.errorType]);
       setStatus("error");
+      return;
     }
 
     setStatus("success");

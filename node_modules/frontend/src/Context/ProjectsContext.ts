@@ -33,4 +33,5 @@ export const ProjectCtx = createContext<ProjectCtxType | null>(null);
 export const useProject = () => {
   const ctx = useContext(ProjectCtx);
   if (ctx === null) throw new Error("Context must be used within Provider");
+  return ctx;
 }
