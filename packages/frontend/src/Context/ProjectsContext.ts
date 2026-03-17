@@ -7,18 +7,18 @@ type GetProjects = {
   get: () => Promise<void>
 }
 type Create = {
-  status: "ProjectAlreadyExists" | "UnAuthorized" | "InvalidData" | "UnknownError",
-  errorMessage: string | null,
+  status: "idle" | "loading" | "error" | "success",
+  errorMessage: "ProjectAlreadyExists" | "UnAuthorized" | "InvalidData" | "UnknownError",
   create: (e: React.SubmitEvent<HTMLFormElement>) => Promise<Project>
 };
 type Update = {
-  status: "UnAuthorized" | "UserUndefined" | "ProjectUndefined" | "InvalidData" | "UnknownError",
-  errorMessage: string | null,
+  status: "idle" | "loading" | "error" | "success",
+  errorMessage: "UnAuthorized" | "UserUndefined" | "ProjectUndefined" | "InvalidData" | "UnknownError",
   update: (project: PostProjectRequest) => Promise<Project>
 };
 type Delete = {
-  status: "UnAuthorized" | "UserUndefined" | "ProjectUndefined" | "InvalidData" | "UnknownError",
-  errorMessage: string | null,
+  status: "idle" | "loading" | "error" | "success",
+  errorMessage: "UnAuthorized" | "UserUndefined" | "ProjectUndefined" | "InvalidData" | "UnknownError",
   delete: () => Promise<undefined>
 };
 
