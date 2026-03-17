@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { AppLoadingBar } from "../../../components/AppLoadingBar";
 import { AppButton } from "../../../components";
 import { useProject } from "../../../Context";
@@ -9,7 +8,6 @@ export function ProjectList() {
 
   const { projects } = projectsData;
   const { get, status, errorMessage } = getProjects;
-
 
 
   return (
