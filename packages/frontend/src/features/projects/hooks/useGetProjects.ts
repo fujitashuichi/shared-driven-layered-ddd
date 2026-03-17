@@ -1,8 +1,7 @@
-import type { Project } from "@pkg/shared";
 import { useState } from "react";
 import { getProjects } from "../api";
+import type { ProjectCtxType } from "../../../Context";
 
-type Status = "loading" | "error" | "success";
 
 const ErrorMap = {
   UnAuthorized: "ユーザー認証に失敗しました",
@@ -10,13 +9,14 @@ const ErrorMap = {
   UnknownError: "エラーが発生しました"
 }
 
+type Result = ProjectCtxType["getProjects"];
 
 export const useGetProjects = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [status, setStatus] = useState<Status>("loading");
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [projects, setProjects] = useState<Result["projects"]>([]);
+  const [status, setStatus] = useState<Result["status"]>("idle");
+  const [errorMessage, setErrorMessage] = useState<Result["errorMassage"]>(null);
 
-  const get = async () => {
+  const get: Result["get"] = async () => {
     setStatus("loading");
     const result = await getProjects();
 
