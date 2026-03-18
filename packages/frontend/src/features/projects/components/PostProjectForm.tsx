@@ -19,7 +19,7 @@ export function PostProjectForm({ id }: { id: Project["id"] }) {
         clearTimeout(timer);
       }
     }
-  });
+  }, [status, reset]);
 
   return (<>
     {status === "idle" &&
