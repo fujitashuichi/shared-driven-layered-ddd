@@ -25,6 +25,7 @@ export const useGetUserData = (setUser: AuthCtxType["useUser"]["setUser"]) => {
     }
 
     setUser(result.data);
+    setStatus("success");
   }
 
 

@@ -13,8 +13,6 @@ export function UserPage() {
   if (user === null) {
     return <h1>データがありません</h1>
   }
-
-
   const SuccessUI = (<>
     {sessionStatus === "idle" &&
       <div>
@@ -27,7 +25,7 @@ export function UserPage() {
         <h2>email</h2>
         <p>{user.email}</p>
         <h2>作成日時</h2>
-        <p>{user.createdAt.toLocaleString()}</p>
+        <p>{new Date(user.createdAt).toLocaleString()}</p>
       </div>
     }
   </>)
