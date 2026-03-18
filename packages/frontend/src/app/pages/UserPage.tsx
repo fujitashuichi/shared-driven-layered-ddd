@@ -13,24 +13,22 @@ export function UserPage() {
   if (user === null) {
     return <h1>データがありません</h1>
   }
-
-
   const SuccessUI = (<>
-    {sessionStatus === "idle" &&
-      <div>
-        <h1>ログインしていません</h1>
-        <LoginContainer />
-      </div>
-    }
-    {sessionStatus === "active" &&
-      <div>
-        <h2>email</h2>
-        <p>{user.email}</p>
-        <h2>作成日時</h2>
-        <p>{user.createdAt.toLocaleString()}</p>
-      </div>
-    }
-  </>)
+      {sessionStatus === "idle" &&
+        <div>
+          <h1>ログインしていません</h1>
+          <LoginContainer />
+        </div>
+      }
+      {sessionStatus === "active" &&
+        <div>
+          <h2>email</h2>
+          <p>{user.email}</p>
+          <h2>作成日時</h2>
+          <p>{new Date(user.createdAt).toLocaleString()}</p>
+        </div>
+      }
+    </>)
 
 
   const UIMap = {
