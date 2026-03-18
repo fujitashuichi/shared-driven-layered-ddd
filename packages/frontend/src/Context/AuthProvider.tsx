@@ -24,7 +24,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const interval = setInterval(async () => await checkSession(), 10 * 60 * 1000);
     return () => clearInterval(interval);
-  }, [status]);
+  }, [status, setStatus]);
 
 
   useEffect(() => {
