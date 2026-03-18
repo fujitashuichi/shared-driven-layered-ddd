@@ -12,8 +12,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const userHook = useUser();
   const getUserHook = useGetUserData(userHook.setUser);
 
-  console.log(sessionHook.status);
-
   useEffect(() => {
     // セッションを10分おきにチェック
     const checkSession = async () => {
@@ -27,9 +25,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => clearInterval(interval);
   }, [sessionHook]);
 
+
+  const { status } = sessionHook;
+  const { getUser } = getUserHook;
   useEffect(() => {
-    if (sessionHook.status === "active") getUserHook.getUser();
-  }, [sessionHook.status, getUserHook]);
+    if (status === "active") getUser();
+  }, [status, getUser]);
 
 
   const ctxData: AuthCtxType = useMemo(() => ({
