@@ -12,6 +12,7 @@ export const useLogout = (setSessionStatus: AuthCtxType["session"]["setStatus"])
     setStatus("loading");
     const isLoggedOut = await logout();
     if (!isLoggedOut) {
+      setStatus("idle");
       setSessionStatus("active");
       alert("ログアウトできませんでした");
       return;
