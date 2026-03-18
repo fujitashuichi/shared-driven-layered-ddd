@@ -6,16 +6,19 @@ import { useGetUserData } from '../features/auth/hooks/useGetUserData';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const sessionHook = useSessionStatus();
-  const registerHook = useRegister(sessionHook);
-  const loginHook = useLogin(sessionHook);
-  const logoutHook = useLogout(sessionHook);
+  const registerHook = useRegister(sessionHook.setStatus);
+  const loginHook = useLogin(sessionHook.setStatus);
+  const logoutHook = useLogout(sessionHook.setStatus);
   const userHook = useUser();
   const getUserHook = useGetUserData(userHook.setUser);
+
+  console.log(sessionHook.status);
 
   useEffect(() => {
     // セッションを10分おきにチェック
     const checkSession = async () => {
       const isLoggedIn = await isSessionActive();
+      console.log(isLoggedIn);
       sessionHook.setStatus(isLoggedIn ? "active" : "idle");
     };
     checkSession();
@@ -37,6 +40,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     useUser: userHook,
     getUser: getUserHook
   }), [sessionHook, registerHook, loginHook, logoutHook, userHook, getUserHook]);
+
+  console.log(sessionHook.status);
 
   return (
     <AuthCtx.Provider value={ctxData}>

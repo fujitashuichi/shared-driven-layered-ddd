@@ -50,6 +50,7 @@ export const apiClient = async ({ path, method, body }: Props): Promise<ApiResul
     const json: ResponseJson<unknown> = await response.json();
 
     if (!response.ok) {
+      console.log(`fetch failed at\n path: ${path}\n method: ${method}`);
       throw new FetchError(
         `fetch responses "not ok" with status ${response.status}`,
         response.status,
@@ -59,6 +60,7 @@ export const apiClient = async ({ path, method, body }: Props): Promise<ApiResul
     }
 
     if (!json.success) {
+      console.log(`fetch failed at\n path: ${path}\n method: ${method}`);
       throw new FetchError(
         json.message ?? response.statusText,
         response.status,
@@ -73,6 +75,7 @@ export const apiClient = async ({ path, method, body }: Props): Promise<ApiResul
       body: json.data
     }
   } catch (e: unknown) {
+    console.log(`fetch failed at\n path: ${path}\n method: ${method}`);
 
     if (e instanceof FetchError) {
       return {

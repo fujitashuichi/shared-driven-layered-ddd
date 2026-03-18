@@ -14,7 +14,7 @@ type Logout = {
   logout: () => void
 };
 type Session = {
-  status: "idle" | "active",
+  status: "idle" | "inactive" | "active",
   setStatus: React.Dispatch<Session["status"]>
 };
 type GetUser = {
