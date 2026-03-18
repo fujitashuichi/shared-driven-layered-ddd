@@ -19,6 +19,7 @@ type Update = {
   status: "idle" | "loading" | "error" | "success",
   errorMessage: string | null,
   update: (e: React.SubmitEvent<HTMLFormElement>, id: Project["id"]) => Promise<void>
+  reset: () => void
 };
 type Delete = {
   status: "idle" | "loading" | "error" | "success",

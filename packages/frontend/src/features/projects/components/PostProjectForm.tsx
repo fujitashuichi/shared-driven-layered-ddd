@@ -3,12 +3,20 @@ import { AppButton } from "../../../components";
 import { AppLoadingBar } from "../../../components/AppLoadingBar";
 import type React from "react";
 import { useProject } from "../../../Context";
+import { useEffect } from "react";
 
 
-export function PostProjectForm(id: Project["id"]) {
+export function PostProjectForm({ id }: { id: Project["id"] }) {
   const { update: updateProject } = useProject();
-  const { update, status, errorMessage } = updateProject;
+  const { update, status, errorMessage, reset } = updateProject;
   const tryUpdate = (e: React.SubmitEvent<HTMLFormElement>) => update(e, id);
+
+  useEffect(() => {
+    if (status === "error") {
+      const timer = setTimeout(() => reset, 3000);
+      return clearTimeout(timer);
+    }
+  });
 
   return (<>
     {status === "idle" &&
@@ -27,10 +35,6 @@ export function PostProjectForm(id: Project["id"]) {
     {status === "error" &&
       <div>
         <h2>{errorMessage}</h2>
-        <AppButton
-          variant="primary"
-          onClick={() => window.location.reload()}
-        >再試行</AppButton>
       </div>
     }
     {status === "success" &&

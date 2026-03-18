@@ -42,9 +42,10 @@ export const useUpdateProjects = (reload: ProjectCtxType["getProjects"]["get"]):
 
     await reload(); // 楽観更新をする際はここを差し替え
     setStatus("success");
-    setTimeout(() => setStatus("idle"), 3000);
   }
 
+  const reset = () => setStatus("idle");
 
-  return { update, status, errorMessage };
+
+  return { update, status, errorMessage, reset };
 }
