@@ -13,7 +13,7 @@ export function PostProjectForm({ id }: { id: Project["id"] }) {
 
   useEffect(() => {
     if (status === "error") {
-      const timer = setTimeout(() => reset, 3000);
+      const timer = setTimeout(() => reset(), 3000);
       return () => {
         reset();
         clearTimeout(timer);
