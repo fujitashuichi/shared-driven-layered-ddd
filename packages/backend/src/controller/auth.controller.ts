@@ -1,9 +1,11 @@
 import { CookieOptions, Request, Response } from "express";
-import { RegisterService } from "../service/index.js";
+import { RegisterService, UserService } from "../service/index.js";
 import { Database } from "sqlite3";
-import { LoginRequest, LoginResponse, LogoutResponse, RegisterRequest, RegisterResponse, ResponseJson } from "@pkg/shared";
+import { LoginRequest, LoginResponse, LogoutResponse, MeResponse, RegisterRequest, RegisterResponse, ResponseJson } from "@pkg/shared";
 import { LoginStateManagementService } from "../service/index.js";
 import { ENV } from "../config/env.js";
+import { verifyToken } from "../lib/jwt.js";
+import { UserUndefinedError } from "../error/UserError.js";
 
 const env = ENV.NODE_ENV;
 
@@ -66,4 +68,23 @@ export const logout = (_: Request, res: Response) => {
     .json(json);
 
   return console.info("Logout succeed");
+}
+
+export const me = (db: Database) => {
+  return async (req: Request, res: Response) => {
+    const service = new UserService(db);
+
+    const token = req.cookies.token;
+    const verified = verifyToken(token);
+
+    const user = await service.findByEmail(verified.email);
+
+    if (user === null) throw new UserUndefinedError();
+
+    const json: ResponseJson<MeResponse> = {
+      success: true,
+      data: user
+    }
+    res.status(200).json(json);
+  }
 }

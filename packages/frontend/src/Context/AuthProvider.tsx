@@ -1,31 +1,42 @@
 import React, { useEffect, useMemo } from 'react'
 import { AuthCtx, type AuthCtxType } from './AuthContext'
-import { useLogin, useLogout, useRegister, useSessionStatus } from '../features/auth/hooks';
+import { useLogin, useLogout, useRegister, useSessionStatus, useUser } from '../features/auth/hooks';
 import { isSessionActive } from '../features/auth/api';
+import { useGetUserData } from '../features/auth/hooks/useGetUserData';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const useSessionHook = useSessionStatus();
-  const useRegisterHook = useRegister(useSessionHook);
-  const useLoginHook = useLogin(useSessionHook);
-  const useLogoutHook = useLogout(useSessionHook);
+  const sessionHook = useSessionStatus();
+  const registerHook = useRegister(sessionHook);
+  const loginHook = useLogin(sessionHook);
+  const logoutHook = useLogout(sessionHook);
+  const userHook = useUser();
+  const getUserHook = useGetUserData(userHook.setUser);
 
   useEffect(() => {
-    const check = async () => {
+    // セッションを10分おきにチェック
+    const checkSession = async () => {
       const isLoggedIn = await isSessionActive();
-      if (isLoggedIn) useSessionHook.setStatus("active");
+      sessionHook.setStatus(isLoggedIn ? "active" : "idle");
     };
-    check();
+    checkSession();
 
-    const interval = setInterval(async () => await check(), 10 * 60 * 1000);
+    const interval = setInterval(async () => await checkSession(), 10 * 60 * 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [sessionHook]);
+
+  useEffect(() => {
+    if (sessionHook.status === "active") getUserHook.getUser();
+  }, [sessionHook.status, getUserHook]);
+
 
   const ctxData: AuthCtxType = useMemo(() => ({
-    session: useSessionHook,
-    register: useRegisterHook,
-    login: useLoginHook,
-    logout: useLogoutHook,
-  }), [useSessionHook, useRegisterHook, useLoginHook, useLogoutHook]);
+    session: sessionHook,
+    register: registerHook,
+    login: loginHook,
+    logout: logoutHook,
+    useUser: userHook,
+    getUser: getUserHook
+  }), [sessionHook, registerHook, loginHook, logoutHook, userHook, getUserHook]);
 
   return (
     <AuthCtx.Provider value={ctxData}>

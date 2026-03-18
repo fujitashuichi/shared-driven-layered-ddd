@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { UserSchema } from "../user/types.data.js";
 
 // register
 export const RegisterRequestSchema = z.object({
@@ -34,3 +35,7 @@ export type LoginResponse = z.infer<typeof LoginResponseSchema>;
 // logout
 export const LogoutResponseSchema = z.void().or(z.object({}));
 export type LogoutResponse = z.infer<typeof LogoutResponseSchema>;
+
+// me
+export const MeResponseSchema = UserSchema;
+export type MeResponse = z.infer<typeof MeResponseSchema>;

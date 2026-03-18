@@ -4,20 +4,15 @@ import { AppLoadingBar } from "../../../components/AppLoadingBar";
 import { useAuth } from "../../../Context";
 
 export function LoginContainer() {
-  const { login, session } = useAuth();
+  const { login } = useAuth();
   const { status } = login;
 
   return (
     <div>
-      {session.status === "idle" &&
-        <>
-          <h2>ログインしていません。</h2>
-          <LoginForm />
-        </>
-      }
-      {session.status === "active" && <SuccessUI /> }
+      {status === "idle" && <LoginForm />}
       {status === "loading" && <LoadingUI />}
       {status === "failed" && <FailedUI /> }
+      {status === "loggedIn" && <h1>ログイン成功</h1>}
     </div>
   )
 }
@@ -37,11 +32,5 @@ const FailedUI = () => (
       variant="primary"
       onClick={() => window.location.reload()}
     >再試行</AppButton>
-  </div>
-)
-
-const SuccessUI = () => (
-  <div>
-    <h1>Loginしています</h1>
   </div>
 )

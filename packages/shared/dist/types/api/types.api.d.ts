@@ -1,4 +1,4 @@
-import { ResponseErrorName } from "./types.responseErrorName.js";
+import type { ResponseErrorName } from "./types.responseErrorName.js";
 export type AuthFetchPath = "/api/auth/register" | "/api/auth/login" | "/api/auth/logout" | "/api/auth/me";
 export type SessionFetchPath = "/api/auth/session";
 export type ProjectFetchPath = "/api/projects" | `/api/projects/${number}`;

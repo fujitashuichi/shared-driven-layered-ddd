@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { UserSchema } from "../user/types.data.js";
 // register
 export const RegisterRequestSchema = z.object({
     email: z.email(),
@@ -22,3 +23,5 @@ export const LoginRequestSchema = z.object({
 export const LoginResponseSchema = z.void().or(z.object({}));
 // logout
 export const LogoutResponseSchema = z.void().or(z.object({}));
+// me
+export const MeResponseSchema = UserSchema;
