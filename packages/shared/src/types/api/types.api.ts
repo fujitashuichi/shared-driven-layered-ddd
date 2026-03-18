@@ -1,4 +1,4 @@
-import { ResponseErrorName } from "./types.responseErrorName.js"
+import type { ResponseErrorName } from "./types.responseErrorName.js"
 
 export type AuthFetchPath =
   | "/api/auth/register"
