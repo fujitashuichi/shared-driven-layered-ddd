@@ -6,7 +6,7 @@ import type { AuthCtxType } from "../../../Context";
 
 type Result = AuthCtxType["login"];
 
-export const useLogin = (useSession: AuthCtxType["session"]): Result => {
+export const useLogin = (setSessionStatus: AuthCtxType["session"]["setStatus"]): Result => {
   const [status, setStatus] = useState<Result["status"]>("idle");
 
   const tryLogin = async (e: React.SubmitEvent<HTMLFormElement>) => {
@@ -19,6 +19,7 @@ export const useLogin = (useSession: AuthCtxType["session"]): Result => {
 
     if (!parsed.success) {
       setStatus("idle");
+      setSessionStatus("inactive");
       alert("入力値に不備があります");
       return;
     }
@@ -26,11 +27,12 @@ export const useLogin = (useSession: AuthCtxType["session"]): Result => {
     const data = parsed.data;
     const isLoginSucceed = await login({ email: data.email, password: data.password });
     if (!isLoginSucceed) {
+      setSessionStatus("inactive");
       setStatus("failed");
       return;
     }
 
-    useSession.setStatus("active");
+    setSessionStatus("active");
     setStatus("loggedIn");
     return;
   }

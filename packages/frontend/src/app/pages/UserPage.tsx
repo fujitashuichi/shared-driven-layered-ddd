@@ -1,42 +1,22 @@
 import { AppLoadingBar } from "../../components/AppLoadingBar";
 import { useAuth } from "../../Context";
-import { LoginContainer } from "../../features/auth/components";
+import { LoginContainer, User } from "../../features/auth/components";
 
 export function UserPage() {
-  const { session, useUser, getUser } = useAuth();
+  const { session } = useAuth();
+  const { status } = session;
 
-  const { status: sessionStatus } = session;
-  const { user } = useUser;
-  const { status: getUserStatus, errorMessage: getUserErrorMessage } = getUser;
+  return (<>
+    {status === "idle" &&
+      <AppLoadingBar className="fixed top-0 left-1/2 -translate-x-1/2 z-10 w-20 h-1.5" />
+    }
 
+    {status === "inactive" &&
+      <LoginContainer />
+    }
 
-  if (user === null) {
-    return <h1>データがありません</h1>
-  }
-  const SuccessUI = (<>
-      {sessionStatus === "idle" &&
-        <div>
-          <h1>ログインしていません</h1>
-          <LoginContainer />
-        </div>
-      }
-      {sessionStatus === "active" &&
-        <div>
-          <h2>email</h2>
-          <p>{user.email}</p>
-          <h2>作成日時</h2>
-          <p>{new Date(user.createdAt).toLocaleString()}</p>
-        </div>
-      }
-    </>)
-
-
-  const UIMap = {
-    idle: <AppLoadingBar className="fixed top-0 left-1/2 -translate-x-1/2 z-10 w-20 h-1.5" />,
-    loading: <AppLoadingBar className="fixed top-0 left-1/2 -translate-x-1/2 z-10 w-20 h-1.5" />,
-    failed: <h1>{getUserErrorMessage}</h1>,
-    success: SuccessUI
-  }
-
-  return UIMap[getUserStatus]
+    {status === "active" &&
+      <User />
+    }
+  </>)
 }

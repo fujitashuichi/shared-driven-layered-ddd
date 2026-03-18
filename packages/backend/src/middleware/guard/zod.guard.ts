@@ -1,12 +1,15 @@
 import { LoginRequestSchema, PostProjectRequestSchema, RegisterRequestSchema } from "@pkg/shared";
 import { Request } from "express";
 import { InvalidRequestDataError } from "../../error/SecurityError.js";
+import z from "zod";
 
-export type RequestName = "register" | "login" | "postProject";
+export type RequestName = "register" | "login" | "logout" | "me" | "postProject";
 
 const dtoSchemaMap = {
   register: RegisterRequestSchema,
   login: LoginRequestSchema,
+  logout: z.object({}).or(z.undefined()),
+  me: z.object({}).or(z.undefined()),
   postProject: PostProjectRequestSchema
 } as const;
 

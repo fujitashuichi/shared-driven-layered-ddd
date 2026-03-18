@@ -22,12 +22,13 @@ export const createAuthRouter = (db: Database) => {
   );
 
   router.post("/logout",
+    requestValidator("logout"),
     logout
   );
 
   router.post("/me",
-    requestValidator,
-    me
+    requestValidator("me"),
+    me(db)
   );
 
   return router;

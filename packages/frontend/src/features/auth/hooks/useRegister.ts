@@ -18,7 +18,7 @@ const errorMap = {
 } as const;
 
 
-export const useRegister = (useSession: AuthCtxType["session"]): Result => {
+export const useRegister = (setSessionStatus: AuthCtxType["session"]["setStatus"]): Result => {
   const [status, setStatus] = useState<Result["status"]>("idle");
 
   const tryRegister = async (e: React.SubmitEvent<HTMLFormElement>): Promise<void> => {
@@ -37,6 +37,7 @@ export const useRegister = (useSession: AuthCtxType["session"]): Result => {
       const data = parsed.data;
       if (data.password !== data.passwordConfirm) {
         setStatus("idle");
+
         alert("パスワード確認が一致しません");
         return;
       }
@@ -44,11 +45,12 @@ export const useRegister = (useSession: AuthCtxType["session"]): Result => {
       const result = await register({ email: data.email, password: data.password  });
       if (!result.ok) {
         setStatus("idle");
+        setSessionStatus("inactive");
         alert(errorMap[result.errorType]);
         return;
       }
 
-      useSession.setStatus("active");
+      setSessionStatus("active");
       setStatus("success");
       alert("登録完了");
     }

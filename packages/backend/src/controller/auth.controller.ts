@@ -6,6 +6,7 @@ import { LoginStateManagementService } from "../service/index.js";
 import { ENV } from "../config/env.js";
 import { verifyToken } from "../lib/jwt.js";
 import { UserUndefinedError } from "../error/UserError.js";
+import { UnAuthorizedError } from "../error/AuthError.js";
 
 const env = ENV.NODE_ENV;
 
@@ -75,10 +76,11 @@ export const me = (db: Database) => {
     const service = new UserService(db);
 
     const token = req.cookies.token;
+    if (!token) throw new UnAuthorizedError();
+
     const verified = verifyToken(token);
 
     const user = await service.findByEmail(verified.email);
-
     if (user === null) throw new UserUndefinedError();
 
     const json: ResponseJson<MeResponse> = {
