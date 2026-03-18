@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react'
 import { AuthCtx, type AuthCtxType } from './AuthContext'
-import { useLogin, useLogout, useRegister, useSessionStatus } from '../features/auth/hooks';
+import { useLogin, useLogout, useRegister, useSessionStatus, useUser } from '../features/auth/hooks';
 import { isSessionActive } from '../features/auth/api';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -8,6 +8,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const useRegisterHook = useRegister(useSessionHook);
   const useLoginHook = useLogin(useSessionHook);
   const useLogoutHook = useLogout(useSessionHook);
+  const userData = useUser();
 
   useEffect(() => {
     const check = async () => {
@@ -25,7 +26,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     register: useRegisterHook,
     login: useLoginHook,
     logout: useLogoutHook,
-  }), [useSessionHook, useRegisterHook, useLoginHook, useLogoutHook]);
+    user: userData
+  }), [useSessionHook, useRegisterHook, useLoginHook, useLogoutHook, userData]);
 
   return (
     <AuthCtx.Provider value={ctxData}>

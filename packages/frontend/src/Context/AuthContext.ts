@@ -17,13 +17,18 @@ type Session = {
   status: "idle" | "active",
   setStatus: React.Dispatch<Session["status"]>
 };
+type GetUser = {
+  status: "idle" | "loading" | "failed" | "success",
+  errorMessage: string | null,
+  getUser: () => Promise<void>
+};
 type UserData = {
   user: User | null,
   setUser: React.Dispatch<SetStateAction<User | null>>
-}
+};
 
 export type AuthCtxType = {
-  register: Register, login: Login, logout: Logout, session: Session, user: UserData
+  register: Register, login: Login, logout: Logout, session: Session, getUser: GetUser, user: UserData
 }
 
 
