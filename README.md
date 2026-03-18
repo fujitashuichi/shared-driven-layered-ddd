@@ -1,10 +1,10 @@
-### 大まかな概要
+### ・大まかな概要
 #### [要件定義書](./docs/features.md)
 #### [全体図](./docs/PortforioFlow.mermaid.md)
 
 ---
 
-### 規約・実装資料
+### ・規約・実装資料
 #### FE/BE
 * メモ: [Projectドメイン: エラーレスポンスの形式](./docs/BE/BE_domainFlow/error/project.md)
 #### BE
@@ -21,11 +21,34 @@
   * <a href="./docs/test/testResults.md">testResults(改修後などに更新)</a>
 </details>
 
+---
+
 ### 意思決定の記録
-意思決定をする際に **[Issue](/../../issues/)** を利用することがあります
+意思決定をする際に **[Issue](/../../issues/)** を利用しています
 
 ---
 
-### ポートフォリオの根幹
-#### [BE概要](./packages/backend/README.md)
-#### [FE概要](./packages/frontend/README.md)
+### README
+#### [Backend](./packages/backend/README.md)
+#### [Frontend](./packages/frontend/README.md)
+
+---
+
+### Commands
+
+```sh
+# 依存関係のインストール
+npm install
+
+# パッケージのビルド (shared)
+npm run build:shared
+
+# 開発環境の起動
+npm run dev:frontend
+npm run dev:backend
+
+# 静的解析 (TypeScript / ESLint)
+npm run tsc:frontend
+npm run tsc:backend
+npm run lint:frontend
+```

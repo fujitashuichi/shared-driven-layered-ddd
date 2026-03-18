@@ -1,3 +1,23 @@
+## commands
+## Commands
+
+```sh
+# 依存関係のインストール
+npm install
+
+# 開発サーバー起動
+npm run dev
+
+# ビルド
+npm run build
+
+# 静的解析
+npm run lint
+
+# ビルド物のプレビュー
+npm run preview
+```
+
 ## FE Flow
 ```mermaid
 graph LR

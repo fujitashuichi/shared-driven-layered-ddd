@@ -1,3 +1,23 @@
+### Commands
+```sh
+# 依存関係のインストール
+npm install
+
+# 開発環境起動
+npm run dev
+
+# 本番環境起動
+npm run start
+
+# テスト (Watchモード)
+npm run test
+
+# テスト (シングルラン)
+npm run test:run
+```
+
+---
+
 ### 直近のBEテスト実行結果
 ```sh
 current result>
