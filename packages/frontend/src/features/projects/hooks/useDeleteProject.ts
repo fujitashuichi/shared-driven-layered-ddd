@@ -33,6 +33,8 @@ export const useDeleteProject = (reload: ProjectCtxType["getProjects"]["get"]): 
     setStatus("success");
   }
 
+  const reset = () => setStatus("idle");
 
-  return { delete: tryDelete, status, errorMessage };
+
+  return { delete: tryDelete, status, errorMessage, reset };
 }

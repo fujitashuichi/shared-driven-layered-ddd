@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { AppLoadingBar } from "../../../components/AppLoadingBar";
 import { useProject } from "../../../Context";
 
@@ -31,11 +32,13 @@ export function ProjectList() {
         <ul className="space-y-3">
           {projects.map((project) => (
             <li key={project.id} className="p-4 border rounded shadow-sm bg-white">
-              <h3 className="font-bold text-lg">{project.title}</h3>
-              <p className="text-gray-600 text-sm">{project.description}</p>
-              <div className="mt-2 text-xs text-gray-400">
-                Created: {new Date(project.createdAt).toLocaleDateString()}
-              </div>
+              <Link to={`/projects/${project.id}`}>
+                <h3 className="font-bold text-lg">{project.title}</h3>
+                <p className="text-gray-600 text-sm">{project.description}</p>
+                <div className="mt-2 text-xs text-gray-400">
+                  Created: {new Date(project.createdAt).toLocaleDateString()}
+                </div>
+              </Link>
             </li>
           ))}
         </ul>

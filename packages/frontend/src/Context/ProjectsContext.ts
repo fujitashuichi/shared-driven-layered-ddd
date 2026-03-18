@@ -24,6 +24,7 @@ type Delete = {
   status: "idle" | "loading" | "error" | "success",
   errorMessage: string | null,
   delete: (id: Project["id"]) => Promise<void>
+  reset: () => void
 };
 
 export type ProjectCtxType = {
