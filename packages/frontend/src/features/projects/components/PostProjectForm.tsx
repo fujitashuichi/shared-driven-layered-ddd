@@ -1,12 +1,13 @@
 import { type Project } from "@pkg/shared";
 import { AppButton } from "../../../components";
 import { AppLoadingBar } from "../../../components/AppLoadingBar";
-import { useUpdateProjects } from "../hooks/useUpdateProject";
 import type React from "react";
+import { useProject } from "../../../Context";
 
 
 export function PostProjectForm(id: Project["id"]) {
-  const { update, status, errorMessage } = useUpdateProjects();
+  const { update: updateProject } = useProject();
+  const { update, status, errorMessage } = updateProject;
   const tryUpdate = (e: React.SubmitEvent<HTMLFormElement>) => update(e, id);
 
   return (<>

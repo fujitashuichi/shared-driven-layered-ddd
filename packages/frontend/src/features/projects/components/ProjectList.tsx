@@ -4,7 +4,6 @@ import { useProject } from "../../../Context";
 
 export function ProjectList() {
   const { projectsData, getProjects } = useProject();
-
   const { projects } = projectsData;
   const { get, status, errorMessage } = getProjects;
 
