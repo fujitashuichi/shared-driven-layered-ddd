@@ -18,8 +18,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // セッションを10分おきにチェック
     const checkSession = async () => {
       const isLoggedIn = await isSessionActive();
-      console.log(isLoggedIn);
-      sessionHook.setStatus(isLoggedIn ? "active" : "idle");
+      console.info(isLoggedIn ? "session check: logged in" : "session check: logged out");
+      sessionHook.setStatus(isLoggedIn ? "active" : "inactive");
     };
     checkSession();
 
