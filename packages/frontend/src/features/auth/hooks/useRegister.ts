@@ -53,7 +53,7 @@ export const useRegister = (setSessionStatus: AuthCtxType["session"]["setStatus"
       return;
     }
 
-    mutation.mutate({ ...data });
+    mutation.mutate({ email: data.email, password: data.password });
   }
 
   return { status: mutation.status, register: tryRegister }

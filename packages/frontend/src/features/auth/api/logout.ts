@@ -10,8 +10,8 @@ export const logout = async (): Promise<LogoutResult> => {
   });
 
   if (!response.ok && response.status !== 200) {
-    console.error(response.error);
-    return false;
+    console.error("logout failed");
+    throw response.error;
   }
 
   console.log("Now logged out.");

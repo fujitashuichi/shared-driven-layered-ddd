@@ -17,12 +17,16 @@ type Result = ProjectCtxType["create"];
 
 
 export const useCreateProject = (reload: ProjectCtxType["getProjects"]["get"]): Result => {
+  const [overrideStatus, setOverrideStatus] = useState<"error" | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const mutation = useMutation({
     mutationFn: (body: PostProjectRequest) => createProject(body),
     onSuccess: async (result) => {
-      if (!result.success) return setErrorMessage(errorMap[result.errorType]);
+      if (!result.success) {
+        setOverrideStatus("error");
+        return setErrorMessage(errorMap[result.errorType]);
+      }
 
       await reload(); // createはサーバーレスポンスが必須なため、ここを楽観更新に差し替えることは許容しない
     },
@@ -41,6 +45,13 @@ export const useCreateProject = (reload: ProjectCtxType["getProjects"]["get"]): 
     mutation.mutate(parsed.data);
   };
 
+  const reset = () => {
+    mutation.reset();
+    setOverrideStatus(null);
+  }
 
-  return { create, reset: mutation.reset, status: mutation.status, errorMessage };
+
+  const trulyStatus = overrideStatus ?? mutation.status;
+
+  return { create, reset: reset, status: trulyStatus, errorMessage };
 }
