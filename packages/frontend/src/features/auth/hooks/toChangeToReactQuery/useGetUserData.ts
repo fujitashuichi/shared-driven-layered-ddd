@@ -1,6 +1,8 @@
-import { getUserData } from "../api";
-import type { AuthCtxType } from "../../../Context";
+import { getUserData } from "../../api";
+import type { AuthCtxType } from "../../../../Context";
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+
 
 type Result = AuthCtxType["getUser"];
 
@@ -10,24 +12,22 @@ const errorMap = {
   UnknownError: "エラーが発生しました"
 } as const;
 
-export const useGetUserData = (setUser: AuthCtxType["useUser"]["setUser"]) => {
-  const [status, setStatus] = useState<Result["status"]>("idle");
+
+export const useGetUserData = (setUser: AuthCtxType["useUser"]["setUser"]): Result => {
   const [errorMessage, setErrorMessage] = useState<Result["errorMessage"]>(null);
 
-  const getUser: Result["getUser"] = async () => {
-    setStatus("loading");
+  const mutation = useMutation({
+    mutationFn: () => getUserData(),
+    onSuccess: (result) => {
+      if (!result.ok) return setErrorMessage(errorMap[result.errorType]);
 
-    const result = await getUserData();
-    if (!result.ok) {
-      setStatus("failed");
-      setErrorMessage(errorMap[result.errorType]);
-      return;
+      setUser(result.data);
     }
-
-    setUser(result.data);
-    setStatus("success");
-  }
+  });
 
 
-  return { getUser, status, errorMessage };
+  const getUser: Result["getUser"] = async () => mutation.mutate();
+
+
+  return { status: mutation.status, errorMessage, getUser };
 }
