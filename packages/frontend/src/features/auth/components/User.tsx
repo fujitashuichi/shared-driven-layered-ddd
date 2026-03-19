@@ -10,11 +10,11 @@ export function User() {
   const { status: gettingStatus, errorMessage } = getUser;
 
 
-  if (gettingStatus === "idle" || gettingStatus === "loading") {
+  if (gettingStatus === "idle" || gettingStatus === "loading" || sessionStatus === "idle") {
     return <AppLoadingBar className="fixed top-0 left-1/2 -translate-x-1/2 z-10 w-20 h-1.5" />
   }
 
-  if (sessionStatus === "idle") return <h1>ログインしていください</h1>
+  if (sessionStatus === "inactive") return <h1>ログインしていください</h1>
 
   if (user === null) return <h1>データがありません</h1>;
 
