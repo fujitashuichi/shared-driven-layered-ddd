@@ -50,7 +50,7 @@ export class ProjectsRepository {
   updateProject = async (data: UpdateProjectPayload, id: Project["id"]): Promise<Project> => {
     const dbData = camelToDbObject({ data: data, removeUndefined: true });
 
-    const entries = Object.entries(dbData);
+    const entries = Object.entries(dbData).filter(([_, v]) => v !== "");
 
     const setClause = entries.map(([key]) => `${key} = ?`).join(", ");
     const params = entries.map(([, value]) => value);

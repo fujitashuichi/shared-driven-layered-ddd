@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { AppLoadingBar } from "../../../components/AppLoadingBar";
 import { useProject } from "../../../Context";
+import { CreateProjectForm } from "./CreateProjectForm";
 
 
 export function ProjectList() {
@@ -14,7 +15,7 @@ export function ProjectList() {
       <h2 className="text-xl font-bold mb-4">Project List</h2>
 
       {status === "pending" && (
-        <AppLoadingBar className="w-full h-1" />
+        <AppLoadingBar className="fixed top-0 left-1/2 -translate-x-1/2 z-10 w-20 h-1.5" />
       )}
 
       {status === "error" && (
@@ -24,11 +25,13 @@ export function ProjectList() {
         </div>
       )}
 
-      {status === "success" && projects.length === 0 && (
+      {status === "success" && projects.length === 0 && (<>
         <p className="text-gray-500">プロジェクトがありません。新しく作成してください。</p>
-      )}
+        <CreateProjectForm />
+      </>)}
 
-      {status === "success" && projects.length > 0 && (
+      {status === "success" && projects.length > 0 && (<>
+        <CreateProjectForm />
         <ul className="space-y-3">
           {projects.map((project) => (
             <li key={project.id} className="p-4 border rounded shadow-sm bg-white">
@@ -42,7 +45,7 @@ export function ProjectList() {
             </li>
           ))}
         </ul>
-      )}
+      </>)}
     </section>
   );
 }

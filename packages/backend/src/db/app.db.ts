@@ -12,7 +12,7 @@ const productSQL = `
   CREATE TABLE IF NOT EXISTS projects (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
-    title TEXT,
+    title TEXT NOT NULL,
     description TEXT NULL,
     status TEXT NULL,
     created_at INTEGER,

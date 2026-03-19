@@ -11,6 +11,7 @@ export const login = async (body: LoginRequest): Promise<LoginResult> => {
   });
 
   if (!response.ok) {
+    if (response.errorName === "UserUndefinedError") alert("そのemailは登録されていません");
     console.error(response.error);
     return false;
   }
