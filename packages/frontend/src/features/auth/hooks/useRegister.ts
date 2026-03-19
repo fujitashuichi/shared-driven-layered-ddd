@@ -24,14 +24,12 @@ export const useRegister = (setSessionStatus: AuthCtxType["session"]["setStatus"
     mutationFn: (body: RegisterRequest) => register(body),
     onSuccess: (result) => {
       if (!result.ok) {
-        if (!result.ok) {
-          setSessionStatus("inactive");
-          alert(errorMap[result.errorType]);
-          return;
-        }
-        setSessionStatus("active");
-        alert("登録完了");
-      };
+        setSessionStatus("inactive");
+        alert(errorMap[result.errorType]);
+        return;
+      }
+      setSessionStatus("active");
+      alert("登録完了");
     },
     onError: () => alert("通信に失敗しました。時間をおいて再度お試しください。")
   });
