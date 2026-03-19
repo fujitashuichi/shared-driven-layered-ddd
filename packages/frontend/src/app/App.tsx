@@ -2,9 +2,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import { ProjectsPage, UserPage } from './pages'
 import { ProjectPage } from '../features/projects/components/ProjectPage'
-import { ErrorBoundary } from 'react-error-boundary'
-import { GlobalErrorBoundary } from '../error'
 import { TestRouter } from './routes/TestRouter'
+import { ProjectProvider } from '../Context'
 
 
 function AppRouter() {
@@ -24,9 +23,9 @@ function AppRouter() {
 
 function App() {
   return (
-    <ErrorBoundary fallback={<GlobalErrorBoundary />}>
+    <ProjectProvider>
       <AppRouter />
-    </ErrorBoundary>
+    </ProjectProvider>
   )
 }
 
