@@ -14,12 +14,17 @@ const errorMap = {
 
 
 export const useGetUserData = (setUser: AuthCtxType["useUser"]["setUser"]): Result => {
+  const [overrideStatus, setOverrideStatus] = useState<"error" | null>(null);
   const [errorMessage, setErrorMessage] = useState<Result["errorMessage"]>(null);
 
   const mutation = useMutation({
     mutationFn: () => getUserData(),
     onSuccess: (result) => {
-      if (!result.ok) return setErrorMessage(errorMap[result.errorType]);
+      if (!result.ok) {
+        setErrorMessage(errorMap[result.errorType]);
+        setOverrideStatus("error");
+        return;
+      }
       setUser(result.data);
     },
     onError: () => alert("通信に失敗しました。時間をおいて再度お試しください。")
@@ -29,5 +34,7 @@ export const useGetUserData = (setUser: AuthCtxType["useUser"]["setUser"]): Resu
   const getUser: Result["getUser"] = async () => mutation.mutate();
 
 
-  return { status: mutation.status, errorMessage, getUser };
+  const trulyStatus = overrideStatus ?? mutation.status;
+
+  return { status: trulyStatus, errorMessage, getUser };
 }
