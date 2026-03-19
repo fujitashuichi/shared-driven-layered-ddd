@@ -17,10 +17,7 @@ export const getUserData = async (): Promise<GetUserDataResult> => {
       }
     }
 
-    return {
-      ok: false,
-      errorType: "UnknownError"
-    }
+    throw new Error("getUserData failed with fetch Error");
   }
 
   const parsed = MeResponseSchema.safeParse(response.body);
