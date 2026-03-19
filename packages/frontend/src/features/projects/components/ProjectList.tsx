@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { AppLoadingBar } from "../../../components/AppLoadingBar";
 import { useProject } from "../../../Context";
 import { CreateProjectForm } from "./CreateProjectForm";
+import { AppButton } from "../../../components";
 
 
 export function ProjectList() {
@@ -31,6 +32,10 @@ export function ProjectList() {
       </>)}
 
       {status === "success" && projects.length > 0 && (<>
+        <Link to="/">
+          <AppButton variant="primary" className="w-auto">ダッシュボード</AppButton>
+        </Link>
+
         <CreateProjectForm />
         <ul className="space-y-3">
           {projects.map((project) => (

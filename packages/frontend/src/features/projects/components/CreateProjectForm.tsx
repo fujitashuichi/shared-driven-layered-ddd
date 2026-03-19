@@ -36,8 +36,8 @@ export function CreateProjectForm() {
           placeholder="project description"
         />
 
-        <AppButton variant="primary" type="submit">
-          Create Project
+        <AppButton variant="primary" type="submit" className="w-auto">
+          新規作成＋
         </AppButton>
       </form>
     }

@@ -1,7 +1,7 @@
 import type { Project } from "@pkg/shared";
 import { useProject } from "../../../Context";
 import { AppButton } from "../../../components";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { AppLoadingBar } from "../../../components/AppLoadingBar";
 import { EditProjectModal } from "./EditProjectModal";
@@ -50,8 +50,16 @@ export function ProjectPage() {
         </div>
       </div>
 
-      <AppButton variant="primary" onClick={() => setEditing(true)}>編集</AppButton>
-      <AppButton variant="danger" onClick={() => tryDelete(project.id)}>削除</AppButton>
+      <div>
+        <AppButton variant="primary" onClick={() => setEditing(true)}>編集</AppButton>
+        <AppButton variant="danger" onClick={() => tryDelete(project.id)}>削除</AppButton>
+      </div>
+
+      <Link to="/projects">
+        <AppButton variant="primary" className="w-auto">
+          一覧へ
+        </AppButton>
+      </Link>
     </div>
 
 
