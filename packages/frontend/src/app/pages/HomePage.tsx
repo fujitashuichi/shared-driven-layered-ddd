@@ -27,7 +27,7 @@ export function HomePage() {
 
   return (
     <div className="min-h-screen p-4">
-      <header className="fix top-0 border-b pb-4">
+      <header className="fixed top-0 border-b pb-4">
         <ul className="flex gap-10">
           <li>
             <Link to="/user" className="hover:underline">
@@ -55,7 +55,7 @@ export function HomePage() {
                 .filter(item => item.updatedAt >= (time - 7 * 24*60*60*1000))
                 .map(project => {
                   return (
-                    <li className="flex justify-between">
+                    <li key={project.id} className="flex justify-between">
                       <h3>{project.title}</h3>
                       <Link to={`/projects/${project.id}`}>
                         <AppButton variant="primary">見る</AppButton>
