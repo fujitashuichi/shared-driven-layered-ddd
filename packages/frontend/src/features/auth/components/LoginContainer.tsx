@@ -10,8 +10,8 @@ export function LoginContainer() {
   return (
     <div>
       {status === "idle" && <LoginForm />}
-      {status === "loading" && <LoadingUI />}
-      {status === "failed" && <FailedUI /> }
+      {status === "pending" && <LoadingUI />}
+      {status === "error" && <FailedUI /> }
       {status === "loggedIn" && <h1>ログイン成功</h1>}
     </div>
   )

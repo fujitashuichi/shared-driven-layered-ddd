@@ -10,7 +10,7 @@ export function User() {
   const { status: gettingStatus, errorMessage } = getUser;
 
 
-  if (gettingStatus === "idle" || gettingStatus === "loading" || sessionStatus === "idle") {
+  if (gettingStatus === "idle" || gettingStatus === "pending" || sessionStatus === "idle") {
     return <AppLoadingBar className="fixed top-0 left-1/2 -translate-x-1/2 z-10 w-20 h-1.5" />
   }
 
@@ -19,7 +19,7 @@ export function User() {
   if (user === null) return <h1>データがありません</h1>;
 
   return (<>
-    {gettingStatus === "failed" &&
+    {gettingStatus === "error" &&
       <>
         <h1>{errorMessage}</h1>
         <AppButton

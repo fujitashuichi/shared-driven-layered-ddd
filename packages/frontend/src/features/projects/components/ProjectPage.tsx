@@ -52,7 +52,7 @@ export function ProjectPage() {
     </div>
 
 
-    {deleteStatus === "loading" &&
+    {deleteStatus === "pending" &&
       <AppLoadingBar className="fixed top-0 left-1/2 -translate-x-1/2 z-10 w-20 h-1.5" />
     }
     {deleteStatus === "error" &&

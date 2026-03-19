@@ -13,7 +13,7 @@ export function ProjectList() {
     <section className="p-4">
       <h2 className="text-xl font-bold mb-4">Project List</h2>
 
-      {status === "loading" && (
+      {status === "pending" && (
         <AppLoadingBar className="w-full h-1" />
       )}
 
