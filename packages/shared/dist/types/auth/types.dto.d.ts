@@ -25,8 +25,8 @@ export type LoginResponse = z.infer<typeof LoginResponseSchema>;
 export declare const LogoutResponseSchema: z.ZodUnion<[z.ZodVoid, z.ZodObject<{}, z.core.$strip>]>;
 export type LogoutResponse = z.infer<typeof LogoutResponseSchema>;
 export declare const MeResponseSchema: z.ZodObject<{
-    id: z.ZodNumber;
+    id: z.ZodUUID;
     email: z.ZodEmail;
-    createdAt: z.ZodNumber;
+    createdAt: z.ZodDate;
 }, z.core.$strip>;
 export type MeResponse = z.infer<typeof MeResponseSchema>;
