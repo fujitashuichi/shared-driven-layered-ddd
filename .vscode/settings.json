@@ -3,6 +3,7 @@
     "AUTOINCREMENT",
     "noemit",
     "Supabase",
+    "VITE",
     "webauthn"
   ]
 }
