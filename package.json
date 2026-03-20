@@ -7,7 +7,7 @@
   "scripts": {
     "build:shared": "tsc -p packages/shared",
     "build:frontend": "npm run build -w packages/frontend",
-    "build:backend": "npm run build -w packages/frontend",
+    "build:backend": "npm run build -w packages/backend",
     "dev:frontend": "npm run dev -w packages/frontend",
     "dev:backend": "npm run dev -w packages/backend",
     "lint:frontend": "npm run lint -w packages/frontend",
