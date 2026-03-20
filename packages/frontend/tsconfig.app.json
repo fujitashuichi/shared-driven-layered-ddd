@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "paths": {
-      "@pkg/shared": ["../shared/src/index.ts"]
+      "@pkg/shared": ["../shared/dist/index.ts"]
     },
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2022",

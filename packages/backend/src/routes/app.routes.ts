@@ -10,6 +10,7 @@ export const createAppRouter = (db: Database) => {
   const authRouter = createAuthRouter(db);
   const projectRouter = createProjectRouter(db);
 
+  router.use("/", (_, res) => res.send("Server Running..."));
   router.use("/auth", authRouter);
   router.use("/projects", projectRouter);
 
