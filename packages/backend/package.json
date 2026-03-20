@@ -8,8 +8,7 @@
   "main": "index.js",
   "scripts": {
     "db:generate": "npx prisma generate",
-    "db:push": "tsx --env-file=.env.development node_modules/.bin/prisma db push --config ./src/prisma.config.ts",
-    "db:studio": "tsx --env-file=.env.development node_modules/.bin/prisma studio --config ./src/prisma.config.ts",
+    "db:push": "npx prisma db push --config ./src/prisma.config.ts",
     "setupDb": "npm run db:generate && npm run db:push",
     "dev": "tsx watch --env-file=.env.development src/index.ts",
     "start": "tsx --env-file=.env.production src/index.ts",

@@ -2,14 +2,17 @@
 // npm install --save-dev prisma dotenv
 import "dotenv/config";
 import { defineConfig } from "prisma/config";
-import { ENV } from "../src/config/env.js";
+
+
+if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL is undefined");
+else process.stdout.write(`\n>>> LOG: Prisma loads DATABASE_URL successfully.\n`);
 
 export default defineConfig({
-  schema: "prisma/schema.prisma",
+  schema: "../prisma/schema.prisma",
   migrations: {
     path: "prisma/migrations",
   },
   datasource: {
-    url: ENV.DATABASE_URL,
+    url: process.env.DATABASE_URL,
   },
 });

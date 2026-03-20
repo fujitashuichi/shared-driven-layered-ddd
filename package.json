@@ -7,7 +7,6 @@
   "scripts": {
     "db:generate": "npm run db:generate -w packages/backend",
     "db:push": "npm run db:push -w packages/backend",
-    "db:studio": "npm run db:studio -w packages/backend",
     "setupDb": "npm run db:generate && npm run db:push",
     "build:shared": "tsc -p packages/shared",
     "build:frontend": "npm run build -w packages/frontend",
