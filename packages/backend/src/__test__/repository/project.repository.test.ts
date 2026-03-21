@@ -1,5 +1,7 @@
+vi.stubEnv("DATABASE_URL", "file:./database.sqlite");
+
 import { Database } from "sqlite3";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ProjectsRepository, UsersRepository } from "../../repository/index.js";
 import { createAppDb } from "../../db/index.js";
 import { userMocks } from "../../__mock__/index.js";
@@ -12,8 +14,8 @@ describe("project.repositoryの各メソッドを検査", () => {
 
   beforeEach(async () => {
     db = await createAppDb(":memory:");
-    usersRepository = new UsersRepository(db);
-    projectsRepository = new ProjectsRepository(db);
+    usersRepository = new UsersRepository();
+    projectsRepository = new ProjectsRepository();
   });
   afterEach(async () => {
     db = null;

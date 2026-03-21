@@ -1,3 +1,5 @@
+vi.stubEnv("DATABASE_URL", "file:./database.sqlite");
+
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { UsersRepository } from "../../repository/index.js";
 import { createAppDb } from "../../db/app.db.js";

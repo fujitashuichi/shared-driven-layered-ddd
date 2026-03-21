@@ -16,24 +16,4 @@ export const schemaTransformer = {
         .map(([k, v]) => [k, v === null ? { set: null } : v]) // null なら { set: null }
     );
   },
-
-
-  // undefined の項目を null に置換する
-
-  undefinedToNull: (data: Record<string, any>) => {
-    return Object.fromEntries(
-      Object.entries(data)
-        .map(([k, v]) => [k, v === undefined ? null : v])
-    );
-  },
-
-
-  // 誤解がないよう undefinedToNull とはっきり分けて運用する
-
-  omitUndefined: (data: Record<string, any>) => {
-    return Object.fromEntries(
-      Object.entries(data)
-        .filter(([_, v]) => v !== undefined)
-    )
-  }
 }

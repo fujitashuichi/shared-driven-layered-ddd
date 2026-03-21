@@ -6,7 +6,8 @@ export const projectRequestMocks = {
   postProject: {
     validReq_1: () => {
       const data: PostProjectRequest = {
-        title: "Title"
+        title: "Title",
+        description: null
       };
       return mockReq({ body: data });
     },

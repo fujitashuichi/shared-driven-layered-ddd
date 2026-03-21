@@ -2,7 +2,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import { createResponseMock, authRequestMocks } from "../../__mock__/index.js"
 import { NextFunction, Response } from "express"
 import { requestValidator } from "../../middleware/index.js";
-import { any } from "zod";
 
 describe("auth: request.guard", () => {
   let res: Response | null;
