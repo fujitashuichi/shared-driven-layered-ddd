@@ -12,9 +12,9 @@ export const RegisterResponseSchema = UserSchema;
 export type RegisterResponse = z.infer<typeof RegisterResponseSchema>;
 
 // session
-export const SessionResponseSchema = z.object({
-  id: z.number(),
-  email: z.email()
+export const SessionResponseSchema = UserSchema.pick({
+  id: true,
+  email: true
 });
 export type SessionResponse = z.infer<typeof SessionResponseSchema>;
 

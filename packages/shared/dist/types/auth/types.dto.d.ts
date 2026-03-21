@@ -11,7 +11,7 @@ export declare const RegisterResponseSchema: z.ZodObject<{
 }, z.core.$strip>;
 export type RegisterResponse = z.infer<typeof RegisterResponseSchema>;
 export declare const SessionResponseSchema: z.ZodObject<{
-    id: z.ZodNumber;
+    id: z.ZodUUID;
     email: z.ZodEmail;
 }, z.core.$strip>;
 export type SessionResponse = z.infer<typeof SessionResponseSchema>;

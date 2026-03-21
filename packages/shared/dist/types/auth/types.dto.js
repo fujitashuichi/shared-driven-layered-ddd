@@ -7,9 +7,9 @@ export const RegisterRequestSchema = z.object({
 });
 export const RegisterResponseSchema = UserSchema;
 // session
-export const SessionResponseSchema = z.object({
-    id: z.number(),
-    email: z.email()
+export const SessionResponseSchema = UserSchema.pick({
+    id: true,
+    email: true
 });
 // login
 export const LoginRequestSchema = z.object({
