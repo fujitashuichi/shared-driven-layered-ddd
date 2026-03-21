@@ -1,13 +1,12 @@
 import { Project } from "@pkg/shared";
 import { NextFunction, Request, Response } from "express";
 import { ProjectService } from "../service/index.js";
-import { Database } from "sqlite3";
 import { ProjectUndefinedError } from "../error/index.js";
 
-export const isUsersProject = (db: Database) => {
+export const isUsersProject = () => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const service = new ProjectService(db)
+      const service = new ProjectService()
 
       const userId = res.locals.userId;
       if (!userId) next(new Error("先にauthMiddlewareを設定する必要があります"));

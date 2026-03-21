@@ -2,11 +2,11 @@ import { NextFunction, Request, Response } from "express";
 import { UnAuthorizedError, UserUndefinedError } from "../error/index.js";
 import { verifyToken } from "../lib/jwt.js";
 import { UserService } from "../service/user.service.js";
-import { Database } from "sqlite3";
 
-export const authorize = (db: Database) => {
+
+export const authorize = () => {
   return async (req: Request, res: Response, next: NextFunction, ) => {
-    const service = new UserService(db);
+    const service = new UserService();
     const token: string | undefined = req.cookies?.token;
 
     if (!token) throw new UnAuthorizedError();
