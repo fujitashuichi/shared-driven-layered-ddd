@@ -13,5 +13,5 @@ const SaveUserPayloadSchema = UserSchema.omit({ id: true }).extend({ passwordHas
 export type SaveUserPayload = z.infer<typeof SaveUserPayloadSchema>
 
 
-export const ProjectWithoutIdSchema = ProjectSchema.omit({ id: true });
-export type ProjectWithoutId = z.infer<typeof ProjectWithoutIdSchema>;
+export const SaveProjectPayloadSchema = ProjectSchema.omit({ id: true });
+export type SaveProjectPayload = z.infer<typeof SaveProjectPayloadSchema>;

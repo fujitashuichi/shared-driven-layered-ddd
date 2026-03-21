@@ -1,10 +1,10 @@
 import { PatchProjectRequest, Project, ProjectSchema } from "@pkg/shared";
-import { ProjectWithoutId } from "../types/index.js";
+import { SaveProjectPayload } from "../types/index.js";
 import { prisma } from "../lib/prisma.js";
 
 
 export class ProjectsRepository {
-  saveProject = async (data: ProjectWithoutId): Promise<Project> => {
+  saveProject = async (data: SaveProjectPayload): Promise<Project> => {
     return await prisma.project.create({ data });
   }
 
