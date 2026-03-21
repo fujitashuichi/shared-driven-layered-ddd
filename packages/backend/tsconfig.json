@@ -13,7 +13,6 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "target": "esnext",
-    "types": [],
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],

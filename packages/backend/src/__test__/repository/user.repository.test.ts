@@ -1,23 +1,28 @@
-vi.stubEnv("DATABASE_URL", "file:./database.sqlite");
-
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { UsersRepository } from "../../repository/index.js";
 import { createAppDb } from "../../db/app.db.js";
 import { Database } from "sqlite3";
 import { userMocks } from "../../__mock__/index.js";
+import { MockProxy, mockReset } from "vitest-mock-extended"
+import { PrismaClient } from "../../generated/prisma/client.js";
+import { prismaMock } from "../../__mock__/prismaMock.js";
 
 
 describe("user.repositoryの各メソッドを検査", () => {
   let db: Database | null = null;
   let repository: UsersRepository | null = null;
+  let prisma: MockProxy<PrismaClient> | null = null;
 
   beforeEach(async () => {
     db = await createAppDb(":memory:");
     repository = new UsersRepository();
+    prisma = prismaMock;
   });
   afterEach(async () => {
     db = null;
     repository = null;
+    vi.resetAllMocks();
+    mockReset(prisma);
   })
 
   describe("正常型", () => {

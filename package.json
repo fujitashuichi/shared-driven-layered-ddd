@@ -16,7 +16,8 @@
     "dev:all": "npm run dev -w packages/frontend && npm run dev -w packages/backend",
     "lint:frontend": "npm run lint -w packages/frontend",
     "tsc:frontend": "npm run tsc -w packages/frontend",
-    "tsc:backend": "npm run tsc -w packages/backend"
+    "tsc:backend": "npm run tsc -w packages/backend",
+    "test:backend": "npm run test -w packages/backend"
   },
   "devDependencies": {
     "eslint": "^10.0.2"
