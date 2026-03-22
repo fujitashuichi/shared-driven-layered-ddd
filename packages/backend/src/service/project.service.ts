@@ -1,6 +1,6 @@
 import { ProjectsRepository, UsersRepository } from "../repository/index.js";
 import { PatchProjectRequest, PostProjectRequest, Project, User } from "@pkg/shared";
-import { ProjectUndefinedError, UserUndefinedError } from "../error/index.js";
+import { ProjectUndefinedError } from "../error/index.js";
 import { SaveProjectPayload } from "../types/type.db.js";
 
 
@@ -43,7 +43,6 @@ export class ProjectService {
     if (!result) throw new Error("Cannot get deleted Project");
     return result;
   }
-
   findByUserId = async (userId: Project["userId"]): Promise<Project[]> => {
     const result = await this.projectsRepository.findByUserId(userId);
     if (!result) throw new ProjectUndefinedError();

@@ -14,7 +14,7 @@ export const isUsersProject = () => {
       const projectId = Number(req.params.id);
       if (!projectId) next(new Error("isUsersProjectは req.param.id を要します"));
 
-      const usersProjects: Project[] = await service.finByUserId(userId);
+      const usersProjects: Project[] = await service.findByUserId(userId);
       const requiredProject: Project | null = await service.findById(projectId);
 
       if (requiredProject === null) next(new ProjectUndefinedError());

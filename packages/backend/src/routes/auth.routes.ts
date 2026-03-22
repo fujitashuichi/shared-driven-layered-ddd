@@ -1,24 +1,23 @@
 import { Router } from "express";
-import { Database } from "sqlite3";
 import { session, login, logout, register, me } from "../controller/index.js";
 import { authorize, requestValidator } from "../middleware/index.js";
 
 
-export const createAuthRouter = (db: Database) => {
+export const createAuthRouter = () => {
   const router = Router();
 
   router.post("/register",
     requestValidator("register"),
-    register(db)
+    register()
   );
 
   router.get("/session",
-    session(db)
+    session()
   );
 
   router.post("/login",
     requestValidator("login"),
-    login(db)
+    login()
   );
 
   router.post("/logout",
@@ -28,8 +27,8 @@ export const createAuthRouter = (db: Database) => {
 
   router.post("/me",
     requestValidator("me"),
-    authorize(db),
-    me(db)
+    authorize(),
+    me()
   );
 
   return router;

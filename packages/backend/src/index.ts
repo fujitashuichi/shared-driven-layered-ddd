@@ -5,7 +5,6 @@ import cors from "cors";
 import { createAppRouter } from "./routes/index.js";
 import { globalErrorHandler } from "./middleware/index.js";
 import { ENV } from "./config/env.js";
-import { createAppDb } from "./db/app.db.js";
 
 const FE_URL = ENV.NODE_FE_URL;
 
@@ -19,9 +18,8 @@ app.use(cors({
 app.use(express.json({ limit: "1kb" }));
 app.use(cookieParser());
 
-const db = await createAppDb("app.db");
 
-app.use("/api", createAppRouter(db));
+app.use("/api", createAppRouter);
 app.use(globalErrorHandler);
 
 app.listen(3000, () => {
