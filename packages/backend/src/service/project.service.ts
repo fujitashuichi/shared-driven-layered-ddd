@@ -1,6 +1,6 @@
 import { ProjectsRepository, UsersRepository } from "../repository/index.js";
 import { PatchProjectRequest, PostProjectRequest, Project, User } from "@pkg/shared";
-import { ProjectUndefinedError } from "../error/index.js";
+import { ProjectUndefinedError, UserUndefinedError } from "../error/index.js";
 import { SaveProjectPayload } from "../types/type.db.js";
 
 
@@ -33,24 +33,28 @@ export class ProjectService {
 
     const newProject: PatchProjectRequest = dto;
 
-    const updatedProject: Project = await this.projectsRepository.updateProject(newProject, id);
+    const updatedProject: Project | null = await this.projectsRepository.updateProject(newProject, id);
+    if (!updatedProject) throw new Error("Cannot get saved Project");
     return updatedProject;
   }
 
   deleteProject = async (id: Project["id"]): Promise<Project> => {
-    return await this.projectsRepository.deleteProject(id);
+    const result = await this.projectsRepository.deleteProject(id);
+    if (!result) throw new Error("Cannot get deleted Project");
+    return result;
   }
 
-  finByUserId = async (userId: Project["userId"]): Promise<Project[]> => {
-    return await this.projectsRepository.findByUserId(userId);
+  findByUserId = async (userId: Project["userId"]): Promise<Project[]> => {
+    const result = await this.projectsRepository.findByUserId(userId);
+    if (!result) throw new ProjectUndefinedError();
+    return result;
   }
   findById = async (id: Project["id"]): Promise<Project | null> => {
     return await this.projectsRepository.findById(id);
   }
-  findByUserId = async (userId: Project["userId"]): Promise<Project[]> => {
-    return await this.projectsRepository.findByUserId(userId);
-  }
   findByTitle = async (title: Project["title"]): Promise<Project[]> => {
-    return await this.projectsRepository.findByTitle(title);
+    const result = await this.projectsRepository.findByTitle(title);
+    if (!result) throw new ProjectUndefinedError();
+    return result;
   }
 }

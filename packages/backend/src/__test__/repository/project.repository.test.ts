@@ -25,7 +25,7 @@ describe("project.repositoryの各メソッドを検査", () => {
     const payload = userMocks.saveUserPayload();
     const user = await usersRepository!.saveUser(payload);
 
-    const data: SaveProjectPayload = projectPayloadMock.SaveProjectPayload(user);
+    const data: SaveProjectPayload = projectPayloadMock.SaveProjectPayload(user!);
     const promise = projectsRepository!.saveProject(data);
 
     await expect(promise).resolves.toEqual(
@@ -37,7 +37,7 @@ describe("project.repositoryの各メソッドを検査", () => {
     const payload = userMocks.saveUserPayload();
     const user = await usersRepository!.saveUser(payload);
 
-    const data: SaveProjectPayload = { ...projectPayloadMock.SaveProjectPayload(user), userId: user.id + 1 };
+    const data: SaveProjectPayload = { ...projectPayloadMock.SaveProjectPayload(user!), userId: user!.id + 1 };
     const promise = projectsRepository!.saveProject(data);
 
     await expect(promise).rejects.toThrow();
@@ -47,11 +47,11 @@ describe("project.repositoryの各メソッドを検査", () => {
     const payload = userMocks.saveUserPayload();
     const user = await usersRepository!.saveUser(payload);
 
-    const data: SaveProjectPayload = projectPayloadMock.SaveProjectPayload(user);
+    const data: SaveProjectPayload = projectPayloadMock.SaveProjectPayload(user!);
     const saved = await projectsRepository!.saveProject(data);
 
     const updatedData: PatchProjectRequest = { title: "title", description: null, status: "done" };
-    const result = await projectsRepository!.updateProject(updatedData, saved.id);
+    const result = await projectsRepository!.updateProject(updatedData, saved!.id);
 
     expect(result).toEqual(
       expect.objectContaining(updatedData)
@@ -62,10 +62,10 @@ describe("project.repositoryの各メソッドを検査", () => {
     const payload = userMocks.saveUserPayload();
     const user = await usersRepository!.saveUser(payload);
 
-    const data: SaveProjectPayload = projectPayloadMock.SaveProjectPayload(user);
+    const data: SaveProjectPayload = projectPayloadMock.SaveProjectPayload(user!);
     const project = await projectsRepository!.saveProject(data);
 
-    const promise = projectsRepository!.deleteProject(project.id);
+    const promise = projectsRepository!.deleteProject(project!.id);
     await expect(promise).resolves.toStrictEqual(expect.objectContaining(data));
   });
 
@@ -73,10 +73,10 @@ describe("project.repositoryの各メソッドを検査", () => {
     const payload = userMocks.saveUserPayload();
     const user = await usersRepository!.saveUser(payload);
 
-    const data: SaveProjectPayload = projectPayloadMock.SaveProjectPayload(user);
+    const data: SaveProjectPayload = projectPayloadMock.SaveProjectPayload(user!);
     const saved = await projectsRepository!.saveProject(data);
 
-    const promise = projectsRepository!.findById(saved.id);
+    const promise = projectsRepository!.findById(saved!.id);
     await expect(promise).resolves.toStrictEqual(expect.objectContaining(data));
   });
 
@@ -84,10 +84,10 @@ describe("project.repositoryの各メソッドを検査", () => {
     const payload = userMocks.saveUserPayload();
     const user = await usersRepository!.saveUser(payload);
 
-    const data: SaveProjectPayload = projectPayloadMock.SaveProjectPayload(user);
+    const data: SaveProjectPayload = projectPayloadMock.SaveProjectPayload(user!);
     const saved = await projectsRepository!.saveProject(data);
 
-    const result = await projectsRepository!.findByUserId(saved.userId);
+    const result = await projectsRepository!.findByUserId(saved!.userId);
     expect(result).toEqual(
       expect.arrayContaining([
         expect.objectContaining(data)
@@ -99,10 +99,10 @@ describe("project.repositoryの各メソッドを検査", () => {
     const payload = userMocks.saveUserPayload();
     const user = await usersRepository!.saveUser(payload);
 
-    const data: SaveProjectPayload = projectPayloadMock.SaveProjectPayload(user);
+    const data: SaveProjectPayload = projectPayloadMock.SaveProjectPayload(user!);
     const saved = await projectsRepository!.saveProject(data);
 
-    const result = await projectsRepository!.findByTitle(saved.title);
+    const result = await projectsRepository!.findByTitle(saved!.title);
     expect(result).toEqual(
       expect.arrayContaining([
         expect.objectContaining(data)

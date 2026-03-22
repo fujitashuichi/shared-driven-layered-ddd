@@ -2,7 +2,7 @@ import { hashPassword, signToken } from "../lib/index.js";
 import { UsersRepository } from "../repository/index.js";
 import { Database } from "sqlite3";
 import { RegisterRequest, User, UserSchema } from "@pkg/shared";
-import { EmailAlreadyRegisteredError } from "../error/index.js";
+import { EmailAlreadyRegisteredError, UserUndefinedError } from "../error/index.js";
 
 
 export class RegisterService {
@@ -11,7 +11,7 @@ export class RegisterService {
 
   registerUser = async (dto: RegisterRequest): Promise<{ user: User, token: string }> => {
     if (await this.usersRepository.findByEmail(dto.email) !== null) {
-      throw new EmailAlreadyRegisteredError(dto.email);
+      console.error(`${dto.email}: already registered`);
     }
 
     const hashed = await hashPassword(dto.password);
@@ -22,7 +22,9 @@ export class RegisterService {
       createdAt: new Date()
     }
 
-    const savedUser: User = await this.usersRepository.saveUser(newUser);
+    const savedUser: User | null = await this.usersRepository.saveUser(newUser);
+    if (!savedUser) throw new UserUndefinedError();
+
     const token: string = signToken({ email: dto.email });
 
     return {

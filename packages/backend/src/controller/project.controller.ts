@@ -1,6 +1,7 @@
 import { ProjectService } from "../service/index.js";
 import { DeleteProjectResponse, GetProjectsResponse, PatchProjectRequest, PatchProjectResponse, PostProjectRequest, PostProjectResponse, Project, ResponseJson } from "@pkg/shared";
 import { Request, Response } from "express";
+import { ProjectUndefinedError } from "../error/ProjectError.js";
 
 
 export const createProject = () => {
@@ -9,6 +10,8 @@ export const createProject = () => {
     const service = new ProjectService();
 
     const result = await service.saveProject(dto, res.locals.userId);
+    if (!result) throw new ProjectUndefinedError();
+
     const json: ResponseJson<PostProjectResponse> = {
       success: true,
       data: result

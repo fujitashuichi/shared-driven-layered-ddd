@@ -44,7 +44,7 @@ describe("user.repositoryの各メソッドを検査", () => {
       const payload: SaveUserPayload = userMocks.saveUserPayload();
       const user = await repository!.saveUser(payload);
 
-      const promise = repository!.findById(user.id);
+      const promise = repository!.findById(user!.id);
       const { passwordHash, ...required } = payload;
       await expect(promise).resolves.toEqual(
         expect.objectContaining(required)
@@ -52,8 +52,8 @@ describe("user.repositoryの各メソッドを検査", () => {
     });
 
     it("findByEmailは正しく成功する", async () => {
-      const payload = userMocks.saveUserPayload();
-      const user = await repository!.saveUser(payload);
+      const payload: SaveUserPayload = userMocks.saveUserPayload();
+      await repository!.saveUser(payload);
 
       const promise = repository!.findByEmail(payload.email);
       const { passwordHash, ...required } = payload;

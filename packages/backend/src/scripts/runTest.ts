@@ -38,11 +38,15 @@ const runCommand = () => {
 
     // vitest
     console.log("running vitest...");
-    const vitest = spawnSync(npxCommand, ['vitest', ...process.argv.slice(2)], {
-      stdio: "inherit",
-      shell: process.platform === "win32",
-      env: { ...process.env }
-    });
+    const vitest = spawnSync(
+      npxCommand,
+      ['vitest', ...process.argv.slice(2)],
+      {
+        stdio: "inherit",
+        shell: process.platform === "win32",
+        env: { ...process.env }
+      }
+    );
 
     if (vitest.status !== 0) {
       process.exitCode = vitest.status ?? 1;
