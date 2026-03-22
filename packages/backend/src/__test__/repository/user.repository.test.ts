@@ -2,7 +2,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { UsersRepository } from "../../repository/index.js";
 import { userMocks } from "../../__mock__/index.js";
 import { SaveUserPayload } from "../../types/type.db.js";
-import { spawnSync } from "node:child_process";
 import { prisma } from "../../lib/prisma.js";
 
 
@@ -11,6 +10,7 @@ describe("user.repositoryの各メソッドを検査", () => {
 
   beforeEach(async () => {
     repository = new UsersRepository();
+    await prisma.project.deleteMany();
     await prisma.user.deleteMany();
   });
   afterEach(async () => {

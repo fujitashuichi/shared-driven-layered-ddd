@@ -38,7 +38,7 @@ describe("isUsersProject", () => {
     const req = createRequestMock.withParams({ id: "1" });
     await isUsersProject()(req, res!, next!);
 
-    expect(next).toBeCalledWith();
+    expect(next).toHaveBeenCalled();
   });
 
   it("ユーザーが所持していないprojectに対して、ErrorHandlerを呼ぶ", async () => {
@@ -53,6 +53,6 @@ describe("isUsersProject", () => {
     const req = createRequestMock.withParams({ id: "5656564" });
     await isUsersProject()(req, res!, next!);
 
-    expect(next).toBeCalledWith(expect.any(ProjectUndefinedError));
+    expect(next).toHaveBeenCalledWith(expect.any(ProjectUndefinedError));
   });
 });

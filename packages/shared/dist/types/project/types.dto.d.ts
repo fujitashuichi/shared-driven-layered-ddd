@@ -2,6 +2,7 @@ import z from "zod";
 export declare const PostProjectRequestSchema: z.ZodObject<{
     title: z.ZodString;
     description: z.ZodNullable<z.ZodString>;
+    status: z.ZodNullable<z.ZodString>;
 }, z.z.core.$strict>;
 export type PostProjectRequest = z.infer<typeof PostProjectRequestSchema>;
 export declare const PostProjectResponseSchema: z.ZodObject<{
@@ -24,17 +25,11 @@ export declare const GetProjectsResponseSchema: z.ZodArray<z.ZodObject<{
     updatedAt: z.ZodDate;
 }, z.z.core.$strip>>;
 export type GetProjectsResponse = z.infer<typeof GetProjectsResponseSchema>;
-export declare const PatchProjectRequestSchema: z.ZodPipe<z.ZodObject<{
-    title: z.ZodOptional<z.ZodString>;
-    description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-    status: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-}, z.z.core.$strip>, z.ZodTransform<{
-    [k: string]: any;
-}, {
-    title?: string | undefined;
-    description?: string | null | undefined;
-    status?: string | null | undefined;
-}>>;
+export declare const PatchProjectRequestSchema: z.ZodObject<{
+    description: z.ZodNullable<z.ZodString>;
+    status: z.ZodNullable<z.ZodString>;
+    title: z.ZodNullable<z.ZodString>;
+}, z.z.core.$strict>;
 export type PatchProjectRequest = z.infer<typeof PatchProjectRequestSchema>;
 export declare const PatchProjectResponseSchema: z.ZodObject<{
     id: z.ZodNumber;

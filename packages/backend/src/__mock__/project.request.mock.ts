@@ -7,14 +7,16 @@ export const projectRequestMocks = {
     validReq_1: () => {
       const data: PostProjectRequest = {
         title: "Title",
-        description: null
+        description: null,
+        status: "done"
       };
       return mockReq({ body: data });
     },
     validReq_2: () => {
       const data: PostProjectRequest = {
         title: "Title",
-        description: "description"
+        description: "description",
+        status: null
       };
       return mockReq({ body: data });
     },

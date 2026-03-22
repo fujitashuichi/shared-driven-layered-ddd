@@ -2,7 +2,6 @@ vi.stubEnv("NODE_JWT_SECRET", "secret");
 
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { authRequestMocks, createResponseMock } from "../../__mock__/index.js";
-import { createAppDb } from "../../db/index.js";
 import { NextFunction, Request, Response } from "express";
 import { Database } from "sqlite3";
 import { register } from "../../controller/index.js";
@@ -17,7 +16,6 @@ describe("authorize.ts", () => {
   beforeEach(async () => {
     res = createResponseMock();
     next = vi.fn();
-    db = await createAppDb(":memory:");
     res = createResponseMock(); // resを設定し直さないとテストバグの原因になる（チェーンの呼び出し回数など）
   });
   afterEach(() => {
@@ -28,12 +26,12 @@ describe("authorize.ts", () => {
   });
 
   it("tokenがある場合はdtoにuserIdを付加する", async () => {
-    await register(db!)(authRequestMocks.register.validReq(), res!);
+    await register()(authRequestMocks.register.validReq(), res!);
 
     const [name, value] = vi.mocked(res!.cookie).mock.calls[0]!;
     const cookies: Request["cookies"] = { [name]: value };
 
-    await authorize(db!)(createRequestMock.withCookies(cookies), res!, next!);
+    await authorize()(createRequestMock.withCookies(cookies), res!, next!);
 
     expect(res!.locals).toBeTruthy();
     expect(res!.locals.userId).toBeTruthy();
@@ -41,7 +39,7 @@ describe("authorize.ts", () => {
 
   it("tokenがない場合はUnAuthorizedErrorを投げる", async () => {
     await expect(
-      authorize(db!)(createRequestMock.withoutData(), res!, next!)
+      authorize()(createRequestMock.withoutData(), res!, next!)
     ).rejects.toThrow();
 
     expect(res!.locals).toEqual({});
