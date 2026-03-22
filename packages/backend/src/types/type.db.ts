@@ -1,4 +1,4 @@
-import { ProjectSchema, schemaTransformer, UserSchema } from "@pkg/shared";
+import { PatchProjectRequestSchema, ProjectSchema, schemaTransformer, UserSchema } from "@pkg/shared";
 import { z } from "zod";
 
 export const DbUserSchema = z.object({
@@ -15,3 +15,7 @@ export type SaveUserPayload = z.infer<typeof SaveUserPayloadSchema>
 
 export const SaveProjectPayloadSchema = ProjectSchema.omit({ id: true });
 export type SaveProjectPayload = z.infer<typeof SaveProjectPayloadSchema>;
+
+export const UpdateProjectPayloadSchema = PatchProjectRequestSchema
+  .transform(schemaTransformer.toPrismaUpdate);
+export type UpdateProjectPayload = z.infer<typeof UpdateProjectPayloadSchema>;

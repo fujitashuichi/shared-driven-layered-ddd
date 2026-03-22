@@ -1,7 +1,8 @@
 import { ProjectsRepository, UsersRepository } from "../repository/index.js";
 import { PatchProjectRequest, PostProjectRequest, Project, User } from "@pkg/shared";
-import { ProjectUndefinedError, UserUndefinedError } from "../error/index.js";
+import { ProjectUndefinedError } from "../error/index.js";
 import { SaveProjectPayload } from "../types/type.db.js";
+import { styleText } from "node:util";
 
 
 export class ProjectService {
@@ -10,19 +11,29 @@ export class ProjectService {
 
 
   saveProject = async (dto: PostProjectRequest, userId: User["id"]) => {
-    if (await this.usersRepository.findById(userId) === null) {
-      console.error("Cannot create Project because User undefined");
-      throw new UserUndefinedError();
-    }
+    try {
+      if (await this.usersRepository.findById(userId) === null) {
+        console.error("Cannot create Project because User undefined");
+      }
 
-    const newProject: SaveProjectPayload = {
-      ...dto,
-      userId: userId,
-      createdAt: new Date(),
-      updatedAt: new Date()
+      const newProject: SaveProjectPayload = {
+        ...dto,
+        userId: userId,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+      const savedProject = await this.projectsRepository.saveProject(newProject);
+      return savedProject;
+    } catch (e) {
+      if (e instanceof Error) {
+        console.error(styleText(
+          ["red", "bgYellowBright"],
+          `"${e.name}" caught\nin ${import.meta.filename}`
+        ));
+
+        throw e;
+      }
     }
-    const savedProject = await this.projectsRepository.saveProject(newProject);
-    return savedProject;
   }
 
   updateProject = async (dto: PatchProjectRequest, id: Project["id"]): Promise<Project> => {
