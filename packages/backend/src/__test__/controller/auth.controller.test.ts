@@ -14,6 +14,13 @@ describe("auth.controller", () => {
     res = createResponseMock();
     await prisma.project.deleteMany();
     await prisma.user.deleteMany();
+    let userCount = await prisma.user.count();
+    let projectCount = await prisma.project.count();
+    while (userCount > 0 || projectCount > 0) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+      userCount = await prisma.user.count();
+      projectCount = await prisma.user.count();
+    }
   }, 50000);
   afterEach(() => {
     res = null;

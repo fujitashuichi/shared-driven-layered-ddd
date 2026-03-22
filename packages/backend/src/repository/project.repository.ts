@@ -6,6 +6,7 @@ import { safeQuery } from "./safeQuery.js";
 
 export class ProjectsRepository {
   saveProject = async (data: SaveProjectPayload): Promise<Project | null> => {
+    console.log("trying save:", data);
     return await safeQuery(() =>
       prisma.project.create({ data })
     );

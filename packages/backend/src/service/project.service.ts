@@ -1,6 +1,6 @@
 import { ProjectsRepository, UsersRepository } from "../repository/index.js";
 import { PatchProjectRequest, PostProjectRequest, Project, User } from "@pkg/shared";
-import { ProjectUndefinedError } from "../error/index.js";
+import { ProjectUndefinedError, UserUndefinedError } from "../error/index.js";
 import { SaveProjectPayload } from "../types/type.db.js";
 
 

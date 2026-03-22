@@ -15,6 +15,13 @@ describe("project.repositoryの各メソッドを検査", () => {
     projectsRepository = new ProjectsRepository();
     await prisma.project.deleteMany();
     await prisma.user.deleteMany();
+    let userCount = await prisma.user.count();
+    let projectCount = await prisma.project.count();
+    while (userCount > 0 || projectCount > 0) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+      userCount = await prisma.user.count();
+      projectCount = await prisma.user.count();
+    }
   });
   afterEach(async () => {
     usersRepository = null;

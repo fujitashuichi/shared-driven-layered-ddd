@@ -22,6 +22,13 @@ describe("isUsersProject", () => {
     next = vi.fn();
     await prisma.project.deleteMany();
     await prisma.user.deleteMany();
+    let userCount = await prisma.user.count();
+    let projectCount = await prisma.project.count();
+    while (userCount > 0 || projectCount > 0) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+      userCount = await prisma.user.count();
+      projectCount = await prisma.user.count();
+    }
   }, 50000);
   afterEach(() => {
     res = null;
@@ -37,9 +44,9 @@ describe("isUsersProject", () => {
 
     const body: PostProjectRequest = projectRequestMocks.postProject.validReq_1().body;
     await authorize()(createRequestMock.withCookies(cookies), res!, next!);
-    createProject()(createRequestMock.withBody({ body }), res!);
+    await createProject()(createRequestMock.withBody(body), res!);
 
-    const req = createRequestMock.withParams({ id: userData.user.id });
+    const req = createRequestMock.withParams({ id: "1" });
     await isUsersProject()(req, res!, next!);
 
     expect(next).toHaveBeenCalledWith();
@@ -52,7 +59,7 @@ describe("isUsersProject", () => {
     const cookies: Request["cookies"] = { [name]: value };
 
     await authorize()(createRequestMock.withCookies(cookies), res!, next!);
-    createProject()(createRequestMock.withBody({ title: "Title" }), res!);
+    await createProject()(createRequestMock.withBody({ title: "Title" }), res!);
 
     const req = createRequestMock.withParams({ id: "5656564" });
     await isUsersProject()(req, res!, next!);

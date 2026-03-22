@@ -20,6 +20,13 @@ describe("authorize.ts", () => {
     res = createResponseMock(); // resを設定し直さないとテストバグの原因になる（チェーンの呼び出し回数など）
     await prisma.project.deleteMany();
     await prisma.user.deleteMany();
+    let userCount = await prisma.user.count();
+    let projectCount = await prisma.project.count();
+    while (userCount > 0 || projectCount > 0) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+      userCount = await prisma.user.count();
+      projectCount = await prisma.user.count();
+    }
   }, 50000);
   afterEach(() => {
     res = null;
