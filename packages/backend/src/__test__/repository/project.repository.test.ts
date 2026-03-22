@@ -76,10 +76,8 @@ describe("project.repositoryの各メソッドを検査", () => {
     const data: SaveProjectPayload = projectPayloadMock.SaveProjectPayload(user);
     const saved = await projectsRepository!.saveProject(data);
 
-    const result = await projectsRepository!.findById(saved.id);
-    expect(result).toStrictEqual(
-      expect.objectContaining(data)
-    );
+    const promise = projectsRepository!.findById(saved.id);
+    await expect(promise).resolves.toStrictEqual(expect.objectContaining(data));
   });
 
   it ("findByUserIdは正しく成功する", async () => {

@@ -12,8 +12,6 @@ describe("user.repositoryの各メソッドを検査", () => {
     repository = new UsersRepository();
     await prisma.project.deleteMany();
     await prisma.user.deleteMany();
-    prisma.project.deleteMany();
-    prisma.user.deleteMany();
   }, 50000);
   afterEach(async () => {
     repository = null;
