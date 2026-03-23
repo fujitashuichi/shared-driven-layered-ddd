@@ -12,7 +12,7 @@
     "syncDb": "npm run db:generate && npm run db:push",
     "dev": "tsx watch --env-file=.env.development src/index.ts",
     "start": "tsx src/index.ts",
-    "build": "npx prisma generate && npx prisma db push && tsc",
+    "build": "npm run syncDb && tsc",
     "test": "tsx ./src/scripts/runTest.ts",
     "tsc": "npx tsc --noemit"
   },
