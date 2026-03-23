@@ -66,7 +66,7 @@ export const projectRequestMocks = {
   updateProject: {
     validReq_1: () => {
       const body: PatchProjectRequest = {
-        title: null,
+        title: undefined,
         description: "new description",
         status: null
       }
