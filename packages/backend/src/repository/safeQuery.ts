@@ -20,6 +20,6 @@ export const safeQuery = async <T>(query: () => Promise<T>): Promise<T | null> =
       console.error(`message : ${e.message}`);
       throw e;
     }
-    return null;
+    throw e;
   }
 }

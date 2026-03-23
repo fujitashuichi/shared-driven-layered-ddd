@@ -9,18 +9,18 @@ export const isUsersProject = () => {
       const service = new ProjectService()
 
       const userId = res.locals.userId;
-      if (!userId) next(new Error("先にauthMiddlewareを設定する必要があります"));
+      if (!userId) return next(new Error("先にauthMiddlewareを設定する必要があります"));
 
       const projectId = Number(req.params.id);
-      if (!projectId) next(new Error("isUsersProjectは req.param.id を要します"));
+      if (!projectId) return next(new Error("isUsersProjectは req.param.id を要します"));
 
       const usersProjects: Project[] = await service.findByUserId(userId);
       const requiredProject: Project | null = await service.findById(projectId);
 
-      if (requiredProject === null) next(new ProjectUndefinedError());
+      if (requiredProject === null) return next(new ProjectUndefinedError());
 
       const isUsersProject = usersProjects.some(p => p.id === projectId);
-      if (!isUsersProject) next(new ProjectUndefinedError());
+      if (!isUsersProject) return next(new ProjectUndefinedError());
 
       next();
     } catch(err) {
