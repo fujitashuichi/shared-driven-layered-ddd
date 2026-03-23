@@ -11,8 +11,8 @@
     "db:push": "npx prisma db push --config ./src/prisma.config.ts",
     "syncDb": "npm run db:generate && npm run db:push",
     "dev": "tsx watch --env-file=.env.development src/index.ts",
-    "start": "tsx ./dist/index.js",
-    "build": "npx prisma generate && npx prisma push && tsc",
+    "start": "tsx src/index.ts",
+    "build": "npx prisma generate && npx prisma db push && tsc",
     "test": "tsx ./src/scripts/runTest.ts",
     "tsc": "npx tsc --noemit"
   },
