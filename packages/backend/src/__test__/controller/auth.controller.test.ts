@@ -4,26 +4,25 @@ import { Request, Response } from "express";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { authRequestMocks, createRequestMock, createResponseMock } from "../../__mock__/index.js";
 import { login, register } from "../../controller/index.js";
-import { Database } from "sqlite3";
-import { createAppDb } from "../../db/index.js";
+import { prisma } from "../../lib/prisma.js";
+import { cleanupDb } from "../tools/cleanupDb.js";
+
 
 describe("auth.controller", () => {
   let res: Response | null;
-  let db: Database | null;
 
   beforeEach(async () => {
     res = createResponseMock();
-    db = await createAppDb(":memory:");
-  });
+    await cleanupDb();
+  }, 50000);
   afterEach(() => {
     res = null;
-    db = null;
   });
 
 
   // register
   it("register: 正常に登録が完了する", async () => {
-    await register(db!)(authRequestMocks.register.validReq(), res!);
+    await register()(authRequestMocks.register.validReq(), res!);
 
     expect(res!.status).toHaveBeenCalledWith(201);
     expect(res!.cookie).toHaveBeenCalledWith(
@@ -34,9 +33,9 @@ describe("auth.controller", () => {
   });
 
   it("register: 重複するEmailは登録が失敗する", async () => {
-    await register(db!)(authRequestMocks.register.validReq(), res!);
+    await register()(authRequestMocks.register.validReq(), res!);
     res = createResponseMock();
-    await expect(register(db!)(authRequestMocks.register.validReq(), res!))
+    await expect(register()(authRequestMocks.register.validReq(), res!))
       .rejects.toThrow();
 
     expect(res!.status).not.toHaveBeenCalled();
@@ -48,9 +47,9 @@ describe("auth.controller", () => {
   it("login: パスワードが一致する場合、okレスポンスを返してtokenを再発行する", async () => {
     const requestBody: Request["body"] = { email: "example@email.com", password: "TestPassword" };
 
-    await register(db!)(createRequestMock.withBody(requestBody), res!);
+    await register()(createRequestMock.withBody(requestBody), res!);
     res = createResponseMock();
-    await login(db!)(createRequestMock.withBody(requestBody), res!);
+    await login()(createRequestMock.withBody(requestBody), res!);
 
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.cookie).toHaveBeenCalledWith(
@@ -65,9 +64,9 @@ describe("auth.controller", () => {
     const registerRequestBody: Request["body"] = { email: email, password: "TestPassword" };
     const loginRequestBody: Request["body"] = { email: email, password: "ThIsISWroNGpASswORd" };
 
-    await register(db!)(createRequestMock.withBody(registerRequestBody), res!);
+    await register()(createRequestMock.withBody(registerRequestBody), res!);
     res = createResponseMock();
-    await expect(login(db!)(createRequestMock.withBody(loginRequestBody), res!))
+    await expect(login()(createRequestMock.withBody(loginRequestBody), res!))
       .rejects.toThrow();
 
     expect(res.status).not.toHaveBeenCalled();

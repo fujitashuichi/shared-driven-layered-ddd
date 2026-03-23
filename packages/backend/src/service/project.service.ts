@@ -1,35 +1,29 @@
-import { Database } from "sqlite3";
-import { createAppDb } from "../db/index.js";
 import { ProjectsRepository, UsersRepository } from "../repository/index.js";
-import { ProjectWithoutId, UpdateProjectPayload } from "../types/index.js";
 import { PatchProjectRequest, PostProjectRequest, Project, User } from "@pkg/shared";
 import { ProjectUndefinedError, UserUndefinedError } from "../error/index.js";
-
-const appDb = await createAppDb("app.db");
+import { SaveProjectPayload } from "../types/type.db.js";
 
 
 export class ProjectService {
-  private readonly projectsRepository: ProjectsRepository;
-  private readonly usersRepository: UsersRepository;
+  private readonly projectsRepository = new ProjectsRepository();
+  private readonly usersRepository = new UsersRepository();
 
-  constructor(db: Database = appDb) {
-    this.projectsRepository = new ProjectsRepository(db);
-    this.usersRepository = new UsersRepository(db);
-  }
 
-  saveProject = async (dto: PostProjectRequest, userId: User["id"]) => {
+  saveProject = async (dto: PostProjectRequest, userId: User["id"]): Promise<Project | null> => {
     if (await this.usersRepository.findById(userId) === null) {
       console.error("Cannot create Project because User undefined");
       throw new UserUndefinedError();
     }
 
-    const newProject: ProjectWithoutId = {
+    const newProject: SaveProjectPayload = {
       ...dto,
       userId: userId,
-      createdAt: Date.now(),
-      updatedAt: Date.now()
+      createdAt: new Date(),
+      updatedAt: new Date()
     }
     const savedProject = await this.projectsRepository.saveProject(newProject);
+    if (!savedProject) throw new ProjectUndefinedError();
+
     return savedProject;
   }
 
@@ -40,29 +34,29 @@ export class ProjectService {
       throw new ProjectUndefinedError();
     }
 
-    const newProject: UpdateProjectPayload = {
-      ...dto,
-      updatedAt: Date.now()
-    }
+    const newProject: PatchProjectRequest = dto;
 
-    const updatedProject: Project = await this.projectsRepository.updateProject(newProject, id);
+    const updatedProject: Project | null = await this.projectsRepository.updateProject(newProject, id);
+    if (!updatedProject) throw new Error("Cannot get saved Project");
     return updatedProject;
   }
 
-  deleteProject = async (id: Project["id"]): Promise<true> => {
-    return await this.projectsRepository.deleteProject(id);
+  deleteProject = async (id: Project["id"]): Promise<Project> => {
+    const result = await this.projectsRepository.deleteProject(id);
+    if (!result) throw new Error("Cannot get deleted Project");
+    return result;
   }
-
-  finByUserId = async (userId: Project["userId"]): Promise<Project[]> => {
-    return await this.projectsRepository.findByUserId(userId);
+  findByUserId = async (userId: Project["userId"]): Promise<Project[]> => {
+    const result = await this.projectsRepository.findByUserId(userId);
+    if (!result) throw new ProjectUndefinedError();
+    return result;
   }
   findById = async (id: Project["id"]): Promise<Project | null> => {
     return await this.projectsRepository.findById(id);
   }
-  findByUserId = async (userId: Project["userId"]): Promise<Project[]> => {
-    return await this.projectsRepository.findByUserId(userId);
-  }
   findByTitle = async (title: Project["title"]): Promise<Project[]> => {
-    return await this.projectsRepository.findByTitle(title);
+    const result = await this.projectsRepository.findByTitle(title);
+    if (!result) throw new ProjectUndefinedError();
+    return result;
   }
 }

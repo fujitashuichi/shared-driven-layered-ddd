@@ -1,21 +1,24 @@
-import { PostProjectRequest } from "@pkg/shared";
+import { PatchProjectRequest, PostProjectRequest } from "@pkg/shared";
 import { Request } from "express"
 import { mockReq } from "sinon-express-mock"
 
 export const projectRequestMocks = {
   postProject: {
     validReq_1: () => {
-      const data: PostProjectRequest = {
-        title: "Title"
+      const body: PostProjectRequest = {
+        title: "Title",
+        description: null,
+        status: "done"
       };
-      return mockReq({ body: data });
+      return mockReq({ body });
     },
     validReq_2: () => {
-      const data: PostProjectRequest = {
+      const body: PostProjectRequest = {
         title: "Title",
-        description: "description"
+        description: "description",
+        status: null
       };
-      return mockReq({ body: data });
+      return mockReq({ body });
     },
 
 
@@ -57,5 +60,17 @@ export const projectRequestMocks = {
         }
       });
     },
-  }
+  },
+
+
+  updateProject: {
+    validReq_1: () => {
+      const body: PatchProjectRequest = {
+        title: undefined,
+        description: "new description",
+        status: null
+      }
+      return mockReq({ body });
+    }
+  },
 }

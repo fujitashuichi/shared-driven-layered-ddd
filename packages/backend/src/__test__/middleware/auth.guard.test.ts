@@ -2,15 +2,17 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import { createResponseMock, authRequestMocks } from "../../__mock__/index.js"
 import { NextFunction, Response } from "express"
 import { requestValidator } from "../../middleware/index.js";
-import { any } from "zod";
+import { prisma } from "../../lib/prisma.js";
+import { cleanupDb } from "../tools/cleanupDb.js";
 
 describe("auth: request.guard", () => {
   let res: Response | null;
   let next: NextFunction | null;
-  beforeEach(() => {
+  beforeEach(async () => {
     res = createResponseMock();
     next = vi.fn();
-  });
+    await cleanupDb();
+  }, 50000);
   afterEach(() => {
     res = null;
     next = null;

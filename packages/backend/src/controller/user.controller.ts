@@ -2,12 +2,11 @@ import { Request, Response } from "express";
 import { UserService } from "../service/index.js";
 import { ResponseJson, SessionResponse, User } from "@pkg/shared";
 import { verifyToken } from "../lib/index.js";
-import { Database } from "sqlite3";
 import { UnAuthorizedError, UserUndefinedError } from "../error/index.js";
 
-export const session = (db: Database) => {
+export const session = () => {
   return async (req: Request, res: Response): Promise<Response<SessionResponse>> => {
-    const userService = new UserService(db);
+    const userService = new UserService();
 
     const token = req.cookies.token;
     if (!token) {

@@ -1,34 +1,33 @@
 import { Router } from "express";
 import { authorize, requestValidator } from "../middleware/index.js";
 import { createProject, deleteProject, getProjects, updateProject } from "../controller/index.js";
-import { Database } from "sqlite3";
 import { isUsersProject } from "../middleware/isUsersProject.js";
 
 
-export const createProjectRouter = (db: Database) => {
+export const createProjectRouter = () => {
   const router = Router();
 
   router.post("/",
     requestValidator("postProject"),
-    authorize(db),
-    createProject(db)
+    authorize(),
+    createProject()
   );
 
   router.get("/",
-    authorize(db),
-    getProjects(db)
+    authorize(),
+    getProjects()
   );
 
   router.patch("/:id",
-    authorize(db),
-    isUsersProject(db),
-    updateProject(db)
+    authorize(),
+    isUsersProject(),
+    updateProject()
   );
 
   router.delete("/:id",
-    authorize(db),
-    isUsersProject(db),
-    deleteProject(db)
+    authorize(),
+    isUsersProject(),
+    deleteProject()
   );
 
   return router;

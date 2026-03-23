@@ -1,20 +1,21 @@
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { UsersRepository } from "../../repository/index.js";
-import { createAppDb } from "../../db/app.db.js";
-import { Database } from "sqlite3";
 import { userMocks } from "../../__mock__/index.js";
+import { SaveUserPayload } from "../../types/type.db.js";
+import { prisma } from "../../lib/prisma.js";
+import { cleanupDb } from "../tools/cleanupDb.js";
+
 
 describe("user.repositoryの各メソッドを検査", () => {
-  let db: Database | null = null;
   let repository: UsersRepository | null = null;
 
   beforeEach(async () => {
-    db = await createAppDb(":memory:");
-    repository = new UsersRepository(db);
-  });
+    repository = new UsersRepository();
+    await cleanupDb();
+  }, 50000);
   afterEach(async () => {
-    db = null;
     repository = null;
+    vi.resetAllMocks();
   })
 
   describe("正常型", () => {
@@ -23,9 +24,7 @@ describe("user.repositoryの各メソッドを検査", () => {
 
       const promise = repository!.saveUser(payload);
       const { passwordHash, ...required } = payload;
-      await expect(promise).resolves.toEqual(
-        expect.objectContaining(required)
-      );
+      await expect(promise).resolves.toStrictEqual(expect.objectContaining(required));
     });
 
     it("getUsersは正しく成功する", async () => {
@@ -42,10 +41,10 @@ describe("user.repositoryの各メソッドを検査", () => {
     });
 
     it("findByIdは正しく成功する", async () => {
-      const payload = userMocks.saveUserPayload();
-      await repository!.saveUser(payload);
+      const payload: SaveUserPayload = userMocks.saveUserPayload();
+      const user = await repository!.saveUser(payload);
 
-      const promise = repository!.findById(1);
+      const promise = repository!.findById(user!.id);
       const { passwordHash, ...required } = payload;
       await expect(promise).resolves.toEqual(
         expect.objectContaining(required)
@@ -53,8 +52,8 @@ describe("user.repositoryの各メソッドを検査", () => {
     });
 
     it("findByEmailは正しく成功する", async () => {
-      const payload = userMocks.saveUserPayload();
-      await repository?.saveUser(payload);
+      const payload: SaveUserPayload = userMocks.saveUserPayload();
+      await repository!.saveUser(payload);
 
       const promise = repository!.findByEmail(payload.email);
       const { passwordHash, ...required } = payload;
@@ -66,20 +65,20 @@ describe("user.repositoryの各メソッドを検査", () => {
 
   describe("異常型", () => {
     it("userが存在しないときは、[]をresolveする", async () => {
-      const result = repository?.getUsers();
+      await prisma.user.deleteMany();
+
+      const result = repository!.getUsers();
       await expect(result).resolves.toStrictEqual([]);
     });
 
     it("合致するidがないときは、nullをresolveする", async () => {
-      const result = repository?.findById(1);
+      const result = repository!.findById("uuid");
       await expect(result).resolves.toStrictEqual(null);
     });
 
     it("合致するemailがないときは、nullをresolveする", async () => {
-      const result = repository?.findByEmail("thisIsEmail@email.email");
+      const result = repository!.findByEmail("thisIsEmail@email.email");
       await expect(result).resolves.toStrictEqual(null);
     })
   });
-
-
 });

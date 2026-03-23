@@ -1,12 +1,10 @@
 import { CookieOptions, Request, Response } from "express";
 import { RegisterService, UserService } from "../service/index.js";
-import { Database } from "sqlite3";
 import { LoginRequest, LoginResponse, LogoutResponse, MeResponse, RegisterRequest, RegisterResponse, ResponseJson } from "@pkg/shared";
 import { LoginStateManagementService } from "../service/index.js";
 import { ENV } from "../config/env.js";
-import { verifyToken } from "../lib/jwt.js";
 import { UserUndefinedError } from "../error/UserError.js";
-import { UnAuthorizedError } from "../error/AuthError.js";
+
 
 const env = ENV.NODE_ENV;
 
@@ -18,10 +16,10 @@ const tokenCookieOptions: CookieOptions = {
 };
 
 
-export const register = (db: Database) => {
+export const register = () => {
   return async (req: Request, res: Response) => {
     const dto: RegisterRequest = req.body;
-    const registerService = new RegisterService(db);
+    const registerService = new RegisterService();
 
     const registerResult = await registerService.registerUser(dto);
 
@@ -38,12 +36,12 @@ export const register = (db: Database) => {
 
 
 
-export const login = (db: Database) => {
+export const login = () => {
   return async (req: Request, res: Response): Promise<Response<LoginResponse>> => {
     const dto: LoginRequest = req.body;
-    const service = new LoginStateManagementService(db);
+    const service = new LoginStateManagementService();
 
-    const result = await service.tryLogin({ email: dto.email, password: dto.password });
+    const result = await service.login({ email: dto.email, password: dto.password });
 
     console.info("Login succeed");
     const json: ResponseJson<LoginResponse> = {
@@ -71,9 +69,9 @@ export const logout = (_: Request, res: Response) => {
   return console.info("Logout succeed");
 }
 
-export const me = (db: Database) => {
+export const me = () => {
   return async (req: Request, res: Response) => {
-    const service = new UserService(db);
+    const service = new UserService();
 
     const id = res.locals.userId;
 

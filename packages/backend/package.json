@@ -7,11 +7,13 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
+    "db:generate": "npx prisma generate",
+    "db:push": "npx prisma db push --config ./src/prisma.config.ts",
+    "syncDb": "npm run db:generate && npm run db:push",
     "dev": "tsx watch --env-file=.env.development src/index.ts",
     "start": "tsx --env-file=.env.production src/index.ts",
     "build": "tsc",
-    "test": "vitest",
-    "test:run": "vitest run",
+    "test": "tsx ./src/scripts/runTest.ts",
     "tsc": "npx tsc --noemit"
   },
   "devDependencies": {
@@ -24,16 +26,19 @@
     "@types/node": "^25.3.0",
     "@types/sinon-express-mock": "^1.3.12",
     "@types/sqlite3": "^3.1.11",
+    "dotenv": "^16.6.1",
+    "prisma": "^7.5.0",
     "sinon-express-mock": "^2.2.1",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.18"
+    "vitest": "^4.0.18",
+    "vitest-mock-extended": "^3.1.0"
   },
   "dependencies": {
+    "@prisma/client": "^7.5.0",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
-    "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "sqlite3": "^5.1.7"

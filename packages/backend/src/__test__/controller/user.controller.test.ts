@@ -1,41 +1,38 @@
 vi.stubEnv("NODE_JWT_SECRET", "secret");
 
 import { Request, Response } from "express";
-import { Database } from "sqlite3";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { authRequestMocks, createRequestMock, createResponseMock } from "../../__mock__/index.js";
-import { createAppDb } from "../../db/index.js";
 import { logout, register, session } from "../../controller/index.js";
 import { UnAuthorizedError } from "../../error/index.js";
+import { cleanupDb } from "../tools/cleanupDb.js";
 
 describe("user.controller", () => {
   let res: Response | null;
-  let db: Database | null;
 
   beforeEach(async () => {
     res = createResponseMock();
-    db = await createAppDb(":memory:");
-    res = createResponseMock(); // resを設定し直さないとテストバグの原因になる（チェーンの呼び出し回数など）
-  });
+    res = createResponseMock();
+    await cleanupDb();
+  }, 50000);
   afterEach(() => {
     res = null;
-    db = null;
     vi.restoreAllMocks();
   });
 
   it("session: session中の状態を正常に取得する", async () => {
-    await register(db!)(authRequestMocks.register.validReq(), res!);
+    await register()(authRequestMocks.register.validReq(), res!);
 
     const [name, value] = vi.mocked(res!.cookie).mock.calls[0]!;
     const cookies = { [name]: value };
     res = createResponseMock();
-    await session(db!)(createRequestMock.withCookies(cookies), res!);
+    await session()(createRequestMock.withCookies(cookies), res!);
 
     expect(res!.status).toHaveBeenCalledWith(200);
   });
 
   it("session: 非session中の状態を正常に取得する", async () => {
-    await register(db!)(authRequestMocks.register.validReq(), res!);
+    await register()(authRequestMocks.register.validReq(), res!);
 
     let [name, value] = vi.mocked(res!.cookie).mock.calls[0]!;
     let cookies: Request["cookies"] | undefined = { [name]: value };
@@ -46,7 +43,7 @@ describe("user.controller", () => {
 
     res = createResponseMock();
     await expect(
-      session(db!)(createRequestMock.withCookies({}), res!)
+      session()(createRequestMock.withCookies({}), res!)
     ).rejects.toThrow(expect.any(UnAuthorizedError));
   });
 });

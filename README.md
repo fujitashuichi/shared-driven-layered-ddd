@@ -1,9 +1,9 @@
 ### ・大まかな概要
 #### [要件定義書](./docs/features.md)
 #### [全体図](./docs/PortforioFlow.mermaid.md)
+#### [セットアップ方法](./docs/howToSetup.md)
 
 ---
-
 ### ・規約・実装資料
 #### FE/BE
 * メモ: [Projectドメイン: エラーレスポンスの形式](./docs/BE/BE_domainFlow/error/project.md)
@@ -16,7 +16,7 @@
 <details>
   <summary>その他レポートなど</summary>
 
-  * <a href="./docs/errors/createProject_unauthorizedError.md">fetchにおけるcredential設定ミスによるエラーと解決までの道のり: credential設定の欠如</a>
+  * <a href="./docs/BE/introducePrisma.md">Prismaへの移行: 生SQLとライブラリのトレードオフ</a>
   * <a href="./docs/test/analyzeTestPerformance.md">テスト時間遷移における実行時間スパイクに関して: 原因不明のまま解決した現象</a>
   * <a href="./docs/test/testResults.md">testResults(改修後などに更新)</a>
 </details>
@@ -39,6 +39,11 @@
 ```sh
 # 依存関係のインストール
 npm install
+
+# dbコマンド
+npm run db:generate
+npm run db:push
+npm run setupDb   # npm run db:generate && npm run db:push
 
 # パッケージのビルド (shared)
 npm run build:shared

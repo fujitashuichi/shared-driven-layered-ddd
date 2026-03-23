@@ -14,5 +14,8 @@ export const ENV = {
   },
   get NODE_ENV() {
     return requiredEnv(process.env.NODE_ENV, "NODE_ENV");
+  },
+  get DATABASE_URL() {
+    return requiredEnv(process.env.DATABASE_URL, "DATABASE_URL");
   }
 };

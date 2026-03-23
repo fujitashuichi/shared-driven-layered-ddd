@@ -1,9 +1,11 @@
 import z from "zod";
 import { ProjectSchema } from "./types.data.js";
+import { schemaTransformer } from "../lib/schemaTransformer.js";
 
 export const PostProjectRequestSchema = ProjectSchema.pick({
   title: true,
   description: true,
+  status: true
 }).strict();
 export type PostProjectRequest = z.infer<typeof PostProjectRequestSchema>;
 
@@ -18,7 +20,9 @@ export const PatchProjectRequestSchema = ProjectSchema.pick({
   title: true,
   description: true,
   status: true
-}).partial();
+}).extend({
+  title: z.string().max(30).optional()
+}).strict();
 export type PatchProjectRequest = z.infer<typeof PatchProjectRequestSchema>;
 
 export const PatchProjectResponseSchema = ProjectSchema;

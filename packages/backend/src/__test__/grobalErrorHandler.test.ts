@@ -12,6 +12,7 @@ describe("globalErrorHandlerが正しく機能する", () => {
   let res: Response | null = null;
   let err: Error | null = null;
   let consoleErrorMock: MockInstance;
+
   beforeEach(() => {
     res = createResponseMock();
     consoleErrorMock = vi.spyOn(console, 'error').mockImplementation(() => {});
@@ -22,62 +23,63 @@ describe("globalErrorHandlerが正しく機能する", () => {
     consoleErrorMock.mockRestore();
   });
 
+
   it("UserUndefinedError", () => {
     err = new UserUndefinedError();
     globalErrorHandler(err, _req as any, res!, _next);
-    expect(res!.status).toBeCalledWith(404);
+    expect(res!.status).toHaveBeenCalledWith(404);
   });
 
   // register
   it("EmailAlreadyRegisteredError", () => {
     err = new EmailAlreadyRegisteredError("example@email.com");
     globalErrorHandler(err, _req as any, res!, _next);
-    expect(res!.status).toBeCalledWith(409);
+    expect(res!.status).toHaveBeenCalledWith(409);
   });
   it("InvalidPasswordError", () => {
     err = new InvalidPasswordError();
     globalErrorHandler(err, _req as any, res!, _next);
-    expect(res!.status).toBeCalledWith(400);
+    expect(res!.status).toHaveBeenCalledWith(400);
   });
 
   // login
   it("ConfirmPasswordError", () => {
     err = new ConfirmPasswordError();
     globalErrorHandler(err, _req as any, res!, _next);
-    expect(res!.status).toBeCalledWith(401);
+    expect(res!.status).toHaveBeenCalledWith(401);
   });
 
   // other
   it("UserAuthError", () => {
     err = new AuthError("Any Error Massage", "AuthError");
     globalErrorHandler(err, _req as any, res!, _next);
-    expect(res!.status).toBeCalledWith(400);
+    expect(res!.status).toHaveBeenCalledWith(400);
   });
 
   // postProject
   it("DuplicateProjectError", () => {
     err = new DuplicateProjectError();
     globalErrorHandler(err, _req as any, res!, _next);
-    expect(res!.status).toBeCalledWith(400);
+    expect(res!.status).toHaveBeenCalledWith(400);
   });
 
   // patchProject
   it("ProjectUndefinedError", () => {
     err = new ProjectUndefinedError();
     globalErrorHandler(err, _req as any, res!, _next);
-    expect(res!.status).toBeCalledWith(404);
+    expect(res!.status).toHaveBeenCalledWith(404);
   });
 
   // other
   it("OtherUserAuthError", () => {
     err = new AuthError("Any Message", "AuthError");
     globalErrorHandler(err, _req as any, res!, _next);
-    expect(res!.status).toBeCalledWith(400);
+    expect(res!.status).toHaveBeenCalledWith(400);
   });
   it("OtherProjectError", () => {
     err = new ProjectError("Any Message", "ProjectError");
     globalErrorHandler(err, _req as any, res!, _next);
-    expect(res!.status).toBeCalledWith(400);
+    expect(res!.status).toHaveBeenCalledWith(400);
   });
 
   describe("DbErrorをInternalServerErrorとして扱う", () => {
@@ -85,8 +87,8 @@ describe("globalErrorHandlerが正しく機能する", () => {
       const getError = new DatabaseGetError(":memory:", "table");
       globalErrorHandler(getError, _req as any, res!, _next);
 
-      expect(res!.status).toBeCalledWith(500);
-      expect(res!.json).toBeCalledWith(
+      expect(res!.status).toHaveBeenCalledWith(500);
+      expect(res!.json).toHaveBeenCalledWith(
         expect.objectContaining({
           errorName: expect.stringMatching("InternalServerError")
         })
@@ -97,8 +99,8 @@ describe("globalErrorHandlerが正しく機能する", () => {
       const deleteError = new DatabaseDeleteError(":memory:", "table");
       globalErrorHandler(deleteError, _req as any, res!, _next);
 
-      expect(res!.status).toBeCalledWith(500);
-      expect(res!.json).toBeCalledWith(
+      expect(res!.status).toHaveBeenCalledWith(500);
+      expect(res!.json).toHaveBeenCalledWith(
         expect.objectContaining({
           errorName: expect.stringMatching("InternalServerError")
         })
@@ -109,6 +111,6 @@ describe("globalErrorHandlerが正しく機能する", () => {
   it("Other Uncaught Error", () => {
     err = new Error("Normal Error");
     globalErrorHandler(err, _req as any, res!, _next);
-    expect(res!.status).toBeCalledWith(500);
+    expect(res!.status).toHaveBeenCalledWith(500);
   });
 })

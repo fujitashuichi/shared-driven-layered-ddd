@@ -1,16 +1,10 @@
 import { Database } from "sqlite3";
 import { UsersRepository } from "../repository/index.js";
-import { createAppDb } from "../db/index.js";
 import { User } from "@pkg/shared";
 
-const appDb = await createAppDb("app.db");
 
 export class UserService {
-  private readonly repository: UsersRepository;
-
-  constructor(db: Database = appDb) {
-    this.repository = new UsersRepository(db);
-  }
+  private readonly repository = new UsersRepository();
 
   findById = async (id: User["id"]) => {
     return await this.repository.findById(id);

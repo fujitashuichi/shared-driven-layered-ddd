@@ -2,14 +2,16 @@ import { NextFunction, Response } from "express";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createResponseMock, projectRequestMocks } from "../../__mock__/index.js";
 import { requestValidator } from "../../middleware/index.js";
+import { cleanupDb } from "../tools/cleanupDb.js";
 
 describe("project: request.guard", () => {
   let res: Response | null;
   let next: NextFunction | null;
-  beforeEach(() => {
+  beforeEach(async () => {
     res = createResponseMock();
     next = vi.fn();
-  });
+    await cleanupDb();
+  }, 50000);
   afterEach(() => {
     res = null;
     next = null;
