@@ -5,6 +5,7 @@ import cors from "cors";
 import { createAppRouter } from "./routes/index.js";
 import { globalErrorHandler } from "./middleware/index.js";
 import { ENV } from "./config/env.js";
+import { styleText } from "node:util";
 
 const FE_URL = ENV.NODE_FE_URL;
 
@@ -22,6 +23,32 @@ app.use(cookieParser());
 app.use("/api", createAppRouter());
 app.use(globalErrorHandler);
 
-app.listen(3000, () => {
-  console.log("Server running on http://localhost:3000");
+
+app.listen(ENV.NODE_BE_PORT, () => {
+  const url = ENV.NODE_BE_URL;
+  const port = ENV.NODE_BE_PORT;
+
+  process.stdout.write(styleText(
+    ["greenBright"],
+    `=====================================================\n`,
+  ));
+
+  process.stdout.write(styleText(
+    ["greenBright", "dim"],
+    `    time: ${new Date().toISOString()}\n`
+  ));
+
+  process.stdout.write(styleText(
+    ["greenBright"],
+    `    Server running on `
+  ));
+  process.stdout.write(styleText(
+    ["greenBright", "bold", "underline"],
+    `${url}:${port}`
+  ));
+
+  process.stdout.write(styleText(
+    ["greenBright"],
+    `\n=====================================================`
+  ));
 });

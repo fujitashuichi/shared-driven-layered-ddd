@@ -1,4 +1,4 @@
-import { Prisma } from "../generated/prisma/client.js";
+import { Prisma } from "../generated/prisma/index.js";
 
 export const safeQuery = async <T>(query: () => Promise<T>): Promise<T | null> => {
   try {
