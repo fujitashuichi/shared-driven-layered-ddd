@@ -6,6 +6,7 @@ import { createAppRouter } from "./routes/index.js";
 import { globalErrorHandler } from "./middleware/index.js";
 import { ENV } from "./config/env.js";
 import { styleText } from "node:util";
+import { notFoundHandler } from "./middleware/error/notFoundHandler.js";
 
 
 const app = express();
@@ -23,6 +24,7 @@ app.use(cookieParser());
 
 
 app.use("/api", createAppRouter());
+app.use(notFoundHandler);
 app.use(globalErrorHandler);
 
 export default app;

@@ -9,9 +9,9 @@ export const createAppRouter = () => {
   const authRouter = createAuthRouter();
   const projectRouter = createProjectRouter();
 
-  router.use("/", (_, res) => res.send("Server Running..."));
   router.use("/auth", authRouter);
   router.use("/projects", projectRouter);
+  router.use("/", (_, res) => res.status(400).json("Server Running..."));
 
   return router;
 }
