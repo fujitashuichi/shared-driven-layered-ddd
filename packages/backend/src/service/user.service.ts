@@ -1,4 +1,3 @@
-import { Database } from "sqlite3";
 import { UsersRepository } from "../repository/index.js";
 import { User } from "@pkg/shared";
 

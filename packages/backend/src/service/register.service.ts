@@ -1,7 +1,6 @@
 import { hashPassword, signToken } from "../lib/index.js";
 import { UsersRepository } from "../repository/index.js";
-import { Database } from "sqlite3";
-import { RegisterRequest, User, UserSchema } from "@pkg/shared";
+import { RegisterRequest, User } from "@pkg/shared";
 import { EmailAlreadyRegisteredError, UserUndefinedError } from "../error/index.js";
 
 
