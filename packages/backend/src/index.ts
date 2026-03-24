@@ -13,7 +13,7 @@ const app = express();
 app.use(cors({
   origin: [
     ENV.NODE_FE_URL,
-    /https:\/\/.*-fujita-shuichis-projects\.vercel\.app\/?$/i
+    /^https:\/\/.*-fujita-shuichis-projects\.vercel\.app?$/i
   ],
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   credentials: true
