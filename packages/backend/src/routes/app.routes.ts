@@ -1,17 +1,17 @@
-import { Router } from "express";
-import { createAuthRouter } from "./auth.routes.js";
-import { createProjectRouter } from "./projects.routes.js";
+import { Request, Response, Router } from "express";
+import { createApiRouter } from "./api.routes.js";
 
 
 export const createAppRouter = () => {
   const router = Router();
 
-  const authRouter = createAuthRouter();
-  const projectRouter = createProjectRouter();
+  const apiRouter = createApiRouter();
 
-  router.use("/auth", authRouter);
-  router.use("/projects", projectRouter);
-  router.use("/", (_, res) => res.status(400).json("Server Running..."));
+  router.use("/api", apiRouter);
+
+  router.use("/", (_: Request, res: Response) => {
+    return res.status(200).json("Server running...");
+  });
 
   return router;
 }

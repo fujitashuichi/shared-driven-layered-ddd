@@ -23,7 +23,7 @@ app.use(express.json({ limit: "1kb" }));
 app.use(cookieParser());
 
 
-app.use("/api", createAppRouter());
+app.use("/", createAppRouter());
 app.use(notFoundHandler);
 app.use(globalErrorHandler);
 
