@@ -47,4 +47,8 @@ Test Files  10 passed (10)
 Test Files  10 passed (10)
      Tests  56 passed (56)
   Duration  32.23s (transform 513ms, setup 0ms, import 3.18s, tests 27.35s, environment 1ms)
+
+Test Files  10 passed (10)
+     Tests  56 passed (56)
+  Duration  32.71s (transform 494ms, setup 0ms, import 3.07s, tests 27.92s, environment 1ms)
 ```
