@@ -44,10 +44,11 @@ export function User() {
         <h2>作成日時</h2>
         <p>{new Date(user.createdAt).toLocaleString()}</p>
 
-        <AppButton
-          variant="primary" className='w-auto'
-          onClick={() => window.location.replace("/")}
-        >ダッシュボード</AppButton>
+        <Link to="/">
+          <AppButton variant="primary" className='w-auto'>
+            ダッシュボード
+          </AppButton>
+        </Link>
       </div>
     }
   </>)

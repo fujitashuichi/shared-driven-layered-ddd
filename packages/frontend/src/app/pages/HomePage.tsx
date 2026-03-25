@@ -2,12 +2,14 @@ import { Link } from "react-router-dom";
 import { useAuth, useProject } from "../../Context";
 import { useEffect, useState } from "react";
 import { AppButton } from "../../components";
+import type { Project } from "@pkg/shared";
+
 
 export function HomePage() {
-  const [time, setTime] = useState<number | null>(null);
+  const [time, setTime] = useState<Date | null>(null);
 
   useEffect(() => {
-    const checkTime = () => setTime(Date.now());
+    const checkTime = () => setTime(new Date());
     const timerId = setInterval(() => {
       checkTime();
     }, 5 * 60 * 1000);
@@ -45,28 +47,7 @@ export function HomePage() {
       {time === null ? (
         <HomeSkeleton />
       ) : (
-        <main className="mt-8 text-center">
-          <h1 className="text-2xl font-bold">Project Dashboard</h1>
-
-          <div>
-            <ul className="p-4 border border-gray-500 rounded-3xl">
-              <h2>過去7日以内に編集</h2>
-              {projects
-                .filter(item => item.updatedAt >= (time - 7 * 24*60*60*1000))
-                .map(project => {
-                  return (
-                    <li key={project.id} className="flex justify-between">
-                      <h3>{project.title}</h3>
-                      <Link to={`/projects/${project.id}`}>
-                        <AppButton variant="primary">見る</AppButton>
-                      </Link>
-                    </li>
-                  )
-                })
-              }
-            </ul>
-          </div>
-        </main>
+        <DashBoard projects={projects} time={time} />
       )}
     </div>
   );
@@ -84,4 +65,33 @@ function HomeSkeleton() {
       ))}
     </ul>
   );
+}
+
+function DashBoard({ projects, time }: { projects: Project[], time: Date }) {
+  const sevenDaysAgo = time.getDate() - (7 * 24 * 60 * 60 * 1000);
+
+  return (
+    <main className="mt-8 text-center">
+      <h1 className="text-2xl font-bold">Project Dashboard</h1>
+
+      <div>
+        <ul className="p-4 border border-gray-500 rounded-3xl">
+          <h2>過去7日以内に編集</h2>
+          {projects
+            .filter(item => new Date(item.updatedAt).getTime() >= sevenDaysAgo)
+            .map(project => {
+              return (
+                <li key={project.id} className="flex justify-between">
+                  <h3>{project.title}</h3>
+                  <Link to={`/projects/${project.id}`}>
+                    <AppButton variant="primary">見る</AppButton>
+                  </Link>
+                </li>
+              )
+            })
+          }
+        </ul>
+      </div>
+    </main>
+  )
 }
