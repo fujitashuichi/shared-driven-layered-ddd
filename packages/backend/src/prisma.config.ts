@@ -4,17 +4,20 @@ import { config } from "dotenv";
 import "dotenv/config";
 import path from "node:path";
 import { defineConfig } from "prisma/config";
+import { ENV } from "./config/env.js";
 
 
-delete process.env.DATABASE_URL;
-// 強制的に .env.development から読み直す
-config({
-  path: path.resolve(process.cwd(), ".env.development"),
-  override: true // dotenv のオプションで強制上書きを指定
-});
-// もし .env.development がなかった時のためのフォールバック
-if (!process.env.DATABASE_URL) {
-  config({ path: path.resolve(process.cwd(), ".env"), override: true });
+if (ENV.NODE_ENV !== "product" && ENV.NODE_ENV !== "production") {
+  delete process.env.DATABASE_URL;
+  // 強制的に .env.development から読み直す
+  config({
+    path: path.resolve(process.cwd(), ".env.development"),
+    override: true // dotenv のオプションで強制上書きを指定
+  });
+  // もし .env.development がなかった時のためのフォールバック
+  if (!process.env.DATABASE_URL) {
+    config({ path: path.resolve(process.cwd(), ".env"), override: true });
+  }
 }
 
 
