@@ -4,10 +4,11 @@ import { config } from "dotenv";
 import "dotenv/config";
 import path from "node:path";
 import { defineConfig } from "prisma/config";
-import { ENV } from "./config/env.js";
 
 
-if (ENV.NODE_ENV !== "product" && ENV.NODE_ENV !== "production") {
+const env = process.env.NODE_ENV;
+
+if (env !== "product" && env !== "production") {
   delete process.env.DATABASE_URL;
   // 強制的に .env.development から読み直す
   config({

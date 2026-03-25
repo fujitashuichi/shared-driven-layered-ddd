@@ -16,5 +16,11 @@
     "packages/backend/dist/main.js": {
       "includeFiles": ["packages/backend/generated/prisma/**"]
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://project-nest-server.vercel.app/:path*"
+    }
+  ]
 }
