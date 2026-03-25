@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { UserSchema } from "../user/types.data.js";
+import { UserSchema, UserWithoutTimeSchema } from "../user/types.data.js";
+
 
 // register
 export const RegisterRequestSchema = z.object({
@@ -11,12 +12,14 @@ export type RegisterRequest = z.infer<typeof RegisterRequestSchema>;
 export const RegisterResponseSchema = UserSchema;
 export type RegisterResponse = z.infer<typeof RegisterResponseSchema>;
 
+
 // session
 export const SessionResponseSchema = UserSchema.pick({
   id: true,
   email: true
 });
 export type SessionResponse = z.infer<typeof SessionResponseSchema>;
+
 
 // login
 export const LoginRequestSchema = z.object({
@@ -28,9 +31,11 @@ export type LoginRequest = z.infer<typeof LoginRequestSchema>;
 export const LoginResponseSchema = z.void().or(z.object({}));
 export type LoginResponse = z.infer<typeof LoginResponseSchema>;
 
+
 // logout
 export const LogoutResponseSchema = z.void().or(z.object({}));
 export type LogoutResponse = z.infer<typeof LogoutResponseSchema>;
+
 
 // me
 export const MeResponseSchema = UserSchema;

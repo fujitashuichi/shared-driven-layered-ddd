@@ -20,6 +20,7 @@ export const getProjects = async (): Promise<GetProjectsResult> => {
     throw new Error("getProjects failed with fetch Error");
   }
 
+  console.log(response.body);
   const parsed = ProjectSchema.array().safeParse(response.body);
   if (!parsed.success) {
     console.error(parsed.error);
