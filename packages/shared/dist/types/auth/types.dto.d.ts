@@ -7,7 +7,7 @@ export type RegisterRequest = z.infer<typeof RegisterRequestSchema>;
 export declare const RegisterResponseSchema: z.ZodObject<{
     id: z.ZodUUID;
     email: z.ZodEmail;
-    createdAt: z.ZodDate;
+    createdAt: z.ZodISODateTime;
 }, z.core.$strip>;
 export type RegisterResponse = z.infer<typeof RegisterResponseSchema>;
 export declare const SessionResponseSchema: z.ZodObject<{
@@ -27,6 +27,6 @@ export type LogoutResponse = z.infer<typeof LogoutResponseSchema>;
 export declare const MeResponseSchema: z.ZodObject<{
     id: z.ZodUUID;
     email: z.ZodEmail;
-    createdAt: z.ZodDate;
+    createdAt: z.ZodISODateTime;
 }, z.core.$strip>;
 export type MeResponse = z.infer<typeof MeResponseSchema>;

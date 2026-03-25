@@ -27,13 +27,22 @@ export function HomePage() {
   const { projects } = projectsData;
 
 
+  if (!user) return (<>
+    <h1>ユーザーデータが見つかりません</h1>
+    <Link to="/user">
+      <AppButton variant="secondary" className="w-auto">
+        ユーザーページへ
+      </AppButton>
+    </Link>
+  </>)
+
   return (
     <div className="min-h-screen p-4">
       <header className="fixed top-0 border-b pb-4">
         <ul className="flex gap-10">
           <li>
             <Link to="/user" className="hover:underline">
-              {status === "active" ? `${user?.email} でログイン中` : "ログイン"}
+              {status === "active" ? `${user.email} でログイン中` : "ログイン"}
             </Link>
           </li>
           <li>

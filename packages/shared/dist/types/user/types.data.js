@@ -4,5 +4,5 @@ import { z } from "zod";
 export const UserSchema = z.object({
     id: z.uuid(),
     email: z.email(),
-    createdAt: z.date()
+    createdAt: z.iso.datetime()
 });
