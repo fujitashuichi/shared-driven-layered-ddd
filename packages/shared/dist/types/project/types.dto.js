@@ -1,7 +1,7 @@
 import z from "zod";
-import { ProjectSchema } from "./types.data.js";
+import { ProjectSchema, ProjectWithoutTimeSchema } from "./types.data.js";
 import { schemaTransformer } from "../lib/schemaTransformer.js";
-export const PostProjectRequestSchema = ProjectSchema.pick({
+export const PostProjectRequestSchema = ProjectWithoutTimeSchema.pick({
     title: true,
     description: true,
     status: true
@@ -9,7 +9,7 @@ export const PostProjectRequestSchema = ProjectSchema.pick({
 export const PostProjectResponseSchema = ProjectSchema;
 export const GetProjectsResponseSchema = ProjectSchema.array();
 // 更新可能にするプロパッティを設定する
-export const PatchProjectRequestSchema = ProjectSchema.pick({
+export const PatchProjectRequestSchema = ProjectWithoutTimeSchema.pick({
     title: true,
     description: true,
     status: true

@@ -1,5 +1,7 @@
 import { PatchProjectRequestSchema, ProjectSchema, schemaTransformer, UserSchema } from "@pkg/shared";
 import { z } from "zod";
+import { ProjectWithoutTimeSchema } from "../../../shared/dist/types/project/types.data.js";
+import { UserWithoutTimeSchema } from "../../../shared/dist/types/user/types.data.js";
 
 export const DbUserSchema = z.object({
   id: z.number().int(),
@@ -9,11 +11,11 @@ export const DbUserSchema = z.object({
 });
 export type DbUser = z.infer<typeof DbUserSchema>;
 
-const SaveUserPayloadSchema = UserSchema.omit({ id: true }).extend({ passwordHash: z.string() });
+const SaveUserPayloadSchema = UserWithoutTimeSchema.omit({ id: true }).extend({ passwordHash: z.string() });
 export type SaveUserPayload = z.infer<typeof SaveUserPayloadSchema>
 
 
-export const SaveProjectPayloadSchema = ProjectSchema.omit({ id: true });
+export const SaveProjectPayloadSchema = ProjectWithoutTimeSchema.omit({ id: true });
 export type SaveProjectPayload = z.infer<typeof SaveProjectPayloadSchema>;
 
 export const UpdateProjectPayloadSchema = PatchProjectRequestSchema

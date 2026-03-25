@@ -6,3 +6,6 @@ export const UserSchema = z.object({
     email: z.email(),
     createdAt: z.iso.datetime()
 });
+export const UserWithoutTimeSchema = UserSchema.omit({
+    createdAt: true
+});

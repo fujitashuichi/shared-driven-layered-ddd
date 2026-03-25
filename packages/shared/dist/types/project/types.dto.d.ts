@@ -11,8 +11,8 @@ export declare const PostProjectResponseSchema: z.ZodObject<{
     title: z.ZodString;
     description: z.ZodNullable<z.ZodString>;
     status: z.ZodNullable<z.ZodString>;
-    createdAt: z.z.ZodISODate;
-    updatedAt: z.z.ZodISODate;
+    createdAt: z.z.ZodISODateTime;
+    updatedAt: z.z.ZodISODateTime;
 }, z.z.core.$strip>;
 export type PostProjectResponse = z.infer<typeof PostProjectResponseSchema>;
 export declare const GetProjectsResponseSchema: z.ZodArray<z.ZodObject<{
@@ -21,8 +21,8 @@ export declare const GetProjectsResponseSchema: z.ZodArray<z.ZodObject<{
     title: z.ZodString;
     description: z.ZodNullable<z.ZodString>;
     status: z.ZodNullable<z.ZodString>;
-    createdAt: z.z.ZodISODate;
-    updatedAt: z.z.ZodISODate;
+    createdAt: z.z.ZodISODateTime;
+    updatedAt: z.z.ZodISODateTime;
 }, z.z.core.$strip>>;
 export type GetProjectsResponse = z.infer<typeof GetProjectsResponseSchema>;
 export declare const PatchProjectRequestSchema: z.ZodPipe<z.ZodObject<{
@@ -51,8 +51,8 @@ export declare const PatchProjectResponseSchema: z.ZodObject<{
     title: z.ZodString;
     description: z.ZodNullable<z.ZodString>;
     status: z.ZodNullable<z.ZodString>;
-    createdAt: z.z.ZodISODate;
-    updatedAt: z.z.ZodISODate;
+    createdAt: z.z.ZodISODateTime;
+    updatedAt: z.z.ZodISODateTime;
 }, z.z.core.$strip>;
 export type PatchProjectResponse = z.infer<typeof PatchProjectResponseSchema>;
 export declare const DeleteProjectRequestSchema: z.ZodUndefined;

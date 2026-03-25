@@ -5,6 +5,10 @@ export const ProjectSchema = z.object({
     title: z.string().min(1).max(30),
     description: z.string().max(100).nullable(),
     status: z.string().max(10).nullable(),
-    createdAt: z.iso.date(),
-    updatedAt: z.iso.date()
+    createdAt: z.iso.datetime(),
+    updatedAt: z.iso.datetime()
+});
+export const ProjectWithoutTimeSchema = ProjectSchema.omit({
+    createdAt: true,
+    updatedAt: true
 });

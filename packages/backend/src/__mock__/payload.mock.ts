@@ -7,9 +7,7 @@ export const projectPayloadMock = {
       userId: user.id,
       title: "title",
       description: "description",
-      status: null,
-      createdAt: new Date(),
-      updatedAt: new Date()
+      status: null
     }
   }
 }
