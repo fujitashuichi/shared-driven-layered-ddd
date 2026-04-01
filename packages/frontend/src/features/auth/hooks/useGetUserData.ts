@@ -27,7 +27,7 @@ export const useGetUserData = (setUser: AuthCtxType["useUser"]["setUser"]): Resu
       }
       setUser(result.data);
     },
-    onError: () => alert("通信に失敗しました。時間をおいて再度お試しください。")
+    onError: () => alert("通信に失敗しました。時間をおいて再度お試しください。\n※学習用なのでSupabaseが停止していることがあります")
   });
 
 

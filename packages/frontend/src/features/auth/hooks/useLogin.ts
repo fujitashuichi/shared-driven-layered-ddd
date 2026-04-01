@@ -19,7 +19,10 @@ export const useLogin = (setSessionStatus: AuthCtxType["session"]["setStatus"]):
       }
       return setSessionStatus("active");
     },
-    onError: () => { setSessionStatus("inactive"); alert("通信に失敗しました。時間をおいて再度お試しください。"); }
+    onError: () => {
+      setSessionStatus("inactive");
+      alert("通信に失敗しました。時間をおいて再度お試しください。\n※学習用なのでSupabaseが停止していることがあります");
+    }
   });
 
 
