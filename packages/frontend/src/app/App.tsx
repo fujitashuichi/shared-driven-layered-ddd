@@ -4,7 +4,7 @@ import { HomePage, ProjectsPage, UserPage } from './pages'
 import { ProjectPage } from '../features/projects/components/ProjectPage'
 import { TestRouter } from './routes/TestRouter'
 import { ProjectProvider } from '../Context'
-import { LoginAndSignUp } from './pages/loginAndSignUp'
+import { LoginAndSignUp } from './pages/LoginAndSignUp'
 
 
 function AppRouter() {
