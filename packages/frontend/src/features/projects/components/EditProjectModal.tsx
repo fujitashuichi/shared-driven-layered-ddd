@@ -7,18 +7,26 @@ export function EditProjectModal({ id, show, onClose }: { id: Project["id"], sho
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity"
       onClick={onClose}
     >
       <div
-        className='bg-white mb-6 rounded-2xl p-10'
+        className="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200"
         onClick={(e) => e.stopPropagation()}
       >
-        <EditProjectForm id={id} />
+        {/* フォームコンポーネントをそのまま呼び出し */}
+        <div className="p-1">
+          <EditProjectForm id={id} />
+        </div>
 
-        <div className="flex justify-end mt-1.5">
-          <AppButton variant="danger" onClick={onClose} className='w-auto'>
-            閉じる
+        {/* フッターアクションエリア */}
+        <div className="px-8 pb-8 flex justify-start border-t border-slate-50 bg-slate-50/50 pt-4">
+          <AppButton
+            variant="danger"
+            onClick={onClose}
+            className="w-auto"
+          >
+            キャンセル
           </AppButton>
         </div>
       </div>

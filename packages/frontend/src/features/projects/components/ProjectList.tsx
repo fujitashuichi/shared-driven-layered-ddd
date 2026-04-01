@@ -43,7 +43,9 @@ export function ProjectList() {
           </AppButton>
         </Link>
 
-        <CreateProjectForm />
+        <div className="mb-5">
+          <CreateProjectForm />
+        </div>
         <ul className="space-y-3">
           {projects.map((project) => (
             <li key={project.id} className="p-4 border rounded shadow-sm bg-white">

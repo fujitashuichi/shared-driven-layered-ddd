@@ -23,48 +23,58 @@ export function EditProjectForm({ id }: { id: Project["id"] }) {
 
   return (<>
     {status === "idle" &&
-      <form onSubmit={(e) => tryUpdate(e)}>
-        <h2>変更する内容だけ記入してください</h2>
+      <form onSubmit={(e) => tryUpdate(e)} className="flex flex-col gap-6 w-full max-w-lg p-8 bg-white border border-slate-200 rounded-2xl shadow-sm">
+        <div className="mb-2">
+          <h2 className="text-lg font-bold text-slate-800">プロジェクトの編集</h2>
+          <p className="text-sm text-slate-500">変更する内容だけ記入してください</p>
+        </div>
 
-        <div className="space-y-2">
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-            <p>
-              <strong>Title</strong>
-            </p>
+        <div className="space-y-1.5">
+          <label htmlFor="title" className="text-sm font-semibold text-slate-700 ml-1">
+            Title
           </label>
-          <input name="title" type="text" maxLength={30}
-            className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:bg-gray-50 disabled:text-gray-500"
+          <input
+            id="title"
+            name="title"
+            type="text"
+            maxLength={30}
             placeholder="プロジェクト名を入力"
+            className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all disabled:bg-slate-100 disabled:text-slate-400"
           />
         </div>
 
-        <div className="space-y-2">
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-            <p>
-              <strong>Description</strong>
-            </p>
+        <div className="space-y-1.5">
+          <label htmlFor="description" className="text-sm font-semibold text-slate-700 ml-1">
+            Description
           </label>
-          <textarea name="description" rows={3} maxLength={100}
-            className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:bg-gray-50 disabled:text-gray-500"
+          <textarea
+            id="description"
+            name="description"
+            rows={3}
+            maxLength={100}
             placeholder="プロジェクトの概要（任意）"
+            className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all disabled:bg-slate-100 disabled:text-slate-400 resize-none"
           />
-          <p className="text-right text-xs text-gray-400">最大100文字</p>
+          <p className="text-right text-[10px] font-medium text-slate-400 uppercase tracking-tight pr-1">
+            Max 100 characters
+          </p>
         </div>
 
-        <div className="space-y-2">
-          <label htmlFor="status" className="block text-sm font-medium text-gray-700">
-            <p>
-              <strong>Status</strong>
-            </p>
+        <div className="space-y-1.5">
+          <label htmlFor="status" className="text-sm font-semibold text-slate-700 ml-1">
+            Status
           </label>
-          <input name="status" maxLength={10}
-            className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:bg-gray-50 disabled:text-gray-500"
+          <input
+            id="status"
+            name="status"
+            maxLength={10}
             placeholder="ステータス（任意）"
+            className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all disabled:bg-slate-100 disabled:text-slate-400"
           />
         </div>
 
-        <div className="flex justify-end pt-2">
-          <AppButton variant="primary" type="submit">
+        <div className="pt-2 flex justify-end">
+          <AppButton variant="primary" type="submit" className="w-auto">
             確定
           </AppButton>
         </div>
