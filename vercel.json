@@ -2,12 +2,12 @@
   "trailingSlash": false,
   "rewrites": [
     {
-      "source": "/:path*",
-      "destination": "/"
-    },
-    {
       "source": "/api/:path*",
       "destination": "https://project-nest-server.vercel.app/:path*"
+    },
+    {
+      "source": "/:path*",
+      "destination": "/packages/frontend/dist/index.js"
     }
   ]
 }
