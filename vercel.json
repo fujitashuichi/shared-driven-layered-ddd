@@ -7,7 +7,7 @@
     },
     {
       "source": "/:path*",
-      "destination": "/packages/frontend/dist/index.html"
+      "destination": "/index.html"
     }
   ]
 }
