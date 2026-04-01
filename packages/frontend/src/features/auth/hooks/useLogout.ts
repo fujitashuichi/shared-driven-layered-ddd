@@ -16,6 +16,7 @@ export const useLogout = (setSessionStatus: AuthCtxType["session"]["setStatus"])
       }
       setSessionStatus("inactive");
       alert("logoutしました");
+      window.location.replace("/");
     },
     onError: () => alert("通信に失敗しました。時間をおいて再度お試しください。\n※学習用なのでSupabaseが停止していることがあります")
   });
