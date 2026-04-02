@@ -11,7 +11,7 @@ export function LoginAndSignUp() {
           </h1>
           <p className="text-sm text-slate-500">ログイン</p>
         </div>
-        <div className="bg-white shadow-xl shadow-slate-200/50 rounded-3xl overflow-hidden">
+        <div className="bg-white">
           <LoginContainer />
         </div>
       </section>
@@ -33,7 +33,7 @@ export function LoginAndSignUp() {
             未登録の場合はこちら
           </h1>
         </div>
-        <div className="bg-slate-50/50 border border-slate-200 border-dashed rounded-3xl p-2">
+        <div className="bg-white">
           <RegisterForm />
         </div>
       </section>

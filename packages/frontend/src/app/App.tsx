@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import './App.css'
 import { HomePage, ProjectsPage, UserPage } from './pages'
 import { ProjectPage } from '../features/projects/components/ProjectPage'
 import { TestRouter } from './routes/TestRouter'

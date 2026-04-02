@@ -15,12 +15,12 @@ export function EditProjectModal({ id, show, onClose }: { id: Project["id"], sho
         onClick={(e) => e.stopPropagation()}
       >
         {/* フォームコンポーネントをそのまま呼び出し */}
-        <div className="p-1">
+        <div>
           <EditProjectForm id={id} />
         </div>
 
         {/* フッターアクションエリア */}
-        <div className="px-8 pb-8 flex justify-start border-t border-slate-50 bg-slate-50/50 pt-4">
+        <div className="px-8 pb-8 flex justify-start border-t border-slate-50 pt-4">
           <AppButton
             variant="danger"
             onClick={onClose}

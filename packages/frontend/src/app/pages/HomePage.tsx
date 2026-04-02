@@ -38,11 +38,10 @@ export function HomePage() {
   if (!user) return <UserNotFoundView />
 
   return (
-    <div className="min-h-screen bg-slate-50/50 text-slate-900 font-sans selection:bg-blue-100">
+    <div className="mx-auto min-h-screen bg-slate-50/50 text-slate-900 font-sans selection:bg-blue-100">
       <AppHeader user={user} />
-
-      <main className="max-w-7xl mx-auto pt-24 pb-12 px-6">
-        <div className="animate-in slide-in-from-bottom-2 duration-700">
+      <main className="max-w-(--size-7xl) mx-auto pt-32 pb-20 px-6 flex flex-col items-center">
+        <div className="w-full max-w-3xl animate-in slide-in-from-bottom-4 duration-700 ease-out">
           {time === null
             ? <HomeSkeleton />
             : <DashBoard projects={projects} time={time} />
@@ -99,7 +98,7 @@ function DashBoard({ projects, time }: { projects: Project[], time: Date }) {
                 <h3 className="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
                   {project.title}
                 </h3>
-                <p className="text-[10px] text-slate-400 font-mono tracking-wider">REF: {project.id.slice(0, 8).toUpperCase()}</p>
+                <p className="text-[10px] text-slate-400 font-mono tracking-wider">REF: {String(project.id).slice(0, 8).toUpperCase()}</p>
               </div>
 
               <Link to={`/projects/${project.id}`}>

@@ -42,7 +42,7 @@ export function ProjectPage() {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       {/* メインカード */}
-      <div className="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
+      <div className="mt-10 bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
         <div className="p-8 space-y-8">
           {/* ヘッダーエリア */}
           <div className="flex justify-between items-start border-b border-slate-100 pb-6">
@@ -82,7 +82,7 @@ export function ProjectPage() {
           <div className="pt-4">
             <Link to="/projects">
               <AppButton variant="primary" className="w-auto px-6 bg-slate-800 hover:bg-slate-900">
-                ← 一覧へ戻る
+                ← プロジェクト一覧へ
               </AppButton>
             </Link>
           </div>
