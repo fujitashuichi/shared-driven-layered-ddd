@@ -4,7 +4,7 @@ import type { User } from "@pkg/shared";
 import { LogoutButton } from "../features/auth/components";
 
 
-export function AppHeader({ user }: { user: User }) {
+export function AppHeader({ user }: { user: User | null }) {
   const { session } = useAuth();
   const { projectsData } = useProject();
 
@@ -12,7 +12,7 @@ export function AppHeader({ user }: { user: User }) {
   const { projects } = projectsData;
 
   return (
-    <header className="fixed top-0 inset-x-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200">
+    <header className="sticky top-0 inset-x-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200">
       <nav className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <ul className="flex gap-8 items-center text-sm font-semibold tracking-tight">
           <li>
@@ -22,7 +22,10 @@ export function AppHeader({ user }: { user: User }) {
             >
               <div className={`w-2 h-2 rounded-full ${status === "active" ? "bg-emerald-500" : "bg-slate-300"}`} />
               <span className="group-hover:underline underline-offset-4">
-                {status === "active" ? `${user.email}` : "ログイン"}
+                {user === null
+                  ? "ユーザー情報が不明です"
+                  : status === "active" ? `${user.email}` : "ログイン"
+                }
               </span>
               {status === "active" && <span className="text-[10px] bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded font-bold uppercase">Online</span>}
             </Link>

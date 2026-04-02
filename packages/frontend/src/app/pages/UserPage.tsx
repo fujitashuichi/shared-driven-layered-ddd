@@ -25,7 +25,10 @@ export function UserPage() {
     }
 
     {status === "active" &&
-      <User />
+      <div className="pt-10 flex flex-col">
+        <h1 className="text-2xl mx-auto mb-4 font-bold">ユーザーページ</h1>
+        <User />
+      </div>
     }
   </>)
 }
