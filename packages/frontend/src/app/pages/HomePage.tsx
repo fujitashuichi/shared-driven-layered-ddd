@@ -33,33 +33,19 @@ export function HomePage() {
 
   if (status === "idle") return <AppLoadingBar className="fixed top-0 left-1/2 -translate-x-1/2 z-10 w-20 h-1.5" />
 
-  if (status === "inactive") return (
-    <Introduction />
-  )
+  if (status === "inactive") return <Introduction />
 
-  if (!user) return (<>
-    <h1>ユーザーデータが見つかりません</h1>
-    <Link to="/user">
-      <AppButton variant="secondary" className="w-auto">
-        ユーザーページへ
-      </AppButton>
-    </Link>
-  </>)
+  if (!user) return <UserNotFoundView />
 
   return (
     <div className="min-h-screen bg-slate-50/50 text-slate-900 font-sans selection:bg-blue-100">
       <AppHeader user={user} />
 
       <main className="max-w-7xl mx-auto pt-24 pb-12 px-6">
-        {time === null ? (
-          <div className="animate-in fade-in duration-500">
-            <HomeSkeleton />
-          </div>
-        ) : (
-          <div className="animate-in slide-in-from-bottom-2 duration-700">
-            <DashBoard projects={projects} time={time} />
-          </div>
-        )}
+        {time === null
+          ? <HomeSkeleton />
+          : <DashBoard projects={projects} time={time} />
+        }
       </main>
     </div>
   )
@@ -68,14 +54,16 @@ export function HomePage() {
 
 function HomeSkeleton() {
   return (
-    <ul className="space-y-4 animate-pulse">
-      {[...Array(3)].map((_, i) => (
-        <li key={i} className="flex justify-between items-center">
-          <div className="h-4 w-48 bg-gray-300 rounded"></div>
-          <div className="h-8 w-16 bg-gray-300 rounded"></div>
-        </li>
-      ))}
-    </ul>
+    <div className="animate-in fade-in duration-500">
+      <ul className="space-y-4 animate-pulse">
+        {[...Array(3)].map((_, i) => (
+          <li key={i} className="flex justify-between items-center">
+            <div className="h-4 w-48 bg-gray-300 rounded"></div>
+            <div className="h-8 w-16 bg-gray-300 rounded"></div>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
@@ -83,7 +71,7 @@ function DashBoard({ projects, time }: { projects: Project[], time: Date }) {
   const sevenDaysProjects = get7daysProjects(projects, time);
 
   return (
-    <main className="max-w-2xl mx-auto mt-12 px-4 text-center space-y-8">
+    <>
       <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
         Project Dashboard
       </h1>
@@ -119,6 +107,19 @@ function DashBoard({ projects, time }: { projects: Project[], time: Date }) {
           )}
         </ul>
       </div>
-    </main>
+    </>
+  )
+}
+
+function UserNotFoundView() {
+  return (
+    <>
+      <h1>ユーザーデータが見つかりません</h1>
+      <Link to="/user">
+        <AppButton variant="secondary" className="w-auto">
+          ユーザーページへ
+        </AppButton>
+      </Link>
+    </>
   )
 }
