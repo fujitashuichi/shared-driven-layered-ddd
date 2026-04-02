@@ -71,7 +71,7 @@ function DashBoard({ projects, time }: { projects: Project[], time: Date }) {
   const sevenDaysProjects = get7daysProjects(projects, time);
 
   return (
-    <>
+    <div className="max-w-2xl mx-auto mt-12 px-4 text-center space-y-8">
       <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
         Project Dashboard
       </h1>
