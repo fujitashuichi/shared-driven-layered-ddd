@@ -17,7 +17,8 @@ export const useLogin = (setSessionStatus: AuthCtxType["session"]["setStatus"]):
         setOverrideStatus("error");
         return setSessionStatus("inactive");
       }
-      return setSessionStatus("active");
+      setSessionStatus("active");
+      window.location.replace("/");
     },
     onError: () => {
       setSessionStatus("inactive");

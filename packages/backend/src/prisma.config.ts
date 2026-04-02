@@ -21,7 +21,6 @@ if (env !== "product" && env !== "production") {
   }
 }
 
-
 if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL is undefined");
 else process.stdout.write(`\n>>> LOG: Prisma loads DATABASE_URL successfully.\n`);
 
