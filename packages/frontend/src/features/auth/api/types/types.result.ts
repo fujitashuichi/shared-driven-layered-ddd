@@ -4,7 +4,9 @@ export type RegisterResult =
   | { ok: false, errorType: "AlreadyRegistered" | "GetTokenFailed" }
   | { ok: true }
 
-export type LoginResult = boolean;
+export type LoginResult =
+  | { ok: false, errorType: "UnRegistered" | "Unknown" }
+  | { ok: true }
 
 export type LogoutResult = boolean;
 

@@ -7,14 +7,22 @@ import { useState } from "react";
 
 type Result = AuthCtxType["login"];
 
+const errorMap = {
+  UnRegistered: "そのメールアドレスは登録されていません",
+  Unknown: "エラーが発生しました"
+} as const;
+
+
 export const useLogin = (setSessionStatus: AuthCtxType["session"]["setStatus"]): Result => {
   const [overrideStatus, setOverrideStatus] = useState<"error" | null>(null);
+  const [errorMessage, setErrorMessage] = useState<Result["errorMessage"]>(null);
 
   const mutation = useMutation({
     mutationFn: (body: LoginRequest) => login(body),
-    onSuccess: (isLoginSucceed) => {
-      if (!isLoginSucceed) {
+    onSuccess: (result) => {
+      if (!result.ok) {
         setOverrideStatus("error");
+        setErrorMessage(errorMap[result.errorType])
         return setSessionStatus("inactive");
       }
       setSessionStatus("active");
@@ -51,5 +59,5 @@ export const useLogin = (setSessionStatus: AuthCtxType["session"]["setStatus"]):
 
   const trulyStatus = overrideStatus ?? (mutation.status === "success" ? "loggedIn" : mutation.status);
 
-  return { status: trulyStatus, login: tryLogin }
+  return { status: trulyStatus, errorMessage, login: tryLogin }
 }
