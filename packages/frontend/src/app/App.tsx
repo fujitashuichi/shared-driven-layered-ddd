@@ -4,10 +4,11 @@ import { ProjectPage } from '../features/projects/components/ProjectPage'
 import { TestRouter } from './routes/TestRouter'
 import { ProjectProvider } from '../Context'
 import { LoginAndSignUp } from './pages/LoginAndSignUp'
+import { VercelNotice } from '../components/VercelNotice'
 
 
 function AppRouter() {
-  return (
+  return (<>
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<HomePage />} />
@@ -20,13 +21,14 @@ function AppRouter() {
         <Route path='/test/*' element={<TestRouter />} />
       </Routes>
     </BrowserRouter>
-  )
+  </>)
 }
 
 
 function App() {
   return (
     <ProjectProvider>
+      <VercelNotice />
       <AppRouter />
     </ProjectProvider>
   )
