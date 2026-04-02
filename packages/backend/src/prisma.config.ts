@@ -21,19 +21,6 @@ if (env !== "product" && env !== "production") {
   }
 }
 
-
-delete process.env.DATABASE_URL;
-// 強制的に .env.development から読み直す
-config({
-  path: path.resolve(process.cwd(), ".env.development"),
-  override: true // dotenv のオプションで強制上書きを指定
-});
-// もし .env.development がなかった時のためのフォールバック
-if (!process.env.DATABASE_URL) {
-  config({ path: path.resolve(process.cwd(), ".env"), override: true });
-}
-
-
 if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL is undefined");
 else process.stdout.write(`\n>>> LOG: Prisma loads DATABASE_URL successfully.\n`);
 
