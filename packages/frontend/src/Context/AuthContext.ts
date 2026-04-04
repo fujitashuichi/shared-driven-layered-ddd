@@ -8,6 +8,7 @@ type Register = {
 };
 type Login = {
   status: Exclude<MutationStatus, "success"> | "loggedIn",
+  errorMessage: string | null
   login: (e: React.SubmitEvent<HTMLFormElement>) => void
 };
 type Logout = {

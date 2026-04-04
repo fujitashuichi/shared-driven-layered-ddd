@@ -10,9 +10,9 @@ export function VercelNotice() {
   if (!isVercel || !isActive) return null;
 
   return (
-    <div className="fixed bottom-6 right-6 z-100 max-w-[320px] pointer-events-none select-none flex flex-col items-end gap-2">
+    <div className="fixed bottom-8 right-8 z-100 max-w-[320px] pointer-events-none select-none flex flex-col items-end gap-2">
       {/* メッセージ本体 */}
-      <div className="bg-white/60 backdrop-blur-md border border-slate-200/50 p-4 rounded-2xl shadow-sm opacity-60 hover:opacity-100 transition-all duration-500 pointer-events-auto">
+      <div className="bg-white/60 backdrop-blur-md border border-slate-200/50 p-4 rounded-2xl shadow-sm opacity-80 hover:opacity-100 transition-all duration-500 pointer-events-auto">
         <div className="flex gap-3">
           <span className="flex-none flex items-center justify-center w-5 h-5 rounded-full bg-amber-100/80 text-amber-600 text-[10px] font-bold">
             !

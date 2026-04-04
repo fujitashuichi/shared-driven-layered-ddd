@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useAuth, useProject } from "../Context";
 import type { User } from "@pkg/shared";
 import { LogoutButton } from "../features/auth/components";
+import { AppButton } from "./AppButton";
 
 
 export function AppHeader({ user }: { user: User | null }) {
@@ -43,7 +44,14 @@ export function AppHeader({ user }: { user: User | null }) {
           </li>
         </ul>
 
-        <LogoutButton />
+        <div className="flex gap-x-2">
+          <Link to={"/"}>
+            <AppButton variant="primary" className="w-auto bg-green-400">
+              Dashboard
+            </AppButton>
+          </Link>
+          <LogoutButton />
+        </div>
       </nav>
     </header>
   )

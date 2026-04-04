@@ -2,8 +2,6 @@ import { Link } from "react-router-dom";
 import { AppLoadingBar } from "../../../components/AppLoadingBar";
 import { useProject } from "../../../Context";
 import { CreateProjectForm } from "./CreateProjectForm";
-import { AppButton } from "../../../components";
-
 
 export function ProjectList() {
   const { projectsData, getProjects } = useProject();
@@ -30,22 +28,11 @@ export function ProjectList() {
         <div className="mx-auto">
           <p className="text-gray-500">プロジェクトがありません。新しく作成してください。</p>
           <CreateProjectForm />
-          <Link to="/">
-            <AppButton variant="primary" className="w-auto">
-              ダッシュボード
-            </AppButton>
-          </Link>
         </div>
       )}
 
       {status === "success" && projects.length > 0 && (
         <div className="mx-auto">
-          <Link to="/">
-            <AppButton variant="primary" className="w-auto">
-              ダッシュボード
-            </AppButton>
-          </Link>
-
           <div className="mb-5">
             <CreateProjectForm />
           </div>
