@@ -8,6 +8,10 @@
   "exports": {
     ".": "./dist/index.js"
   },
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
   "dependencies": {
     "zod": "^4.3.6"
   },
