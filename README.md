@@ -5,6 +5,9 @@
 #### [ユーザー操作フロー](./docs/userFlow/userFlow.md)
 
 #### [仕様上の制約](#-db運用方針)
+
+### [Kanban](https://github.com/users/fujitashuichi/projects/4)
+
 ---
 ### ・規約・実装資料
 #### FE/BE
