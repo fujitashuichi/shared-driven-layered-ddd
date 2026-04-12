@@ -23,13 +23,6 @@ app.use(express.json({ limit: "1kb" }));
 app.use(cookieParser());
 
 
-// リクエストパスの確認
-app.use((req, _res, next) => {
-  console.log('Original URL:', req.originalUrl);
-  console.log('Current URL:', req.url);
-  next();
-});
-
 app.use("/", createAppRouter());
 app.use(notFoundHandler);
 app.use(globalErrorHandler);
