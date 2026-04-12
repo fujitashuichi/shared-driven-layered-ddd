@@ -1,3 +1,5 @@
+### [Kanban](https://github.com/users/fujitashuichi/projects/4)
+
 ### ・大まかな概要
 #### [要件定義書](./docs/features.md)
 #### [全体図](./docs/PortforioFlow.mermaid.md)
@@ -5,8 +7,6 @@
 #### [ユーザー操作フロー](./docs/userFlow/userFlow.md)
 
 #### [仕様上の制約](#-db運用方針)
-
-### [Kanban](https://github.com/users/fujitashuichi/projects/4)
 
 ---
 ### ・規約・実装資料

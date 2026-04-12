@@ -3,7 +3,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://project-nest-server.vercel.app/:path*"
+      "destination": "packages/backend/src/index.ts"
     },
     {
       "source": "/((?!api|_next/static|_next/image|favicon.ico).*)",
