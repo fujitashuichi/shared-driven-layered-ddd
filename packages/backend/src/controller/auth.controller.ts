@@ -10,8 +10,8 @@ const env = ENV.NODE_ENV;
 
 const tokenCookieOptions: CookieOptions = {
   httpOnly: true,
-  secure: env === "product",
-  sameSite: env === "product" ? "none" : "lax",
+  secure: env === "production",
+  sameSite: env === "production" ? "none" : "lax",
   maxAge: 1000 * 60 * 60 * 24, // 1日
 };
 
