@@ -17,7 +17,7 @@ export const authConfig: ExpressAuthConfig = {
         const cookies: string[] | undefined = req.headers.get("cookie")?.split("; ");
         const token: string | undefined = cookies?.find(
           str => str.startsWith("token=")
-        )?.split("=")[1];
+        )?.split("=").slice(1).join("=");
         if (!token) throw new UnAuthorizedError();
 
         const verified: JWTPayload = verifyToken(token);
