@@ -1,11 +1,10 @@
-import { ExpressAuth } from "@auth/express";
 import { Router } from "express"
-import { authConfig } from "../middleware/authorize_v2.js";
+import { session_v2 } from "../controller/auth-v2.controller.js";
 
 export const createAuthRouter_v2 = () => {
   const router = Router();
 
-  router.use("/", ExpressAuth(authConfig))
+  router.get("/session", session_v2)
 
   return router;
 }
