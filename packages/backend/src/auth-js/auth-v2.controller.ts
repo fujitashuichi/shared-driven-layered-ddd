@@ -5,7 +5,6 @@ import { authConfig } from "./authConfig.js";
 import { RegisterRequest, RegisterResponse, ResponseJson, SessionResponse } from "@pkg/shared";
 import { UserService } from "../service/user.service.js";
 import { UserUndefinedError } from "../error/UserError.js";
-import { success } from "zod";
 
 
 export const createUser = async (req: Request, res: Response) => {

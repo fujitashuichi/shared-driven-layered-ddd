@@ -1,7 +1,7 @@
 import type { User } from "@pkg/shared";
 
 export type RegisterResult =
-  | { ok: false, errorType: "AlreadyRegistered" | "GetTokenFailed" }
+  | { ok: false, errorType: "AlreadyRegistered" | "GetTokenFailed" | "Unknown" }
   | { ok: true }
 
 export type LoginResult =
