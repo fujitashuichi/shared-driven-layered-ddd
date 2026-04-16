@@ -1,3 +1,5 @@
+"use client";
+
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { HomePage, ProjectsPage, UserPage } from './pages'
 import { ProjectPage } from '../features/projects/components/ProjectPage'
@@ -6,6 +8,7 @@ import { ProjectProvider } from '../Context'
 import { LoginAndSignUp } from './pages/LoginAndSignUp'
 import { VercelNotice } from '../components/VercelNotice'
 import { SessionProvider } from "next-auth/react";
+import { LoginErrorPage } from '../features/auth/components/errors/LoginErrorPage';
 
 
 function AppRouter() {
@@ -14,6 +17,7 @@ function AppRouter() {
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/login' element={<LoginAndSignUp />} />
+        <Route path='/api/auth/v2/error' element={<LoginErrorPage />} />
 
         <Route path='/projects' element={<ProjectsPage />} />
         <Route path='/projects/:id' element={<ProjectPage />} />

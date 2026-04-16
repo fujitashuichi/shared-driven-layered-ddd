@@ -12,6 +12,7 @@ const service = new UserService();
 
 export const authConfig: ExpressAuthConfig = {
   basePath: "/api/auth/v2",
+  trustHost: true,
   cookies: {
     sessionToken: {
       name: `token`, // ここを既存の名称に合わせる
@@ -41,7 +42,7 @@ export const authConfig: ExpressAuthConfig = {
         });
 
         const user = await service.findByEmail(verified.email);
-        if (!user) throw new UserUndefinedError();
+        if (!user) return null;
 
         return {
           id: user.id,
@@ -70,11 +71,10 @@ export const authConfig: ExpressAuthConfig = {
       // getSession / auth()
 
       if (session.user) {
-        if (!token.sub) throw new AuthError("token.sub undefined", "AuthError");
-        if (!token.email) throw new AuthError("token.email undefined", "AuthError");
-
-        session.user.id = token.sub;
-        session.user.email = token.email
+        if (token.sub && token.email) {
+          session.user.id = token.sub;
+          session.user.email = token.email
+        }
       }
 
       return session;

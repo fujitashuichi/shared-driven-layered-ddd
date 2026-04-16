@@ -4,8 +4,7 @@ import type { LogoutResult } from "./types";
 export const logout = async (): Promise<LogoutResult> => {
   try {
     await signOut({
-      redirect: true,
-      callbackUrl: "/"
+      redirect: false,
     });
 
     return {

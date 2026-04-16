@@ -7,7 +7,7 @@ export const login = async ({ email, password }: LoginRequest): Promise<LoginRes
   const result = await signIn("credentials", {
     email,
     password,
-    redirect: false, // SPAなのでリダイレクトは自前で制御
+    redirect: false,
   });
 
 
