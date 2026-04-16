@@ -3,7 +3,7 @@ import { apiClient } from "../../../lib"
 
 export const isSessionActive = async (): Promise<boolean> => {
   const response = await apiClient({
-    path: "/api/auth/session",
+    path: "/api/auth/v2/session",
     method: "GET",
     body: undefined
   });
