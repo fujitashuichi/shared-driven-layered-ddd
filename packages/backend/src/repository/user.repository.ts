@@ -14,7 +14,7 @@ export class UsersRepository {
 
   createUser = async (data: CreateUserPayload): Promise<AppUser | null> => {
     return await safeQuery(() =>
-      prisma.user.create({ data })
+      prisma.user.create({ data, select: this.select })
     )
   }
 
