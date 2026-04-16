@@ -7,7 +7,7 @@ import type { RegisterResult } from "./types";
 
 export const register = async (body: RegisterRequest): Promise<RegisterResult> => {
   const response: ApiResult = await apiClient({
-    path: "/api/auth/v2/register",
+    path: "/api/auth/register",
     method: "POST",
     body: body
   });

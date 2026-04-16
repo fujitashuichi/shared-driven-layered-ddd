@@ -4,7 +4,7 @@ import type { GetUserDataResult } from "./types";
 
 export const getUserData = async (): Promise<GetUserDataResult> => {
   const response = await apiClient({
-    path: "/api/auth/me",
+    path: "/api/auth/session",
     method: "POST",
     body: undefined
   });

@@ -1,8 +1,8 @@
-import type { AuthFetchPath, ProjectFetchPath, ResponseErrorName, ResponseJson, SessionFetchPath } from "@pkg/shared";
+import type { AuthFetchPath, ProjectFetchPath, ResponseErrorName, ResponseJson } from "@pkg/shared";
 import type { ApiResult } from "./types";
 
 type Props = {
-  path: AuthFetchPath | ProjectFetchPath | SessionFetchPath,
+  path: AuthFetchPath | ProjectFetchPath,
   method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
   body: object | undefined
 };

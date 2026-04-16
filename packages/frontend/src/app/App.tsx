@@ -17,7 +17,7 @@ function AppRouter() {
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/login' element={<LoginAndSignUp />} />
-        <Route path='/api/auth/v2/error' element={<LoginErrorPage />} />
+        <Route path='/api/auth/error' element={<LoginErrorPage />} />
 
         <Route path='/projects' element={<ProjectsPage />} />
         <Route path='/projects/:id' element={<ProjectPage />} />

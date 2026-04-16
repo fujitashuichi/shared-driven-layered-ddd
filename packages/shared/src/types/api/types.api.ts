@@ -4,13 +4,6 @@ export type AuthFetchPath =
   | "/api/auth/register"
   | "/api/auth/login"
   | "/api/auth/logout"
-  | "/api/auth/me"
-  | "/api/auth/v2/register"
-  | "/api/auth/v2/login"
-  | "/api/auth/v2/logout"
-  | "/api/auth/v2/session"
-
-export type SessionFetchPath =
   | "/api/auth/session"
 
 export type ProjectFetchPath =

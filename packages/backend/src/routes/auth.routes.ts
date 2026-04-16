@@ -1,35 +1,13 @@
-import { Router } from "express";
-import { session, login, logout, register, me } from "../controller/index.js";
-import { authorize, requestValidator } from "../middleware/index.js";
-
+import { Router } from "express"
+import { session_v2 } from "../auth-js/auth-v2.controller.js";
+import { ExpressAuth } from "@auth/express";
+import { authConfig } from "../auth-js/authConfig.js";
 
 export const createAuthRouter = () => {
   const router = Router();
 
-  router.post("/register",
-    requestValidator("register"),
-    register()
-  );
-
-  router.get("/session",
-    session()
-  );
-
-  router.post("/login",
-    requestValidator("login"),
-    login()
-  );
-
-  router.post("/logout",
-    requestValidator("logout"),
-    logout
-  );
-
-  router.post("/me",
-    requestValidator("me"),
-    authorize(),
-    me()
-  );
+  router.get("/session", session_v2);
+  router.use(ExpressAuth(authConfig));
 
   return router;
 }
