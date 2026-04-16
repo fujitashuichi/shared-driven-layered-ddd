@@ -5,7 +5,6 @@ import { AuthError, UnAuthorizedError } from "../error/AuthError.js";
 import { ExpressAuthConfig } from "@auth/express";
 import { UserUndefinedError } from "../error/UserError.js";
 import { JWTPayload } from "../types/types.payload.js";
-import { SessionResponse } from "@pkg/shared";
 
 
 const service = new UserService();
