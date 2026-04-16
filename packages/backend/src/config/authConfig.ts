@@ -3,6 +3,7 @@ import { UserService } from "../service/user.service.js";
 import { AuthError } from "../error/AuthError.js";
 import { ExpressAuthConfig } from "@auth/express";
 import { LoginRequestSchema } from "@pkg/shared";
+import { comparePassword, hashPassword } from "../lib/bcryptPassword.js";
 
 
 const service = new UserService();
@@ -23,7 +24,6 @@ export const authConfig: ExpressAuthConfig = {
   },
 
 
-  // どうやってユーザーを特定するか
   providers: [
     Credentials({
       authorize: async (credentials) => {
@@ -33,13 +33,17 @@ export const authConfig: ExpressAuthConfig = {
           return null;
         }
 
-        const verified = LoginRequestSchema.parse({
+        const parsed = LoginRequestSchema.parse({
           email: credentials.email,
           password: credentials.password
         });
 
-        const user = await service.findByEmail(verified.email);
+        const user = await service.findByEmail(parsed.email);
         if (!user) return null;
+
+        const isValid = await service.verifyUserPassword({ email: parsed.email, password: parsed.password });
+
+        if (!isValid) return null;
 
         return {
           id: user.id,

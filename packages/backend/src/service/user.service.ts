@@ -1,8 +1,8 @@
-import { email } from "zod";
 import { UsersRepository } from "../repository/index.js";
 import { RegisterRequest, User } from "@pkg/shared";
 import { EmailAlreadyRegisteredError } from "../error/AuthError.js";
-import { hashPassword } from "../lib/bcryptPassword.js";
+import { comparePassword, hashPassword } from "../lib/bcryptPassword.js";
+import { UserUndefinedError } from "../error/UserError.js";
 
 
 export class UserService {
@@ -24,5 +24,12 @@ export class UserService {
     const passwordHash = await hashPassword(password);
 
     return await this.repository.createUser({ email, passwordHash })
+  }
+
+  verifyUserPassword = async ({ email, password }: { email: string, password: string }) => {
+    const user = await this.repository.findByEmailForAuthOnly(email);
+    if (!user) throw new UserUndefinedError();
+
+    return comparePassword(password, user.passwordHash);
   }
 }
