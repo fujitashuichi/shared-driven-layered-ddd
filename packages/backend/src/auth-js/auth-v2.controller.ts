@@ -9,5 +9,5 @@ export const session_v2 = async (req: Request, res: Response) => {
 
   if (!session) throw new UnAuthorizedError();
 
-  res.status(200).json(session.user);
+  res.status(200).json({ success: true, data: session.user });
 }
