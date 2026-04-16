@@ -1,17 +1,14 @@
 import Credentials from "@auth/express/providers/credentials";
 import { UserService } from "../service/user.service.js";
-import { verifyToken } from "../lib/jwt.js";
-import { AuthError, UnAuthorizedError } from "../error/AuthError.js";
+import { AuthError } from "../error/AuthError.js";
 import { ExpressAuthConfig } from "@auth/express";
-import { UserUndefinedError } from "../error/UserError.js";
-import { JWTPayload } from "../types/types.payload.js";
 import { LoginRequestSchema } from "@pkg/shared";
 
 
 const service = new UserService();
 
 export const authConfig: ExpressAuthConfig = {
-  basePath: "/api/auth/v2",
+  basePath: "/api/auth",
   trustHost: true,
   cookies: {
     sessionToken: {
