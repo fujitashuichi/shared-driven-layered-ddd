@@ -1,10 +1,10 @@
-import { LoginRequest, PostProjectRequest, RegisterRequest } from "@pkg/shared";
+import { LoginRequest, RegisterRequest } from "@pkg/shared";
 import { Request } from "express"
-import { mockReq } from "sinon-express-mock"
+import { createRequest } from "node-mocks-http";
 
 const dosRequests = {
   invalidReq_1: (): Request => {
-      return mockReq({
+      return createRequest({
         email: ["aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa!@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaa"],
         password: "password".repeat(9),
         role: "admin",
@@ -13,13 +13,13 @@ const dosRequests = {
       })
     },
     invalidReq_2: (): Request => {
-      return mockReq({
+      return createRequest({
         email: "><script>document.location='http://attacker.com</script>@example.com",
         password: null
       })
     },
     invalidReq_3: (): Request => {
-      return mockReq({
+      return createRequest({
         email: {
           value: {
             value: {
@@ -41,7 +41,7 @@ const dosRequests = {
     invalidReq_4: (): Request => {
       const huge = "A".repeat(2_000_000);
 
-      return mockReq({
+      return createRequest({
         email: huge + "@example.com",
         password: huge,
         extra1: huge,
@@ -61,7 +61,7 @@ export const authRequestMocks = {
         password: "password"
       }
 
-      return mockReq({ body: data });
+      return createRequest({ body: data });
     },
 
     ...dosRequests
@@ -74,13 +74,13 @@ export const authRequestMocks = {
         password: "password"
       }
 
-      return mockReq({ body: data });
+      return createRequest({ body: data });
     },
 
     ...dosRequests,
 
     wrongPasswordReq: (): Request => {
-      return mockReq({
+      return createRequest({
         email: "example@email.com",
         password: "ThIsISWroNGpaSswOrd"
       });

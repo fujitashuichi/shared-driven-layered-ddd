@@ -1,14 +1,14 @@
 import { Request } from "express";
-import { mockReq } from "sinon-express-mock";
+import { createRequest } from "node-mocks-http";
 
 
 export const createRequestMock = {
   withoutData: () => {
-    return mockReq();
+    return createRequest();
   },
 
   withBody: (body: Request["body"]) => {
-    return mockReq({ body });
+    return createRequest({ body });
   },
 
   withCookies: (cookies: Request["cookies"]) => {
@@ -16,11 +16,12 @@ export const createRequestMock = {
       const [name, value] = vi.mocked(res.cookie).mock.calls[0];
       const cookies = { [name]: value };
     */
+
     const cookieString = Object.entries(cookies)
       .map(([k, v]) => `${k}=${v}`)
       .join('; ');
 
-    const req = mockReq({
+    const req = createRequest({
       cookies,
       headers: {
         "cookie": cookieString,
@@ -33,6 +34,6 @@ export const createRequestMock = {
   },
 
   withParams: (params: Request["params"]) => {
-    return mockReq({ params });
+    return createRequest({ params });
   }
 }

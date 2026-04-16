@@ -1,6 +1,6 @@
 import { PatchProjectRequest, PostProjectRequest } from "@pkg/shared";
 import { Request } from "express"
-import { mockReq } from "sinon-express-mock"
+import { createRequest } from "node-mocks-http";
 
 export const projectRequestMocks = {
   postProject: {
@@ -10,7 +10,7 @@ export const projectRequestMocks = {
         description: null,
         status: "done"
       };
-      return mockReq({ body });
+      return createRequest({ body });
     },
     validReq_2: () => {
       const body: PostProjectRequest = {
@@ -18,12 +18,12 @@ export const projectRequestMocks = {
         description: "description",
         status: null
       };
-      return mockReq({ body });
+      return createRequest({ body });
     },
 
 
     invalidReq_1: (): Request => {
-      return mockReq({
+      return createRequest({
         body: {
           title: new Array(500000).fill("A"),
           description: "desc"
@@ -35,10 +35,10 @@ export const projectRequestMocks = {
         title: "Title"
       };
       obj.self = obj;
-      return mockReq({ body: obj });
+      return createRequest({ body: obj });
     },
     invalidReq_3: (): Request => {
-      return mockReq({
+      return createRequest({
         body: {
           title: "Title",
           description: "desc",
@@ -53,7 +53,7 @@ export const projectRequestMocks = {
       });
     },
     invalidReq_4: (): Request => {
-      return mockReq({
+      return createRequest({
         body: {
           title: "\u0000\u0001\u0002<script>alert(1)</script>",
           description: "\u202E\u202E\u202E"
@@ -70,7 +70,7 @@ export const projectRequestMocks = {
         description: { set: "new description" },
         status: { set: null }
       }
-      return mockReq({ body });
+      return createRequest({ body });
     }
   },
 }

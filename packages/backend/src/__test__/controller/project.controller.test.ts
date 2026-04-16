@@ -4,10 +4,10 @@ import { NextFunction, Request, Response } from "express";
 import { createProject, getProjects, register } from "../../controller/index.js";
 import { PostProjectRequest, Project } from "@pkg/shared";
 import { authorize } from "../../middleware/index.js";
-import { mockReq } from "sinon-express-mock";
 import { isUsersProject } from "../../middleware/isUsersProject.js";
 import { deleteProject, updateProject } from "../../controller/project.controller.js";
 import { cleanupDb } from "../tools/cleanupDb.js";
+import { createRequest } from "node-mocks-http";
 
 
 describe("project.controller", () => {
@@ -49,7 +49,7 @@ describe("project.controller", () => {
 
   const createProjectResult = async (body: PostProjectRequest, cookies: Request["cookies"], res: Response) => {
     await authorize()(createRequestMock.withCookies(cookies), res, next!);
-    await createProject()(mockReq({ body, cookies }), res);
+    await createProject()(createRequest({ body, cookies }), res);
 
     const project: Project = getCreatedData(res);
     console.log("LOG>>> project:", project);
@@ -64,7 +64,7 @@ describe("project.controller", () => {
     await authorize()(createRequestMock.withCookies(cookies), res!, next!);
 
     const body: PostProjectRequest = projectRequestMocks.postProject.validReq_1().body;
-    await createProject()(mockReq({ body, cookies }), res!);
+    await createProject()(createRequest({ body, cookies }), res!);
 
     expect(res!.status).toHaveBeenCalledWith(201);
   });
@@ -107,7 +107,7 @@ describe("project.controller", () => {
     console.log("DEBUG: req.body ->", updateBody);
 
     await updateProject()(
-      mockReq({
+      createRequest({
         body: updateBody,
         params: { id: project.id },
         cookies
