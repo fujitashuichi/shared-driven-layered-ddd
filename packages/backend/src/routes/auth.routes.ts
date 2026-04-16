@@ -1,12 +1,14 @@
 import { Router } from "express"
-import { session_v2 } from "../auth-js/auth-v2.controller.js";
 import { ExpressAuth } from "@auth/express";
-import { authConfig } from "../auth-js/authConfig.js";
+import { createUser, session } from "../controller/auth.controller.js";
+import { authConfig } from "../config/authConfig.js";
+
 
 export const createAuthRouter = () => {
   const router = Router();
 
-  router.get("/session", session_v2);
+  router.get("/session", session);
+  router.post("/register", createUser);
   router.use(ExpressAuth(authConfig));
 
   return router;

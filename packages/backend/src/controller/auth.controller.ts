@@ -1,87 +1,37 @@
-import { CookieOptions, Request, Response } from "express";
-import { RegisterService, UserService } from "../service/index.js";
-import { LoginRequest, LoginResponse, LogoutResponse, MeResponse, RegisterRequest, RegisterResponse, ResponseJson } from "@pkg/shared";
-import { LoginStateManagementService } from "../service/index.js";
-import { ENV } from "../config/env.js";
+import { getSession } from "@auth/express";
+import { Request, Response } from "express";
+import { UnAuthorizedError } from "../error/AuthError.js";
+import { authConfig } from "../config/authConfig.js";
+import { RegisterRequest, RegisterResponse, ResponseJson, SessionResponse } from "@pkg/shared";
+import { UserService } from "../service/user.service.js";
 import { UserUndefinedError } from "../error/UserError.js";
 
 
-const env = ENV.NODE_ENV;
+export const createUser = async (req: Request, res: Response) => {
+  const dto: RegisterRequest = req.body;
+  const service = new UserService();
 
-const tokenCookieOptions: CookieOptions = {
-  httpOnly: true,
-  secure: env === "production",
-  sameSite: env === "production" ? "none" : "lax",
-  maxAge: 1000 * 60 * 60 * 24, // 1日
-};
+  const user = await service.createUser(dto);
 
+  if (!user) throw new UserUndefinedError();
 
-export const register = () => {
-  return async (req: Request, res: Response) => {
-    const dto: RegisterRequest = req.body;
-    const registerService = new RegisterService();
-
-    const registerResult = await registerService.registerUser(dto);
-
-    const json: ResponseJson<RegisterResponse> = {
-      success: true,
-      data: registerResult.user
-    }
-    return res
-      .status(201)
-      .cookie("token", registerResult.token, tokenCookieOptions)
-      .json(json);
-  }
-}
-
-
-
-export const login = () => {
-  return async (req: Request, res: Response): Promise<Response<LoginResponse>> => {
-    const dto: LoginRequest = req.body;
-    const service = new LoginStateManagementService();
-
-    const result = await service.login({ email: dto.email, password: dto.password });
-
-    console.info("Login succeed");
-    const json: ResponseJson<LoginResponse> = {
-      success: true,
-      data: {},
-      message: "successfully logged in"
-    }
-    return res
-      .status(200)
-      .cookie("token", result.token, tokenCookieOptions)
-      .json(json);
-  }
-}
-
-export const logout = (_: Request, res: Response) => {
-  const json: ResponseJson<LogoutResponse> = {
+  const json: ResponseJson<RegisterResponse> = {
     success: true,
-    data: {},
-    message: "successfully logged out"
-  };
-  res.clearCookie("token", tokenCookieOptions)
-    .status(200)
-    .json(json);
-
-  return console.info("Logout succeed");
+    data: user
+  }
+  res.status(201).json(json);
 }
 
-export const me = () => {
-  return async (req: Request, res: Response) => {
-    const service = new UserService();
 
-    const id = res.locals.userId;
+export const session = async (req: Request, res: Response) => {
+  const session = await getSession(req, authConfig);
 
-    const user = await service.findById(id);
-    if (user === null) throw new UserUndefinedError();
+  if (!session) throw new UnAuthorizedError();
 
-    const json: ResponseJson<MeResponse> = {
-      success: true,
-      data: user
-    }
-    res.status(200).json(json);
+  const json: ResponseJson<SessionResponse> = {
+    success: true,
+    data: session.user
   }
+
+  res.status(200).json(json);
 }
