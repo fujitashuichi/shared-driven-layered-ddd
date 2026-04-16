@@ -1,19 +1,20 @@
-import { apiClient } from "../../../lib"
-import type { ApiResult } from "../../../lib/types";
+import { signOut } from "next-auth/react";
 import type { LogoutResult } from "./types";
 
 export const logout = async (): Promise<LogoutResult> => {
-  const response: ApiResult = await apiClient({
-    path: "/api/auth/logout",
-    method: "POST",
-    body: {}
-  });
+  try {
+    await signOut({
+      redirect: true,
+      callbackUrl: "/"
+    });
 
-  if (!response.ok && response.status !== 200) {
-    console.error("logout failed");
-    throw false;
+    return {
+      ok: true
+    }
+  } catch(err: unknown) {
+    console.error("failed to signOut:", err);
+    return {
+      ok: false
+    }
   }
-
-  console.log("Now logged out.");
-  return true;
 }
