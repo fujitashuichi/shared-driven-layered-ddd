@@ -1,5 +1,11 @@
 {
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/api/auth/error",
+      "destination": "/auth/error"
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/:path*",
