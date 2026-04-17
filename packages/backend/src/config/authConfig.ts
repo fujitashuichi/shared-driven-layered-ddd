@@ -9,13 +9,13 @@ import { styleText } from "node:util";
 const service = new UserService();
 const secret: ExpressAuthConfig["secret"] = ENV.AUTH_SECRET;
 
-const prosesLog = (text: string) => {
+const prosesLog = (color: "green" | "blue" | "red",text: string) => {
   return process.stdout.write(styleText(
-    ["red", "bold"],
+    [color, "bold"],
     `\n\n` +
-    `- -`.repeat(3) + ` authConfig ` + `- -`.repeat(3) +
+    `- -`.repeat(6) + ` authConfig ` + `- -`.repeat(6) +
     `\n\n${text}\n\n` +
-    `- -`.repeat(13) +
+    `- -`.repeat(14) +
     `\n\n`
   ));
 }
@@ -58,8 +58,10 @@ export const authConfig: ExpressAuthConfig = {
       authorize: async (credentials) => {
         // signIn (POSTリクエストのみ)
 
+        prosesLog("blue", "authorize running...");
+
         if (!credentials.email || !credentials.password) {
-          prosesLog("credentials doesn't have enough data");
+          prosesLog("red", "credentials doesn't have enough data");
           return null;
         }
 
@@ -70,7 +72,7 @@ export const authConfig: ExpressAuthConfig = {
 
         const user = await service.findByEmail(parsed.email);
         if (!user) {
-          prosesLog("user undefined");
+          prosesLog("red", "user undefined");
           return null;
         }
 
@@ -78,15 +80,16 @@ export const authConfig: ExpressAuthConfig = {
         try {
           isValid = await service.verifyUserPassword({ email: parsed.email, password: parsed.password });
         } catch {
-          prosesLog("verification failed");
+          prosesLog("red", "verification failed");
           return null;
         }
 
         if (!isValid) {
-          prosesLog("credentials not valid");
+          prosesLog("red", "credentials not valid");
           return null;
         }
 
+        prosesLog("green", "authorize succeed");
         return {
           id: user.id,
           email: user.email,
@@ -102,11 +105,13 @@ export const authConfig: ExpressAuthConfig = {
     jwt: ({ token, user }) => {
       // getSession / signIn
 
+      prosesLog("blue", "jwt running...");
+
       if (!user) {
         return token;
       }
       if (!user.id || !user.email || !user.createdAt) {
-        prosesLog("Invalid user data");
+        prosesLog("red", "Invalid user data");
         return token;
       }
 
@@ -114,24 +119,29 @@ export const authConfig: ExpressAuthConfig = {
       token.email = user.email;
       token.createdAt = user.createdAt;
 
+      prosesLog("green", "jwt succeed");
       return token;
     },
     session: ({ session, token }) => {
       // getSession / auth()
 
+      prosesLog("blue", "jwt running...");
+
       if (!session.user) {
-        prosesLog("session.user undefined");
+        prosesLog("red", "session.user undefined");
         return session;
       }
 
-      if (!token.sub || !token.email) {
-        prosesLog("Empty token");
+      if (!token.sub || !token.email || !token.createdAt) {
+        prosesLog("red", "Token is missing or empty");
         return session;
       }
 
       session.user.id = token.sub;
       session.user.email = token.email;
+      session.user.createdAt = token.createdAt;
 
+      prosesLog("green", "jwt succeed");
       return session;
     }
   }

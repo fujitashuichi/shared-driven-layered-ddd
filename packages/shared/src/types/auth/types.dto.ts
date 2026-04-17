@@ -14,8 +14,10 @@ export type RegisterResponse = z.infer<typeof RegisterResponseSchema>;
 
 
 // session
+  // Web通信によるDateオブジェクトの破壊を回避するため、
+  // isoStringを利用する
 export const SessionResponseSchema = UserSchema.extend({
-  createdAt: z.iso.date()
+  createdAt: z.iso.datetime()
 });
 export type SessionResponse = z.infer<typeof SessionResponseSchema>;
 
