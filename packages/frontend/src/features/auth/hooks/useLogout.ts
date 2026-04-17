@@ -8,8 +8,8 @@ type Result = AuthCtxType["logout"];
 export const useLogout = (setSessionStatus: AuthCtxType["session"]["setStatus"]): Result => {
   const mutation = useMutation({
     mutationFn: () => logout(),
-    onSuccess: async (isLoggedOut) => {
-      if (!isLoggedOut) {
+    onSuccess: async (result) => {
+      if (!result.ok) {
         setSessionStatus("active");
         alert("ログアウトできませんでした");
         return;
