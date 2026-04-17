@@ -21,7 +21,7 @@ const prosesLog = (text: string) => {
 }
 
 export const authConfig: ExpressAuthConfig = {
-  basePath: "/api/auth",
+  basePath: "/",
   trustHost: true,
   secret: secret,
   session: { strategy: "jwt" },

@@ -17,7 +17,7 @@ export const createAuthRouter = () => {
 
   // ExpressAuth: エラー型を緩く設定している?
   // 致命的エラー以外は大抵素通しされるため、細かいエラーログを作るべきか?
-  router.use(ExpressAuth(authConfig));
+  router.use("/", ExpressAuth(authConfig));
 
   return router;
 }
