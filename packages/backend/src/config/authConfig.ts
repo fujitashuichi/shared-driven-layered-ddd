@@ -102,9 +102,9 @@ export const authConfig: ExpressAuthConfig = {
       // getSession / signIn
 
       if (!user) {
-        prosesLog("User data undefined");
-        return null;
+        return token;
       }
+
 
       if (!user.id || !user.email) {
         prosesLog("Invalid user data");
