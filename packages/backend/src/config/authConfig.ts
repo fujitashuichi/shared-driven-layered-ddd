@@ -121,6 +121,7 @@ export const authConfig: ExpressAuthConfig = {
 
       if (!session.user) {
         prosesLog("session.user undefined");
+        return session;
       }
 
       if (!token.sub || !token.email) {
