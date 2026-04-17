@@ -31,10 +31,8 @@ function AppRouter() {
 
 
 function App() {
-  const AUTH_URL = import.meta.env.VITE_AUTH_URL;
-
   return (
-    <SessionProvider basePath={`${AUTH_URL}/api/auth`}>
+    <SessionProvider basePath={`/api/auth`}>
       <ProjectProvider>
         <VercelNotice />
         <AppRouter />
