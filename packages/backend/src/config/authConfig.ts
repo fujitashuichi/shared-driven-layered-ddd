@@ -21,7 +21,8 @@ const prosesLog = (text: string) => {
 }
 
 export const authConfig: ExpressAuthConfig = {
-  basePath: "/",
+  basePath: "/api/auth",
+  debug: true,
   trustHost: true,
   secret: secret,
   session: { strategy: "jwt" },
@@ -34,7 +35,21 @@ export const authConfig: ExpressAuthConfig = {
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         path: "/"
       }
-    }
+    },
+    csrfToken: {
+      name: "authjs.csrf-token",
+      options: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        path: "/",
+      },
+    },
+  },
+  pages: {
+    signIn: '/login',
+    signOut: "/",
+    error: '/auth/error',
   },
 
 
