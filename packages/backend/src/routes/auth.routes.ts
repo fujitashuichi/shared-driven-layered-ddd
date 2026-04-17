@@ -9,7 +9,7 @@ export const createAuthRouter = () => {
 
   router.get("/session", session);
   router.post("/register", createUser);
-  router.use(ExpressAuth(authConfig));
+  router.post("/register", requestValidator("register"), createUser);
 
   return router;
 }
