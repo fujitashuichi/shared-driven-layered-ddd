@@ -20,6 +20,7 @@ export const createProjectRouter = () => {
   );
 
   router.patch("/:id",
+    requestValidator("patchProject"),
     authorize(),
     isUsersProject(),
     updateProject()
