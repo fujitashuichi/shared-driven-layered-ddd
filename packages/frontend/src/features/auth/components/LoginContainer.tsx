@@ -1,10 +1,26 @@
 import { LoginForm } from "./LoginForm";
 import { AppLoadingBar } from "../../../components/AppLoadingBar";
 import { useAuth } from "../../../Context";
+import { AppButton } from "../../../components";
+import { Link } from "react-router-dom";
 
 export function LoginContainer() {
-  const { login } = useAuth();
+  const { login, session } = useAuth();
   const { status } = login;
+  const { status: sessionStatus } = session;
+
+  if (sessionStatus === "active") {
+    return (
+      <div>
+        <h1>既にログインしています</h1>
+        <Link to="/">
+          <AppButton variant="primary">
+            ダッシュボードへ
+          </AppButton>
+        </Link>
+      </div>
+    )
+  }
 
   return (
     <div>
