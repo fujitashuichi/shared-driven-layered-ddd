@@ -20,9 +20,10 @@ npm run test:run
 
 ### 直近のBEテスト実行結果
 ```sh
-Test Files  10 passed (10)
-     Tests  56 passed (56)
-  Duration  32.71s (transform 494ms, setup 0ms, import 3.07s, tests 27.92s, environment 1ms)
+Test Files  7 passed (7)
+     Tests  41 passed (41)
+  Start at  16:54:09
+  Duration  11.81s (transform 432ms, setup 0ms, import 2.31s, tests 8.10s, environment 1ms)
 ```
 
 ### テスト箇所と依存フロー

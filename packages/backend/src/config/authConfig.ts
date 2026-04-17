@@ -79,8 +79,8 @@ export const authConfig: ExpressAuthConfig = {
         let isValid = false;
         try {
           isValid = await service.verifyUserPassword({ email: parsed.email, password: parsed.password });
-        } catch {
-          prosesLog("red", "verification failed");
+        } catch(e) {
+          prosesLog("red", "verification failed:\n  " + e);
           return null;
         }
 

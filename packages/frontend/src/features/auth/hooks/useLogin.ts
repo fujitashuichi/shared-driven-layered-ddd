@@ -1,9 +1,9 @@
 import { LoginRequestSchema, type LoginRequest } from "@pkg/shared";
-import { parseFormData } from "../../../lib";
-import { login } from "../api";
-import type { AuthCtxType } from "../../../Context";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
+import type { AuthCtxType } from "../../../Context";
+import { login } from "../api";
+import { parseFormData } from "../../../lib";
 
 type Result = AuthCtxType["login"];
 
