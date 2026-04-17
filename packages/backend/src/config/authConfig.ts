@@ -1,26 +1,28 @@
 import Credentials from "@auth/express/providers/credentials";
 import { UserService } from "../service/user.service.js";
-import { AuthError } from "../error/AuthError.js";
 import { ExpressAuthConfig } from "@auth/express";
 import { LoginRequestSchema } from "@pkg/shared";
-import { comparePassword, hashPassword } from "../lib/bcryptPassword.js";
+import { ENV } from "./env.js";
 
 
 const service = new UserService();
+const secret: ExpressAuthConfig["secret"] = ENV.AUTH_SECRET;
 
 export const authConfig: ExpressAuthConfig = {
   basePath: "/api/auth",
   trustHost: true,
+  secret: secret,
+  session: { strategy: "jwt" },
   cookies: {
     sessionToken: {
-      name: `token`, // ここを既存の名称に合わせる
+      name: "authjs.session-token",
       options: {
         httpOnly: true,
-        sameSite: "lax",
-        path: "/",
         secure: process.env.NODE_ENV === "production",
-      },
-    },
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        path: "/"
+      }
+    }
   },
 
 
@@ -65,8 +67,8 @@ export const authConfig: ExpressAuthConfig = {
       // getSession / signIn
 
       if (user) {
-        if (!user.id) throw new AuthError("user.id undefined", "AuthError");
-        if (!user.email) throw new AuthError("user.email undefined", "AuthError");
+        if (!user.id) return null;
+        if (!user.email) return null;
 
         token.sub = user.id;
         token.email = user.email;

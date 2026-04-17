@@ -24,4 +24,7 @@ export const ENV = {
   get DATABASE_URL() {
     return requiredEnv(process.env.DATABASE_URL, "DATABASE_URL");
   },
+  get AUTH_SECRET() {
+    return requiredEnv(process.env.AUTH_SECRET, "AUTH_SECRET");
+  }
 };

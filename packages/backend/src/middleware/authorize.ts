@@ -1,21 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 import { UnAuthorizedError, UserUndefinedError } from "../error/index.js";
-import { verifyToken } from "../lib/jwt.js";
-import { UserService } from "../service/user.service.js";
+import { getSession } from "@auth/express";
+import { authConfig } from "../config/authConfig.js";
 
 
 export const authorize = () => {
-  return async (req: Request, res: Response, next: NextFunction, ) => {
-    const service = new UserService();
-    const token: string | undefined = req.cookies?.token;
+  return async (req: Request, res: Response, next: NextFunction) => {
+    const session = await getSession(req, authConfig);
 
-    if (!token) throw new UnAuthorizedError();
+    if (!session) throw new UnAuthorizedError();
+    if (!session.user) throw new UserUndefinedError();
 
-    const verified = verifyToken(token);
-    const user = await service.findByEmail(verified.email);
-
-    if (!user) throw new UserUndefinedError();
-    res.locals.userId = user.id;
+    res.locals.userId = session.user.id;
 
     next();
   }
