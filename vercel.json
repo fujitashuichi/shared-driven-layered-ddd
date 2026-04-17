@@ -4,6 +4,10 @@
     {
       "source": "/api/auth/error",
       "destination": "/auth/error"
+    },
+    {
+      "source": "/api/auth/provider",
+      "destination": "packages/backend/src/index.ts"
     }
   ],
   "rewrites": [
