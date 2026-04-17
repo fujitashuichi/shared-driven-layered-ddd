@@ -13,5 +13,5 @@ export type LogoutResult =
   | { ok: true }
 
 export type GetUserDataResult =
-  | { ok: false, errorType: "UnAuthorized" | "InvalidData" }
+  | { ok: false, errorType: "UnAuthorized" | "InvalidData" | "Unknown" }
   | { ok: true, data: User }

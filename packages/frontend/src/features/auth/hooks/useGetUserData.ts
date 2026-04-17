@@ -9,7 +9,7 @@ type Result = AuthCtxType["getUser"];
 const errorMap = {
   UnAuthorized: "認証に失敗しました",
   InvalidData: "正しいデータを取得出来ませんでした",
-  UnknownError: "エラーが発生しました"
+  Unknown: "エラーが発生しました"
 } as const;
 
 

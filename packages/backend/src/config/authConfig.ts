@@ -89,7 +89,8 @@ export const authConfig: ExpressAuthConfig = {
 
         return {
           id: user.id,
-          email: user.email
+          email: user.email,
+          createdAt: user.createdAt.toISOString()
         };
       }
     })
@@ -104,15 +105,14 @@ export const authConfig: ExpressAuthConfig = {
       if (!user) {
         return token;
       }
-
-
-      if (!user.id || !user.email) {
+      if (!user.id || !user.email || !user.createdAt) {
         prosesLog("Invalid user data");
-        return null;
+        return token;
       }
 
       token.sub = user.id;
       token.email = user.email;
+      token.createdAt = user.createdAt;
 
       return token;
     },
@@ -130,7 +130,7 @@ export const authConfig: ExpressAuthConfig = {
       }
 
       session.user.id = token.sub;
-      session.user.email = token.email
+      session.user.email = token.email;
 
       return session;
     }

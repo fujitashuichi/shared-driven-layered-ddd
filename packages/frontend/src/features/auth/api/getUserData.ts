@@ -1,4 +1,4 @@
-import { MeResponseSchema } from "@pkg/shared";
+import { SessionResponseSchema, type User } from "@pkg/shared";
 import { apiClient } from "../../../lib"
 import type { GetUserDataResult } from "./types";
 
@@ -17,10 +17,13 @@ export const getUserData = async (): Promise<GetUserDataResult> => {
       }
     }
 
-    throw new Error("getUserData failed with fetch Error");
+    return {
+      ok: false,
+      errorType: "Unknown"
+    }
   }
 
-  const parsed = MeResponseSchema.safeParse(response.body);
+  const parsed = SessionResponseSchema.safeParse(response.body);
   if (!parsed.success) {
     return {
       ok: false,
@@ -28,8 +31,13 @@ export const getUserData = async (): Promise<GetUserDataResult> => {
     }
   }
 
+  const data: User = {
+    ...parsed.data,
+    createdAt: new Date(parsed.data.createdAt)
+  };
+
   return {
     ok: true,
-    data: parsed.data
+    data
   }
 }
