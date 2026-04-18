@@ -12,6 +12,10 @@
       "destination": "/auth/error"
     },
     {
+      "source": "/api/auth/providers",
+      "destination": "https://project-nest-server.vercel.app/api/auth/providers"
+    },
+    {
       "source": "/api/:path*",
       "destination": "packages/backend/src/index.ts"
     },
