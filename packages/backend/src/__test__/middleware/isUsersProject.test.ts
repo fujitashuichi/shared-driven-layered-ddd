@@ -1,5 +1,3 @@
-vi.stubEnv("NODE_JWT_SECRET", "secret");
-
 import { afterEach, beforeEach, describe, it, vi } from "vitest";
 import { createResponseMock } from "../../__mock__/index.js";
 import { NextFunction, Response } from "express";

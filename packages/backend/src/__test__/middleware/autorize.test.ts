@@ -1,8 +1,6 @@
-vi.stubEnv("NODE_JWT_SECRET", "secret");
-
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { authRequestMocks, createResponseMock } from "../../__mock__/index.js";
-import { NextFunction, Request, Response } from "express";
+import { createResponseMock } from "../../__mock__/index.js";
+import { NextFunction, Response } from "express";
 import { Database } from "sqlite3";
 import { authorize } from "../../middleware/index.js";
 import { createRequestMock } from "../../__mock__/createRequest.mock.js";
