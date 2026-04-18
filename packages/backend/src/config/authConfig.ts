@@ -8,6 +8,7 @@ import { styleText } from "node:util";
 
 const service = new UserService();
 const secret: ExpressAuthConfig["secret"] = ENV.AUTH_SECRET;
+const env = ENV.NODE_ENV;
 
 const prosesLog = (color: "green" | "blue" | "red",text: string) => {
   return process.stdout.write(styleText(
@@ -28,11 +29,11 @@ export const authConfig: ExpressAuthConfig = {
   session: { strategy: "jwt" },
   cookies: {
     sessionToken: {
-      name: "authjs.session-token",
+      name: env === "production" ? "Secure-authjs.session-token" : "authjs.session-token",
       options: {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        secure: env === "production",
+        sameSite: env === "production" ? "none" : "lax",
         path: "/"
       }
     },
