@@ -29,7 +29,7 @@ export const authConfig: ExpressAuthConfig = {
   session: { strategy: "jwt" },
   cookies: {
     sessionToken: {
-      name: env === "production" ? "Secure-authjs.session-token" : "authjs.session-token",
+      name: env === "production" ? "__Secure-authjs.session-token" : "authjs.session-token",
       options: {
         httpOnly: true,
         secure: env === "production",
