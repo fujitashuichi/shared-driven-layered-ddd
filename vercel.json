@@ -12,10 +12,6 @@
       "destination": "/auth/error"
     },
     {
-      "source": "/api/auth/providers",
-      "destination": "packages/backend/src/index.ts"
-    },
-    {
       "source": "/api/:path*",
       "destination": "packages/backend/src/index.ts"
     },
