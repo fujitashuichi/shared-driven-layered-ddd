@@ -8,7 +8,7 @@
   ],
   "rewrites": [
     {
-      "source": "https://project-nest-client.vercel.app/api/auth/providers",
+      "source": "/api/auth/providers",
       "destination": "https://project-nest-server.vercel.app/api/auth/providers"
     },
     {
