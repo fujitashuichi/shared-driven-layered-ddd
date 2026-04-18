@@ -32,7 +32,7 @@ function AppRouter() {
 
 function App() {
   return (
-    <SessionProvider basePath="/api/auth">
+    <SessionProvider basePath={`/api/auth`}>
       <ProjectProvider>
         <VercelNotice />
         <AppRouter />
