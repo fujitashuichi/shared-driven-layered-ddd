@@ -10,7 +10,7 @@ const errorMap = {
   UnAuthorized: "ユーザー認証に失敗しました",
   ProjectAlreadyExists: "同名のプロジェクトが既に存在します",
   InvalidData: "正しいデータを取得出来ませんでした",
-  UnknownError: "エラーが発生しました",
+  Unknown: "エラーが発生しました",
 } as const;
 
 type Result = ProjectCtxType["create"];
@@ -57,5 +57,5 @@ export const useCreateProject = (reload: ProjectCtxType["getProjects"]["get"]): 
 
   const trulyStatus = overrideStatus ?? mutation.status;
 
-  return { create, reset: reset, status: trulyStatus, errorMessage };
+  return { create, reset, status: trulyStatus, errorMessage };
 }

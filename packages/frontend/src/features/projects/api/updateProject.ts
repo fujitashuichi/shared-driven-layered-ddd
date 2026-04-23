@@ -16,12 +16,14 @@ export const updateProject = async (project: PatchProjectRequest, id: Project["i
         errorType: "UnAuthorized"
       }
     }
+
     if (response.errorName === "UserUndefinedError") {
       return {
         success: false,
         errorType: "UserUndefined"
       }
     }
+
     if (response.errorName === "ProjectUndefinedError") {
       return {
         success: false,
@@ -29,7 +31,10 @@ export const updateProject = async (project: PatchProjectRequest, id: Project["i
       }
     }
 
-    throw new Error("updateProjects failed with fetch Error");
+    return {
+      success: false,
+      errorType: "Unknown"
+    }
   }
 
 

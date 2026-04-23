@@ -23,7 +23,10 @@ export const createProject = async (project: PostProjectRequest): Promise<Create
       }
     }
 
-    throw new Error("createProject failed with fetch Error");
+    return {
+      success: false,
+      errorType: "Unknown"
+    }
   }
 
   const parsed = ProjectSchema.safeParse(response.body);

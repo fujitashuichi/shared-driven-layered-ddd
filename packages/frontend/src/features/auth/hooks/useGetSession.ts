@@ -11,5 +11,5 @@ export const useGetSession = (setStatus: AuthCtxType["session"]["setStatus"]): R
     return setStatus("inactive");
   }
 
-  return { getSession: getSession }
+  return { getSession }
 }

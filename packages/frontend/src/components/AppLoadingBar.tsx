@@ -11,16 +11,16 @@ export function AppLoadingBar({ className, innerColorHex, outerColorHex }: Props
   const mergedStyle = `${baseStyle} ${className}`;
 
 
-  const loadingBarStyles = {
+  const loadingBarStyles: Record<string, React.CSSProperties> = {
     outer: {
       backgroundColor: outerColorHex ?? "#ccc",
       borderRadius: "4px",
       overflow: "hidden"
-    } as React.CSSProperties,
+    },
     inner: {
       backgroundColor: innerColorHex ?? "#ff0000",
       animation: "loadingBar 1s linear infinite"
-    } as React.CSSProperties,
+    },
   };
 
 

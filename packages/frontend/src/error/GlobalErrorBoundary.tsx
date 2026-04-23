@@ -7,7 +7,9 @@ export function GlobalErrorBoundary() {
       <AppButton
         variant="primary"
         onClick={() => window.location.reload()}
-      >再試行</AppButton>
+      >
+        再試行
+      </AppButton>
     </>
   )
 }

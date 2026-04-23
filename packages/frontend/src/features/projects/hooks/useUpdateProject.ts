@@ -12,7 +12,7 @@ const errorMap = {
   UserUndefined: "ユーザーデータが見つかりません。再ログインをお試し下さい",
   ProjectUndefined: "プロジェクトが見つかりません。削除されていないか確認して下さい",
   InvalidData: "正しいデータを取得出来ませんでした",
-  UnknownError: "エラーが発生しました"
+  Unknown: "エラーが発生しました"
 } as const;
 
 

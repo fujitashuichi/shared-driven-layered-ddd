@@ -15,7 +15,7 @@ export const register = async (body: RegisterRequest): Promise<RegisterResult> =
     console.error(response.error);
     if (response.status === 409 || response.error.name === "AlreadyRegisteredError") {
       return {
-        ok: false,
+        success: false,
         errorType: "AlreadyRegistered"
       }
     }
@@ -28,10 +28,10 @@ export const register = async (body: RegisterRequest): Promise<RegisterResult> =
 
   if (!parsedData.success) {
     return {
-      ok: false,
+      success: false,
       errorType: "GetTokenFailed"
     }
   }
 
-  return { ok: true }
+  return { success: true }
 }

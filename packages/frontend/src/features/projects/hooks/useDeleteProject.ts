@@ -10,7 +10,7 @@ const errorMap = {
   UserUndefined: "ユーザーが存在しません",
   ProjectUndefined: "プロジェクトが存在しません",
   InvalidData: "エラーが発生しました",
-  UnknownError: "エラーが発生しました"
+  Unknown: "エラーが発生しました"
 }
 
 type Result = ProjectCtxType["delete"];
@@ -28,11 +28,11 @@ export const useDeleteProject = (reload: ProjectCtxType["getProjects"]["get"]): 
     }
   });
 
-  const tryDelete: Result["delete"] = async (id: Project["id"]) => mutation.mutate(id);
+  const deleteFn: Result["delete"] = async (id: Project["id"]) => mutation.mutate(id);
 
 
   return {
-    delete: tryDelete,
+    delete: deleteFn,
     reset: mutation.reset,
     status: mutation.status,
     errorMessage

@@ -11,23 +11,30 @@ export const deleteProject = async (id: Project["id"]): Promise<DeleteProjectRes
 
 
   if (!response.ok) {
-    if (response.errorName === "UnAuthorizedError") {
+    if (response.status === 401 || response.errorName === "UnAuthorizedError") {
       return {
         success: false,
         errorType: "UnAuthorized"
       }
     }
+
     if (response.errorName === "UserUndefinedError") {
       return {
         success: false,
         errorType: "UserUndefined"
       }
     }
+
     if (response.errorName === "ProjectUndefinedError") {
       return {
         success: false,
         errorType: "ProjectUndefined"
       }
+    }
+
+    return {
+      success: false,
+      errorType: "Unknown"
     }
   }
 

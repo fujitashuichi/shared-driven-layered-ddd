@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
-import { register } from "../api/register";
+import { register as registerApi } from "../api/register";
 import { RegisterRequestSchema, type RegisterRequest } from "@pkg/shared";
 import type { AuthCtxType } from "../../../Context";
 import { parseFormData } from "../../../lib";
@@ -12,7 +12,7 @@ type Result = AuthCtxType["register"];
 const errorMap = {
   AlreadyRegistered: "登録済のアカウントです",
   GetTokenFailed: "認証トークンの取得に失敗しました",
-  UnknownError: "エラーが発生しました"
+  Unknown: "エラーが発生しました"
 } as const;
 
 const formDataSchema = RegisterRequestSchema.extend({
@@ -24,9 +24,9 @@ export const useRegister = (setSessionStatus: AuthCtxType["session"]["setStatus"
   const [overrideStatus, setOverrideStatus] = useState<"error" | null>(null);
 
   const mutation = useMutation({
-    mutationFn: (body: RegisterRequest) => register(body),
+    mutationFn: (body: RegisterRequest) => registerApi(body),
     onSuccess: (result) => {
-      if (!result.ok) {
+      if (!result.success) {
         setSessionStatus("inactive");
         setOverrideStatus("error");
         alert(errorMap[result.errorType]);
@@ -40,7 +40,7 @@ export const useRegister = (setSessionStatus: AuthCtxType["session"]["setStatus"
   });
 
 
-  const tryRegister = async (e: React.SubmitEvent<HTMLFormElement>): Promise<void> => {
+  const register = async (e: React.SubmitEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
 
     const formData:FormData = new FormData(e.currentTarget);
@@ -66,5 +66,5 @@ export const useRegister = (setSessionStatus: AuthCtxType["session"]["setStatus"
 
   const trulyStatus = overrideStatus ?? mutation.status;
 
-  return { status: trulyStatus, register: tryRegister }
+  return { status: trulyStatus, register }
 }

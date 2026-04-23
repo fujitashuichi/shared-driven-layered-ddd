@@ -17,7 +17,6 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
     get();
   }, []);
 
-  // 楽観更新を導入する際はgetをsetProjectに変える.
   const ctxData: ProjectCtxType = useMemo(() => ({
     projectsData: projectsHook,
     getProjects: getProjectsHook,
