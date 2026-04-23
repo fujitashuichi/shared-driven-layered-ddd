@@ -1,4 +1,4 @@
-import { logout } from "../api";
+import { logout as logoutApi } from "../api";
 import type { AuthCtxType } from "../../../Context";
 import { useMutation } from "@tanstack/react-query";
 
@@ -7,7 +7,7 @@ type Result = AuthCtxType["logout"];
 
 export const useLogout = (setSessionStatus: AuthCtxType["session"]["setStatus"]): Result => {
   const mutation = useMutation({
-    mutationFn: () => logout(),
+    mutationFn: () => logoutApi(),
     onSuccess: (isLoggedOut) => {
       if (!isLoggedOut) {
         setSessionStatus("active");
@@ -21,10 +21,10 @@ export const useLogout = (setSessionStatus: AuthCtxType["session"]["setStatus"])
     onError: () => alert("通信に失敗しました。時間をおいて再度お試しください。\n※学習用なのでSupabaseが停止していることがあります")
   });
 
-  const tryLogout = async () => mutation.mutate();
+  const logout = async () => mutation.mutate();
 
 
   const status = mutation.status === "success" ? "loggedOut" : mutation.status;
 
-  return { status: status, logout: tryLogout }
+  return { status, logout }
 }

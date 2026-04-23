@@ -28,11 +28,11 @@ export const useDeleteProject = (reload: ProjectCtxType["getProjects"]["get"]): 
     }
   });
 
-  const tryDelete: Result["delete"] = async (id: Project["id"]) => mutation.mutate(id);
+  const deleteFn: Result["delete"] = async (id: Project["id"]) => mutation.mutate(id);
 
 
   return {
-    delete: tryDelete,
+    delete: deleteFn,
     reset: mutation.reset,
     status: mutation.status,
     errorMessage

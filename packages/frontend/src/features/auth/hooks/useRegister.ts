@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
-import { register } from "../api/register";
+import { register as registerApi } from "../api/register";
 import { RegisterRequestSchema, type RegisterRequest } from "@pkg/shared";
 import type { AuthCtxType } from "../../../Context";
 import { parseFormData } from "../../../lib";
@@ -24,7 +24,7 @@ export const useRegister = (setSessionStatus: AuthCtxType["session"]["setStatus"
   const [overrideStatus, setOverrideStatus] = useState<"error" | null>(null);
 
   const mutation = useMutation({
-    mutationFn: (body: RegisterRequest) => register(body),
+    mutationFn: (body: RegisterRequest) => registerApi(body),
     onSuccess: (result) => {
       if (!result.ok) {
         setSessionStatus("inactive");
@@ -40,7 +40,7 @@ export const useRegister = (setSessionStatus: AuthCtxType["session"]["setStatus"
   });
 
 
-  const tryRegister = async (e: React.SubmitEvent<HTMLFormElement>): Promise<void> => {
+  const register = async (e: React.SubmitEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
 
     const formData:FormData = new FormData(e.currentTarget);
@@ -66,5 +66,5 @@ export const useRegister = (setSessionStatus: AuthCtxType["session"]["setStatus"
 
   const trulyStatus = overrideStatus ?? mutation.status;
 
-  return { status: trulyStatus, register: tryRegister }
+  return { status: trulyStatus, register }
 }

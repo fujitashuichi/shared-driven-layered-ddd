@@ -57,5 +57,5 @@ export const useCreateProject = (reload: ProjectCtxType["getProjects"]["get"]): 
 
   const trulyStatus = overrideStatus ?? mutation.status;
 
-  return { create, reset: reset, status: trulyStatus, errorMessage };
+  return { create, reset, status: trulyStatus, errorMessage };
 }
