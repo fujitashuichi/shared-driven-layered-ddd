@@ -10,26 +10,31 @@ export const getUserData = async (): Promise<GetUserDataResult> => {
   });
 
   if (!response.ok) {
-    if (response.status === 401) {
+    if (response.status === 401 || response.errorName === "UnAuthorizedError") {
       return {
-        ok: false,
+        success: false,
         errorType: "UnAuthorized"
       }
     }
 
-    throw new Error("getUserData failed with fetch Error");
+    return {
+      success: false,
+      errorType: "Unknown"
+    }
   }
 
   const parsed = MeResponseSchema.safeParse(response.body);
   if (!parsed.success) {
     return {
-      ok: false,
+      success: false,
       errorType: "InvalidData"
     }
   }
 
+
+
   return {
-    ok: true,
+    success: true,
     data: parsed.data
   }
 }

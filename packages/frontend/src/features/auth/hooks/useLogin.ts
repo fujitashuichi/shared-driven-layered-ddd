@@ -20,7 +20,7 @@ export const useLogin = (setSessionStatus: AuthCtxType["session"]["setStatus"]):
   const mutation = useMutation({
     mutationFn: (body: LoginRequest) => loginApi(body),
     onSuccess: (result) => {
-      if (!result.ok) {
+      if (!result.success) {
         setOverrideStatus("error");
         setErrorMessage(errorMap[result.errorType])
         return setSessionStatus("inactive");

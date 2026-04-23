@@ -8,7 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 const ErrorMap = {
   UnAuthorized: "ユーザー認証に失敗しました",
   InvalidDataError: "正しいデータが取得できませんでした",
-  UnknownError: "エラーが発生しました"
+  Unknown: "エラーが発生しました"
 }
 
 type Result = ProjectCtxType["getProjects"];

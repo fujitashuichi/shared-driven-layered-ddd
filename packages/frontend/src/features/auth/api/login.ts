@@ -14,16 +14,16 @@ export const login = async (body: LoginRequest): Promise<LoginResult> => {
     console.error(response.error);
     if (response.errorName === "UserUndefinedError") {
       return {
-        ok: false,
+        success: false,
         errorType: "UnRegistered"
       }
     };
     return {
-      ok: false,
+      success: false,
       errorType: "Unknown"
     };
   }
 
   console.info("Now logged in.");
-  return { ok: true };
+  return { success: true };
 }

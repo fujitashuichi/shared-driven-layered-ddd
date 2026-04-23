@@ -12,7 +12,7 @@ type Result = AuthCtxType["register"];
 const errorMap = {
   AlreadyRegistered: "登録済のアカウントです",
   GetTokenFailed: "認証トークンの取得に失敗しました",
-  UnknownError: "エラーが発生しました"
+  Unknown: "エラーが発生しました"
 } as const;
 
 const formDataSchema = RegisterRequestSchema.extend({
@@ -26,7 +26,7 @@ export const useRegister = (setSessionStatus: AuthCtxType["session"]["setStatus"
   const mutation = useMutation({
     mutationFn: (body: RegisterRequest) => registerApi(body),
     onSuccess: (result) => {
-      if (!result.ok) {
+      if (!result.success) {
         setSessionStatus("inactive");
         setOverrideStatus("error");
         alert(errorMap[result.errorType]);

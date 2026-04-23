@@ -9,7 +9,7 @@ type Result = AuthCtxType["getUser"];
 const errorMap = {
   UnAuthorized: "認証に失敗しました",
   InvalidData: "正しいデータを取得出来ませんでした",
-  UnknownError: "エラーが発生しました"
+  Unknown: "エラーが発生しました"
 } as const;
 
 
@@ -20,7 +20,7 @@ export const useGetUserData = (setUser: AuthCtxType["useUser"]["setUser"]): Resu
   const mutation = useMutation({
     mutationFn: () => getUserData(),
     onSuccess: (result) => {
-      if (!result.ok) {
+      if (!result.success) {
         setErrorMessage(errorMap[result.errorType]);
         setOverrideStatus("error");
         return;

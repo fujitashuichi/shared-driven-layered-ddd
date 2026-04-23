@@ -1,15 +1,21 @@
 import type { User } from "@pkg/shared";
 
 export type RegisterResult =
-  | { ok: false, errorType: "AlreadyRegistered" | "GetTokenFailed" }
-  | { ok: true }
+  | { success: false, errorType: "AlreadyRegistered" | "GetTokenFailed" | "Unknown" }
+  | { success: true }
 
 export type LoginResult =
-  | { ok: false, errorType: "UnRegistered" | "Unknown" }
-  | { ok: true }
+  | { success: false, errorType: "UnRegistered" | "Unknown" }
+  | { success: true }
 
-export type LogoutResult = boolean;
+export type LogoutResult =
+  | { success: false }
+  | { success: true };
 
 export type GetUserDataResult =
-  | { ok: false, errorType: "UnAuthorized" | "InvalidData" }
-  | { ok: true, data: User }
+  | { success: false, errorType: "UnAuthorized" | "InvalidData" | "Unknown" }
+  | { success: true, data: User }
+
+export type SessionResult =
+  | { success: false }
+  | { success: true }
