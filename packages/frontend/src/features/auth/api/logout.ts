@@ -11,7 +11,7 @@ export const logout = async (): Promise<LogoutResult> => {
 
   if (!response.ok && response.status !== 200) {
     console.error("logout failed");
-    throw false;
+    return false;
   }
 
   console.log("Now logged out.");
