@@ -9,7 +9,7 @@ export const useLogout = (setSessionStatus: AuthCtxType["session"]["setStatus"])
   const mutation = useMutation({
     mutationFn: () => logoutApi(),
     onSuccess: (isLoggedOut) => {
-      if (!isLoggedOut) {
+      if (!isLoggedOut.success) {
         setSessionStatus("active");
         alert("ログアウトできませんでした");
         return;
