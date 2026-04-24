@@ -9,25 +9,25 @@ export const createProjectRouter = () => {
 
   router.post("/",
     requestValidator("postProject"),
-    authorize(),
-    createProject()
+    authorize,
+    createProject
   );
 
   router.get("/",
-    authorize(),
-    getProjects()
+    authorize,
+    getProjects
   );
 
   router.patch("/:id",
-    authorize(),
-    isUsersProject(),
-    updateProject()
+    authorize,
+    isUsersProject,
+    updateProject
   );
 
   router.delete("/:id",
-    authorize(),
-    isUsersProject(),
-    deleteProject()
+    authorize,
+    isUsersProject,
+    deleteProject
   );
 
   return router;

@@ -9,14 +9,19 @@ export const isSessionActive = async (): Promise<SessionResult> => {
     body: undefined
   });
 
-  if (response.status === 401) {
-    console.info("You are not logged in.");
+  if (!response.ok) {
+    if (response.status === 401 || response.errorName === "UnAuthorizedError") {
+      console.info("You are not logged in.");
+      return { success: false };
+    }
+
+    console.log("session check failed.")
     return { success: false };
   }
 
-  const parsedBody = SessionResponseSchema.safeParse(response.body);
-  if (!parsedBody.success) {
-    console.error(parsedBody.error.message);
+  const parsed = SessionResponseSchema.safeParse(response.body);
+  if (!parsed.success) {
+    console.info("You are not logged in.");
     return { success: false };
   }
 

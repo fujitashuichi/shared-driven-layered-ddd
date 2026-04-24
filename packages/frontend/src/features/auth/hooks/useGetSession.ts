@@ -7,8 +7,11 @@ export const useGetSession = (setStatus: AuthCtxType["session"]["setStatus"]): R
   const getSession: Result["getSession"] = async () => {
     const isActive = await isSessionActive();
 
-    if (isActive) return setStatus("active");
-    return setStatus("inactive");
+    if (!isActive.success) {
+      return setStatus("inactive");
+    }
+
+    return setStatus("active");
   }
 
   return { getSession }

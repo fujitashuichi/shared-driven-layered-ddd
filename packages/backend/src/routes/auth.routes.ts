@@ -8,16 +8,16 @@ export const createAuthRouter = () => {
 
   router.post("/register",
     requestValidator("register"),
-    register()
+    register
   );
 
   router.get("/session",
-    session()
+    session
   );
 
   router.post("/login",
     requestValidator("login"),
-    login()
+    login
   );
 
   router.post("/logout",
@@ -27,8 +27,8 @@ export const createAuthRouter = () => {
 
   router.post("/me",
     requestValidator("me"),
-    authorize(),
-    me()
+    authorize,
+    me
   );
 
   return router;

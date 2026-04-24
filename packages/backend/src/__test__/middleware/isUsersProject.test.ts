@@ -35,26 +35,26 @@ describe("isUsersProject", () => {
     const cookies: Request["cookies"] = { token: userData.token };
 
     const body: PostProjectRequest = projectRequestMocks.postProject.validReq_1().body;
-    await authorize()(createRequestMock.withCookies(cookies), res!, next!);
-    await createProject()(createRequestMock.withBody(body), res!);
+    await authorize(createRequestMock.withCookies(cookies), res!, next!);
+    await createProject(createRequestMock.withBody(body), res!);
 
     const req = createRequestMock.withParams({ id: "1" });
-    await isUsersProject()(req, res!, next!);
+    await isUsersProject(req, res!, next!);
 
     expect(next).toHaveBeenCalledWith();
   });
 
   it("ユーザーが所持していないprojectに対して、ErrorHandlerを呼ぶ", async () => {
-    await register()(authRequestMocks.register.validReq(), res!);
+    await register(authRequestMocks.register.validReq(), res!);
 
     const [name, value] = vi.mocked(res!.cookie).mock.calls[0]!;
     const cookies: Request["cookies"] = { [name]: value };
 
-    await authorize()(createRequestMock.withCookies(cookies), res!, next!);
-    await createProject()(createRequestMock.withBody({ title: "Title" }), res!);
+    await authorize(createRequestMock.withCookies(cookies), res!, next!);
+    await createProject(createRequestMock.withBody({ title: "Title" }), res!);
 
     const req = createRequestMock.withParams({ id: "5656564" });
-    await isUsersProject()(req, res!, next!);
+    await isUsersProject(req, res!, next!);
 
     expect(next).toHaveBeenCalledWith(expect.any(ProjectUndefinedError));
   });

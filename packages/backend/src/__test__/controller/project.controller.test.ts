@@ -37,7 +37,7 @@ describe("project.controller", () => {
   };
 
   const registerResult = async (res: Response) => {
-    await register()(authRequestMocks.register.validReq(), res);
+    await register(authRequestMocks.register.validReq(), res);
 
     const [name, value] = vi.mocked(res.cookie).mock.calls[0]!;
     const cookies: Request["cookies"] = { [name]: value };
@@ -48,8 +48,8 @@ describe("project.controller", () => {
   }
 
   const createProjectResult = async (body: PostProjectRequest, cookies: Request["cookies"], res: Response) => {
-    await authorize()(createRequestMock.withCookies(cookies), res, next!);
-    await createProject()(mockReq({ body, cookies }), res);
+    await authorize(createRequestMock.withCookies(cookies), res, next!);
+    await createProject(mockReq({ body, cookies }), res);
 
     const project: Project = getCreatedData(res);
     console.log("LOG>>> project:", project);
@@ -61,10 +61,10 @@ describe("project.controller", () => {
   it("createProject: 正常成功する", async () => {
     const { cookies } = await registerResult(res!);
 
-    await authorize()(createRequestMock.withCookies(cookies), res!, next!);
+    await authorize(createRequestMock.withCookies(cookies), res!, next!);
 
     const body: PostProjectRequest = projectRequestMocks.postProject.validReq_1().body;
-    await createProject()(mockReq({ body, cookies }), res!);
+    await createProject(mockReq({ body, cookies }), res!);
 
     expect(res!.status).toHaveBeenCalledWith(201);
   });
@@ -78,8 +78,8 @@ describe("project.controller", () => {
 
     // authorizeして、getProjectを実行
     res = createResponseMock();
-    await authorize()(createRequestMock.withCookies(cookies), res!, next!);
-    await getProjects()(createRequestMock.withoutData(), res!);
+    await authorize(createRequestMock.withCookies(cookies), res!, next!);
+    await getProjects(createRequestMock.withoutData(), res!);
 
     expect(res!.status).toHaveBeenCalledWith(200);
     expect(res!.json).toHaveBeenCalledWith(
@@ -98,15 +98,15 @@ describe("project.controller", () => {
     const { project } = await createProjectResult(body, cookies, res!);
 
     res = createResponseMock();
-    await authorize()(createRequestMock.withCookies(cookies), res!, next!);
-    await isUsersProject()(createRequestMock.withParams({ id: String(project.id) }), res!, next!);
+    await authorize(createRequestMock.withCookies(cookies), res!, next!);
+    await isUsersProject(createRequestMock.withParams({ id: String(project.id) }), res!, next!);
 
     const updateBody = projectRequestMocks.updateProject.validReq_1().body;
 
     console.log("DEBUG: req.params ->", project.id);
     console.log("DEBUG: req.body ->", updateBody);
 
-    await updateProject()(
+    await updateProject(
       mockReq({
         body: updateBody,
         params: { id: project.id },
@@ -136,9 +136,9 @@ describe("project.controller", () => {
 
     // authorizeして、isUsersProjectを通した後に、deleteProjectを実行
     res = createResponseMock();
-    await authorize()(createRequestMock.withCookies(cookies), res!, next!);
-    await isUsersProject()(createRequestMock.withParams({ id: String(project.id) }), res!, next!);
-    await deleteProject()(createRequestMock.withParams({ id: String(project.id) }), res!);
+    await authorize(createRequestMock.withCookies(cookies), res!, next!);
+    await isUsersProject(createRequestMock.withParams({ id: String(project.id) }), res!, next!);
+    await deleteProject(createRequestMock.withParams({ id: String(project.id) }), res!);
 
     expect(res!.status).toHaveBeenCalledWith(200);
     expect(res!.json).toHaveBeenCalledWith(

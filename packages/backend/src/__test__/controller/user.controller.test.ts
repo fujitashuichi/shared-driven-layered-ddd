@@ -21,18 +21,18 @@ describe("user.controller", () => {
   });
 
   it("session: session中の状態を正常に取得する", async () => {
-    await register()(authRequestMocks.register.validReq(), res!);
+    await register(authRequestMocks.register.validReq(), res!);
 
     const [name, value] = vi.mocked(res!.cookie).mock.calls[0]!;
     const cookies = { [name]: value };
     res = createResponseMock();
-    await session()(createRequestMock.withCookies(cookies), res!);
+    await session(createRequestMock.withCookies(cookies), res!);
 
     expect(res!.status).toHaveBeenCalledWith(200);
   });
 
   it("session: 非session中の状態を正常に取得する", async () => {
-    await register()(authRequestMocks.register.validReq(), res!);
+    await register(authRequestMocks.register.validReq(), res!);
 
     let [name, value] = vi.mocked(res!.cookie).mock.calls[0]!;
     let cookies: Request["cookies"] | undefined = { [name]: value };
@@ -43,7 +43,7 @@ describe("user.controller", () => {
 
     res = createResponseMock();
     await expect(
-      session()(createRequestMock.withCookies({}), res!)
+      session(createRequestMock.withCookies({}), res!)
     ).rejects.toThrow(expect.any(UnAuthorizedError));
   });
 });
