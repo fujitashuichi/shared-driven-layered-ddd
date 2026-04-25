@@ -22,13 +22,13 @@ flowchart LR
         Service
         Repository[Repository]
       end
-      DB[(SQLite)]
+      DB[(DB)]
 
       %% Backend Flow
       Router --> ErrorHandler
       Router --> Middleware
       Middleware --> Controller
-      Middleware -.->|認証時の情報時のみ（user/project）| Service
+      Middleware -.->|認証時の情報のみ（user/project）| Service
       Controller --> Service
       Service --> Repository
       Repository --> DB
