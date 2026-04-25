@@ -28,6 +28,13 @@
   * <a href="./docs/test/testResults.md">testResults(改修後などに更新)</a>
 </details>
 
+
+#### このポートフォリオから生まれたZenn記事（新しい順）
+* [entity class がないなら DDD じゃない？ - class定義は手段の1つではないだろうか？](https://zenn.dev/fujishu/articles/90c3c9425b5017)
+* [GitHub仕様の罠: Squash Merge 後にコミット履歴が重複してしまう理由](https://zenn.dev/fujishu/articles/dad6e6130d8952)
+* [備忘録: npm workspace によるモノレポ設定 と sharedパッケージ](https://zenn.dev/fujishu/articles/e3ab97ef66624d)
+* [BE初学者の学習成果：フルスタック実装で見えた依存関係と設計の壁](https://zenn.dev/fujishu/articles/3c06ce089cfff9)
+
 ---
 
 ### 意思決定の記録
